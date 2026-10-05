@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Users, Bookmark, MapPin, Sparkles, Clock, ArrowRight, Award, ChevronRight, Settings as SettingsIcon } from 'lucide-react';
+import { Calendar, Users, Bookmark, MapPin, Sparkles, ArrowRight, Award, ChevronRight, Settings as SettingsIcon } from 'lucide-react';
 import { EVENT_DETAILS, CONFERENCE_DAYS } from '../data/event';
 import { useProgrammeStore } from '../store/programmeStore';
 import { useScheduleStore } from '../store/scheduleStore';
@@ -8,14 +8,34 @@ import { HappeningNow } from '../components/HappeningNow';
 import { UpNext } from '../components/UpNext';
 import { DaySelector } from '../components/DaySelector';
 import { SessionCard } from '../components/SessionCard';
+import { isTodayConferenceDay, getTodayDateIso, getCurrentTimeHHMM } from '../utils/timeUtils';
 
 export const Home: React.FC = () => {
-  const { simulatedDate, simulatedTime, setSimulatedDate, setSimulatedTime, savedItems } = useScheduleStore();
+  const { savedItems } = useScheduleStore();
   const { sessions } = useProgrammeStore();
 
+  const isLiveToday = isTodayConferenceDay();
+  const todayDateIso = getTodayDateIso();
+
+  // Active selected day for the programme preview (defaults to live today date if conference is ongoing, otherwise Friday 2026-10-09)
+  const [selectedDay, setSelectedDay] = useState<string>(
+    isLiveToday ? todayDateIso : '2026-10-09'
+  );
+
+  // Live time tracker that updates every 30 seconds when conference is active
+  const [liveCurrentTime, setLiveCurrentTime] = useState<string>(getCurrentTimeHHMM());
+
+  useEffect(() => {
+    if (!isLiveToday) return;
+    const interval = setInterval(() => {
+      setLiveCurrentTime(getCurrentTimeHHMM());
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [isLiveToday]);
+
   // Get current sessions for selected date
-  const activeDaySessions = sessions.filter((s) => s.date === simulatedDate);
-  const activeDayInfo = CONFERENCE_DAYS.find((d) => d.date === simulatedDate) || CONFERENCE_DAYS[0];
+  const activeDaySessions = sessions.filter((s) => s.date === selectedDay);
+  const activeDayInfo = CONFERENCE_DAYS.find((d) => d.date === selectedDay) || CONFERENCE_DAYS[0];
 
   const quickActions = [
     {
@@ -96,6 +116,24 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
+      {/* Live Conference Banner / Status */}
+      {isLiveToday ? (
+        <div className="p-4 rounded-3xl bg-emerald-500/15 dark:bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </span>
+            <span className="text-xs sm:text-sm font-black text-emerald-800 dark:text-emerald-300 uppercase tracking-wide">
+              Conference Is Live Today ({todayDateIso})
+            </span>
+          </div>
+          <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/60 px-2.5 py-1 rounded-full">
+            {liveCurrentTime}
+          </span>
+        </div>
+      ) : null}
+
       {/* Quick Actions Grid */}
       <section>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -137,55 +175,34 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Day Selector & Conference Mode Tracker */}
+      {/* Happening Now & Up Next - LIVE ONLY ON ACTUAL CONFERENCE DAYS */}
+      {isLiveToday && (
+        <>
+          <HappeningNow currentDate={todayDateIso} currentTime={liveCurrentTime} />
+          <UpNext currentDate={todayDateIso} currentTime={liveCurrentTime} />
+        </>
+      )}
+
+      {/* Day Selector & Conference Agenda Explorer */}
       <section className="bg-white dark:bg-zinc-900 p-4 sm:p-6 rounded-3xl border border-gray-200/80 dark:border-zinc-800 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold uppercase tracking-wider text-isot-burgundy dark:text-rose-400">
-                Conference Day Explorer
-              </span>
-              <span className="text-[10px] bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 font-bold px-2 py-0.5 rounded-full">
-                Interactive
+                Scientific Programme
               </span>
             </div>
             <h2 className="text-lg sm:text-xl font-black text-gray-900 dark:text-white mt-0.5">
               Select Conference Day
             </h2>
           </div>
-
-          {/* Time simulation selector for reviewing Happening Now / Live Mode */}
-          <div className="flex items-center gap-2 bg-gray-50 dark:bg-zinc-800/80 p-2 rounded-2xl border border-gray-200 dark:border-zinc-700">
-            <Clock size={15} className="text-gray-400" />
-            <span className="text-xs font-semibold text-gray-600 dark:text-gray-300">Live Time:</span>
-            <select
-              value={simulatedTime}
-              onChange={(e) => setSimulatedTime(e.target.value)}
-              className="bg-transparent text-xs font-bold text-isot-burgundy dark:text-rose-400 outline-none cursor-pointer"
-            >
-              <option value="09:15">09:15 AM (Morning)</option>
-              <option value="10:00">10:00 AM (Symposium)</option>
-              <option value="11:30">11:30 AM (Plenary/Orations)</option>
-              <option value="14:15">02:15 PM (Afternoon)</option>
-              <option value="15:30">03:30 PM (Panels)</option>
-              <option value="17:00">05:00 PM (Late Afternoon)</option>
-              <option value="18:30">06:30 PM (GBM / Evening)</option>
-              <option value="20:30">08:30 PM (Gala Dinner)</option>
-            </select>
-          </div>
         </div>
 
         <DaySelector
-          selectedDate={simulatedDate}
-          onSelectDate={(date) => setSimulatedDate(date)}
+          selectedDate={selectedDay}
+          onSelectDate={(date) => setSelectedDay(date)}
         />
       </section>
-
-      {/* Happening Now Section */}
-      <HappeningNow currentDate={simulatedDate} currentTime={simulatedTime} />
-
-      {/* Up Next Section */}
-      <UpNext currentDate={simulatedDate} currentTime={simulatedTime} />
 
       {/* Today's Sessions Overview */}
       <section className="space-y-4">
@@ -200,7 +217,7 @@ export const Home: React.FC = () => {
           </div>
 
           <Link
-            to={`/programme/${simulatedDate}`}
+            to={`/programme/${selectedDay}`}
             className="text-xs sm:text-sm font-bold text-isot-burgundy dark:text-rose-400 hover:text-isot-deep-burgundy flex items-center gap-1"
           >
             <span>Full Schedule</span>
