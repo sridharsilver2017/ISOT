@@ -6,8 +6,8 @@ pages_build_output_dir = "./dist"
 # In Cloudflare Dashboard: Pages > Settings > Functions > D1 database bindings > Variable name: DB
 [[d1_databases]]
 binding = "DB"
-database_name = "isot-2026-db"
-database_id = "your-d1-database-id-from-cloudflare"
+database_name = "isot2026"
+database_id = "ea1748cd-971b-475b-92b1-4a2e0c95f211"
 
 # Cloudflare KV Binding (Optional alternative)
 # [[kv_namespaces]]
