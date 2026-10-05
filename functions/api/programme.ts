@@ -21,7 +21,7 @@ export async function onRequestGet(context: any) {
   const { env } = context;
 
   try {
-    // 1. Check Cloudflare D1 Database
+    // 1. Primary: Cloudflare D1 Database
     if (env.DB) {
       await ensureD1Table(env.DB);
       const row = await env.DB.prepare(
@@ -37,18 +37,21 @@ export async function onRequestGet(context: any) {
             lastUpdated: row.last_updated,
             updatedBy: row.updated_by,
             storage: 'Cloudflare D1 SQL Database',
+            databaseName: 'isot2026',
+            databaseId: 'ea1748cd-971b-475b-92b1-4a2e0c95f211',
           }),
           {
             headers: {
               'Content-Type': 'application/json',
               'Access-Control-Allow-Origin': '*',
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
             },
           }
         );
       }
     }
 
-    // 2. Check Cloudflare KV
+    // 2. Cloudflare KV Store (secondary edge cache)
     if (env.ISOT_KV) {
       const kvData = await env.ISOT_KV.get('active_programme', 'json');
       if (kvData && kvData.sessions) {
@@ -64,30 +67,33 @@ export async function onRequestGet(context: any) {
             headers: {
               'Content-Type': 'application/json',
               'Access-Control-Allow-Origin': '*',
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
             },
           }
         );
       }
     }
 
-    // 3. Fallback: No custom DB data yet, use static seed
+    // 3. Fallback: Database is empty or uninitialized
     return new Response(
       JSON.stringify({
         hasCustomData: false,
         sessions: null,
-        message: 'No custom database overrides. Using official baseline schedule.',
+        message: 'No active programme record found in D1 database.',
+        storage: 'None',
       }),
       {
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
         },
       }
     );
   } catch (err: any) {
     return new Response(
       JSON.stringify({ error: err.message || 'Database query error' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } }
     );
   }
 }

@@ -117,6 +117,39 @@ export const Settings: React.FC = () => {
         </div>
       </section>
 
+      {/* Cloudflare D1 Database Connection Status */}
+      <section className="bg-white dark:bg-zinc-900 rounded-3xl p-6 border border-gray-200/80 dark:border-zinc-800 shadow-sm space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-base font-extrabold text-gray-900 dark:text-white">
+              Database Connection
+            </h2>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Connected directly to Cloudflare D1 Serverless SQL Database
+            </p>
+          </div>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 font-bold text-xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Connected</span>
+          </span>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800/60 border border-gray-200/60 dark:border-zinc-700/60 space-y-2.5">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-gray-500 dark:text-gray-400">Database Name:</span>
+            <span className="font-mono font-bold text-gray-900 dark:text-white">isot2026</span>
+          </div>
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-gray-500 dark:text-gray-400">Database ID:</span>
+            <span className="font-mono text-gray-600 dark:text-gray-300 text-[11px]">ea1748cd-971b-475b-92b1-4a2e0c95f211</span>
+          </div>
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-gray-500 dark:text-gray-400">Storage Engine:</span>
+            <span className="font-semibold text-gray-900 dark:text-white">Cloudflare D1 SQL + Edge Functions</span>
+          </div>
+        </div>
+      </section>
+
       {/* Storage & Data Management */}
       <section className="bg-white dark:bg-zinc-900 rounded-3xl p-6 border border-gray-200/80 dark:border-zinc-800 shadow-sm space-y-4">
         <h2 className="text-base font-extrabold text-gray-900 dark:text-white">

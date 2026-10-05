@@ -203,6 +203,9 @@ export function extractSpeakersFromSessions(sessions: Session[]): Speaker[] {
 interface ProgrammeState {
   sessions: Session[];
   isSyncing: boolean;
+  isLoadingFromDb: boolean;
+  isDbConnected: boolean;
+  dbStorage: string;
   lastSynced: string | null;
   syncError: string | null;
   
@@ -225,13 +228,13 @@ interface ProgrammeState {
   getSpeakerById: (id: string) => Speaker | undefined;
 }
 
-// Helper to push updates to backend if admin token exists
-async function pushToBackend(sessions: Session[]) {
+// Helper to push updates to Cloudflare Database if admin token exists
+async function pushToBackend(sessions: Session[]): Promise<boolean> {
   const token = localStorage.getItem('isot2026-admin-auth-token');
-  if (!token) return;
+  if (!token) return false;
 
   try {
-    await fetch('/api/programme', {
+    const res = await fetch('/api/programme', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -239,8 +242,10 @@ async function pushToBackend(sessions: Session[]) {
       },
       body: JSON.stringify({ sessions }),
     });
+    return res.ok;
   } catch (err) {
-    console.warn('Backend sync failed (will retry or remain in local storage):', err);
+    console.warn('Database push error:', err);
+    return false;
   }
 }
 
@@ -249,34 +254,45 @@ export const useProgrammeStore = create<ProgrammeState>()(
     (set, get) => ({
       sessions: DEFAULT_SESSIONS,
       isSyncing: false,
+      isLoadingFromDb: true,
+      isDbConnected: false,
+      dbStorage: 'Cloudflare D1 SQL Database',
       lastSynced: null,
       syncError: null,
 
       fetchProgrammeFromServer: async () => {
-        set({ isSyncing: true, syncError: null });
+        set({ isSyncing: true, isLoadingFromDb: true, syncError: null });
         try {
-          const res = await fetch('/api/programme');
+          const res = await fetch('/api/programme', {
+            headers: { 'Cache-Control': 'no-cache' },
+          });
           if (res.ok) {
             const data = await res.json();
-            if (data.hasCustomData && Array.isArray(data.sessions) && data.sessions.length > 0) {
+            if (Array.isArray(data.sessions) && data.sessions.length > 0) {
               set({
                 sessions: data.sessions,
                 lastSynced: data.lastUpdated || new Date().toISOString(),
+                isDbConnected: true,
+                dbStorage: data.storage || 'Cloudflare D1 SQL Database',
                 isSyncing: false,
+                isLoadingFromDb: false,
               });
               return;
             }
           }
-          set({ isSyncing: false });
-        } catch {
-          // If server fails or offline, use local/cached programme
-          set({ isSyncing: false });
+          set({ isSyncing: false, isLoadingFromDb: false });
+        } catch (err) {
+          console.warn('Could not reach remote database endpoint, retaining cached copy:', err);
+          set({ isSyncing: false, isLoadingFromDb: false });
         }
       },
 
       syncWithBackend: async () => {
         const token = localStorage.getItem('isot2026-admin-auth-token');
-        if (!token) return false;
+        if (!token) {
+          set({ syncError: 'Authentication required. Please log into the Admin panel.' });
+          return false;
+        }
 
         set({ isSyncing: true, syncError: null });
         try {
@@ -293,7 +309,9 @@ export const useProgrammeStore = create<ProgrammeState>()(
             const data = await res.json();
             set({
               isSyncing: false,
+              isDbConnected: true,
               lastSynced: data.lastUpdated || new Date().toISOString(),
+              dbStorage: 'Cloudflare D1 SQL Database',
               syncError: null,
             });
             return true;
@@ -301,15 +319,15 @@ export const useProgrammeStore = create<ProgrammeState>()(
             const errData = await res.json().catch(() => ({}));
             set({
               isSyncing: false,
-              syncError: errData.error || 'Failed to save to server.',
+              syncError: errData.error || 'Failed to persist changes to Cloudflare Database.',
             });
             return false;
           }
         } catch (err) {
-          console.error('Server sync error:', err);
+          console.error('Database sync error:', err);
           set({
             isSyncing: false,
-            syncError: 'Network error: could not connect to backend server.',
+            syncError: 'Network error: could not connect to Cloudflare D1 database.',
           });
           return false;
         }
