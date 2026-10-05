@@ -1,5 +1,29 @@
 import { ProgrammeItem, Session, getSessionItems } from '../types/programme';
 
+export const CONFERENCE_DATES = ['2026-10-09', '2026-10-10', '2026-10-11'];
+
+// Get current date in YYYY-MM-DD
+export function getTodayDateIso(): string {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+// Get current time in HH:mm
+export function getCurrentTimeHHMM(): string {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const min = String(now.getMinutes()).padStart(2, '0');
+  return `${h}:${min}`;
+}
+
+// Check if today is an active conference day
+export function isTodayConferenceDay(): boolean {
+  return CONFERENCE_DATES.includes(getTodayDateIso());
+}
+
 // Parse HH:mm to minutes since start of day
 export function timeToMinutes(timeStr: string): number {
   if (!timeStr) return 0;

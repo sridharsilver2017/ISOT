@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Radio, Mic, ChevronRight } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
 import { useProgrammeStore } from '../store/programmeStore';
-import { getCurrentProgrammeItem } from '../utils/timeUtils';
+import { getCurrentProgrammeItem, isTodayConferenceDay } from '../utils/timeUtils';
 import { FavouriteButton } from './FavouriteButton';
 
 interface HappeningNowProps {
@@ -15,6 +15,7 @@ export const HappeningNow: React.FC<HappeningNowProps> = ({ currentDate, current
   const { isTalkSaved, toggleSaveTalk } = useScheduleStore();
   const { sessions } = useProgrammeStore();
   const { happeningNow, isWithinConferenceHours } = getCurrentProgrammeItem(currentDate, currentTime, sessions);
+  const isRealConferenceDay = isTodayConferenceDay();
 
   if (!isWithinConferenceHours || happeningNow.length === 0) {
     return null;
@@ -31,6 +32,11 @@ export const HappeningNow: React.FC<HappeningNowProps> = ({ currentDate, current
           <h2 className="text-sm font-black tracking-wider uppercase text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
             Happening Now
           </h2>
+          {!isRealConferenceDay && (
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 uppercase tracking-tight">
+              {currentDate}
+            </span>
+          )}
         </div>
         <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
           Live across {happeningNow.length} hall{happeningNow.length > 1 ? 's' : ''}
