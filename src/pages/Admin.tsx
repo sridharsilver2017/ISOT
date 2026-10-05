@@ -4,6 +4,7 @@ import { useAuthStore } from '../store/authStore';
 import { Session, ProgrammeItem, ProgrammeItemType, getSessionItems } from '../types/programme';
 import { CONFERENCE_DAYS } from '../data/event';
 import { HALLS } from '../data/halls';
+import { exportProgrammeToCsv, parseCsvToProgramme, getBlankCsvTemplate } from '../utils/csvHelper';
 import {
   Plus,
   Edit2,
@@ -31,6 +32,9 @@ import {
   Clock,
   MapPin,
   Sliders,
+  FileSpreadsheet,
+  HelpCircle,
+  FileText,
 } from 'lucide-react';
 
 export const Admin: React.FC = () => {
@@ -165,6 +169,70 @@ export const Admin: React.FC = () => {
 
   const totalTalks = sessions.reduce((acc, s) => acc + getSessionItems(s).length, 0);
   const totalSpeakers = getSpeakers().length;
+
+  const [isGoogleSheetsGuideOpen, setIsGoogleSheetsGuideOpen] = useState(false);
+  const [isUploadingCsv, setIsUploadingCsv] = useState(false);
+
+  // Download Google Sheets Template CSV
+  const handleDownloadCsvTemplate = () => {
+    const csvContent = getBlankCsvTemplate();
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'isot2026-google-sheet-template.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showNotification('Downloaded Google Sheets CSV template!');
+  };
+
+  // Export All Live Programme Data to CSV for Google Sheets
+  const handleExportCsv = () => {
+    const csvContent = exportProgrammeToCsv(sessions);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `isot2026-programme-v19-${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showNotification('Exported live programme to Google Sheets CSV!');
+  };
+
+  // Import CSV from Google Sheets and persist to DB
+  const handleImportCsv = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setIsUploadingCsv(true);
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const content = event.target?.result as string;
+        const parsed = parseCsvToProgramme(content);
+        if (parsed.length === 0) {
+          showNotification('No valid sessions found in CSV file.', 'error');
+          setIsUploadingCsv(false);
+          return;
+        }
+
+        const success = importProgrammeJson(JSON.stringify(parsed));
+        if (success) {
+          const totalTalksCount = parsed.reduce((acc, s) => acc + getSessionItems(s).length, 0);
+          showNotification(`Successfully imported ${parsed.length} sessions (${totalTalksCount} items) from Google Sheet CSV to Cloudflare D1!`);
+        } else {
+          showNotification('Failed to persist CSV data to database.', 'error');
+        }
+      } catch (err: any) {
+        showNotification(err.message || 'Error parsing CSV file.', 'error');
+      } finally {
+        setIsUploadingCsv(false);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
 
   // Login Handler
   const handleLoginSubmit = async (e: React.FormEvent) => {
@@ -985,14 +1053,132 @@ export const Admin: React.FC = () => {
             </div>
           </div>
 
-          {/* Backup & Data Sync Tools */}
-          <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 border border-gray-200/80 dark:border-zinc-800 shadow-sm space-y-4">
+          {/* Google Sheets / CSV Integration Card */}
+          <div className="bg-gradient-to-br from-emerald-500/10 via-white to-amber-500/10 dark:from-emerald-950/30 dark:via-zinc-900 dark:to-amber-950/20 rounded-3xl p-5 sm:p-6 border border-emerald-500/20 dark:border-emerald-800/40 shadow-sm space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-gray-200/70 dark:border-zinc-800">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-emerald-600/20">
+                  <FileSpreadsheet size={22} />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
+                    Google Sheets & CSV Database Sync
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300">
+                      Recommended
+                    </span>
+                  </h3>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                    Edit the entire ISOT 2026 programme in Google Sheets or Excel, then upload directly to the database.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsGoogleSheetsGuideOpen(!isGoogleSheetsGuideOpen)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-zinc-800 hover:bg-gray-50 text-emerald-700 dark:text-emerald-400 text-xs font-bold border border-emerald-200 dark:border-emerald-800/60 transition-all self-start sm:self-auto"
+              >
+                <HelpCircle size={14} />
+                <span>{isGoogleSheetsGuideOpen ? 'Hide Guide' : 'How It Works / Guide'}</span>
+              </button>
+            </div>
+
+            {/* Google Sheets Workflow Guide Drawer */}
+            {isGoogleSheetsGuideOpen && (
+              <div className="p-4 rounded-2xl bg-white dark:bg-zinc-800/90 border border-emerald-200/80 dark:border-emerald-800/40 text-xs text-gray-700 dark:text-gray-300 space-y-3 animate-in slide-in-from-top-2 duration-200">
+                <div className="font-extrabold text-sm text-emerald-900 dark:text-emerald-300 flex items-center gap-2">
+                  <Sparkles size={16} />
+                  <span>3-Step Google Sheets Workflow</span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+                  <div className="p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/40 space-y-1">
+                    <span className="font-bold text-emerald-800 dark:text-emerald-300">1. Download or Export</span>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-400">
+                      Click <strong>"Export All for Google Sheets"</strong> or <strong>"Download Template"</strong> to get the CSV file.
+                    </p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/40 space-y-1">
+                    <span className="font-bold text-emerald-800 dark:text-emerald-300">2. Edit in Google Sheets</span>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-400">
+                      Import CSV into Google Sheets. Use the <strong>"Section Heading"</strong> column for red PDF headers (e.g. <em>Obesity & Transplantation</em>).
+                    </p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/40 space-y-1">
+                    <span className="font-bold text-emerald-800 dark:text-emerald-300">3. Download CSV & Upload</span>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-400">
+                      In Google Sheets: <em>File → Download → Comma Separated Values (.csv)</em>, then click <strong>"Upload CSV to Database"</strong> below.
+                    </p>
+                  </div>
+                </div>
+                <div className="pt-2 border-t border-gray-100 dark:border-zinc-700 text-[11px] text-gray-500 flex flex-wrap items-center gap-x-4 gap-y-1">
+                  <span><strong>Speakers / Chairs:</strong> Separate multiple names with commas (e.g. <em>Vivek Kute, Manish Rathi</em>).</span>
+                  <span><strong>Section Headings:</strong> Groups subsequent talks under that sub-session header.</span>
+                </div>
+              </div>
+            )}
+
+            {/* Google Sheets Action Buttons */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              {/* Download Blank Template */}
+              <button
+                type="button"
+                onClick={handleDownloadCsvTemplate}
+                className="p-4 rounded-2xl bg-white dark:bg-zinc-800 border border-emerald-200 dark:border-zinc-700 hover:border-emerald-500 flex flex-col items-center text-center gap-2 transition-all active:scale-95 shadow-sm"
+              >
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 flex items-center justify-center">
+                  <FileText size={20} />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-gray-900 dark:text-white">Download Template (.csv)</div>
+                  <div className="text-[11px] text-gray-500">Blank Google Sheet template with headers</div>
+                </div>
+              </button>
+
+              {/* Export All Live Data for Google Sheets */}
+              <button
+                type="button"
+                onClick={handleExportCsv}
+                className="p-4 rounded-2xl bg-white dark:bg-zinc-800 border border-emerald-200 dark:border-zinc-700 hover:border-emerald-500 flex flex-col items-center text-center gap-2 transition-all active:scale-95 shadow-sm"
+              >
+                <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 flex items-center justify-center">
+                  <Download size={20} />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-gray-900 dark:text-white">Export All for Google Sheets</div>
+                  <div className="text-[11px] text-gray-500">Download current 19 sessions ({totalTalks} talks)</div>
+                </div>
+              </button>
+
+              {/* Upload CSV from Google Sheets */}
+              <label className="p-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white flex flex-col items-center text-center gap-2 cursor-pointer transition-all active:scale-95 shadow-md shadow-emerald-600/25">
+                <div className="w-10 h-10 rounded-xl bg-white/20 text-white flex items-center justify-center">
+                  {isUploadingCsv ? <RefreshCw size={20} className="animate-spin" /> : <Upload size={20} />}
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-white">
+                    {isUploadingCsv ? 'Uploading to Database...' : 'Upload CSV to Database'}
+                  </div>
+                  <div className="text-[11px] text-emerald-100">Upload edited sheet & sync to D1</div>
+                </div>
+                <input
+                  type="file"
+                  accept=".csv,text/csv"
+                  disabled={isUploadingCsv}
+                  onChange={handleImportCsv}
+                  className="hidden"
+                />
+              </label>
+            </div>
+          </div>
+
+          {/* Legacy JSON Backup & Database Tools */}
+          <div className="bg-white dark:bg-zinc-900 rounded-3xl p-5 sm:p-6 border border-gray-200/80 dark:border-zinc-800 shadow-sm space-y-4">
             <div>
-              <h3 className="text-base font-black text-gray-900 dark:text-white">
-                Programme Backup & Data Tools
+              <h3 className="text-base sm:text-lg font-black text-gray-900 dark:text-white">
+                JSON Backup & Cloudflare D1 Seeding
               </h3>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                Export JSON backups, import updated schedule files, or reset back to the official brochure data.
+                Low-level JSON file import/export and master baseline reset.
               </p>
             </div>
 
@@ -1001,14 +1187,13 @@ export const Admin: React.FC = () => {
               <button
                 type="button"
                 onClick={async () => {
-                  if (window.confirm('Seed all 19 official conference sessions and 100+ talks into your Cloudflare D1 Database?')) {
+                  if (window.confirm('Seed all 19 official conference sessions and 275+ talks into your Cloudflare D1 Database?')) {
                     try {
                       const res = await fetch('/api/seed');
                       const data = await res.json();
                       if (data.success) {
                         showNotification('Successfully seeded data to Cloudflare D1 Database (isot2026)!');
                       } else {
-                        // If /api/seed is on cloud or local, try syncing active programme
                         const ok = await syncWithBackend();
                         if (ok) showNotification('Data pushed to database successfully!');
                         else showNotification(data.error || 'Seed failed', 'error');
@@ -1031,7 +1216,7 @@ export const Admin: React.FC = () => {
                 </div>
               </button>
 
-              {/* Export Button */}
+              {/* Export JSON */}
               <button
                 type="button"
                 onClick={handleExportJson}
@@ -1042,18 +1227,18 @@ export const Admin: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-sm font-bold text-gray-900 dark:text-white">Export JSON</div>
-                  <div className="text-[11px] text-gray-500">Download current schedule file</div>
+                  <div className="text-[11px] text-gray-500">Download schedule as JSON</div>
                 </div>
               </button>
 
-              {/* Import Button */}
+              {/* Import JSON */}
               <label className="p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 hover:border-isot-burgundy flex flex-col items-center text-center gap-2 cursor-pointer transition-all active:scale-95">
                 <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 flex items-center justify-center">
                   <Upload size={20} />
                 </div>
                 <div>
                   <div className="text-sm font-bold text-gray-900 dark:text-white">Import JSON</div>
-                  <div className="text-[11px] text-gray-500">Restore or upload new programme</div>
+                  <div className="text-[11px] text-gray-500">Restore or upload JSON file</div>
                 </div>
                 <input type="file" accept=".json" onChange={handleImportJson} className="hidden" />
               </label>
