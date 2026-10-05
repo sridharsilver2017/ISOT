@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Session, ProgrammeItem, Speaker, SpeakerRoleInfo } from '../types/programme';
-import { PROGRAMME_SESSIONS as DEFAULT_SESSIONS } from '../data/programme';
 
 export function slugify(text: string): string {
   return text
@@ -252,7 +251,7 @@ async function pushToBackend(sessions: Session[]): Promise<boolean> {
 export const useProgrammeStore = create<ProgrammeState>()(
   persist(
     (set, get) => ({
-      sessions: DEFAULT_SESSIONS,
+      sessions: [],
       isSyncing: false,
       isLoadingFromDb: true,
       isDbConnected: false,
@@ -429,7 +428,7 @@ export const useProgrammeStore = create<ProgrammeState>()(
             // ignore network err
           }
         }
-        set({ sessions: DEFAULT_SESSIONS, lastSynced: null });
+        await get().fetchProgrammeFromServer();
       },
 
       importProgrammeJson: (json) => {

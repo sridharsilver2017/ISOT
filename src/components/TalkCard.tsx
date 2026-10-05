@@ -4,7 +4,7 @@ import { ProgrammeItem } from '../types/programme';
 import { Clock, MapPin, User, Users, Mic, Award, ChevronRight, Star } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
 import { getTypeBadgeColor } from '../utils/timeUtils';
-import { slugify } from '../data/speakers';
+import { slugify } from '../store/programmeStore';
 
 interface TalkCardProps {
   item: ProgrammeItem;
