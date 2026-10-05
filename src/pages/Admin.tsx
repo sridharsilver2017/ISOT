@@ -981,7 +981,41 @@ export const Admin: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
+              {/* Seed Cloudflare D1 Database */}
+              <button
+                type="button"
+                onClick={async () => {
+                  if (window.confirm('Seed all 19 official conference sessions and 100+ talks into your Cloudflare D1 Database?')) {
+                    try {
+                      const res = await fetch('/api/seed');
+                      const data = await res.json();
+                      if (data.success) {
+                        showNotification('Successfully seeded data to Cloudflare D1 Database (isot2026)!');
+                      } else {
+                        // If /api/seed is on cloud or local, try syncing active programme
+                        const ok = await syncWithBackend();
+                        if (ok) showNotification('Data pushed to database successfully!');
+                        else showNotification(data.error || 'Seed failed', 'error');
+                      }
+                    } catch {
+                      const ok = await syncWithBackend();
+                      if (ok) showNotification('Data written to Cloudflare Database successfully!');
+                      else showNotification('Could not connect to database endpoint', 'error');
+                    }
+                  }
+                }}
+                className="p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 hover:border-emerald-500 flex flex-col items-center text-center gap-2 transition-all active:scale-95"
+              >
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 flex items-center justify-center">
+                  <ShieldCheck size={20} />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-emerald-900 dark:text-emerald-300">Seed Cloudflare D1</div>
+                  <div className="text-[11px] text-emerald-700 dark:text-emerald-400">Write 19 sessions to D1 DB</div>
+                </div>
+              </button>
+
               {/* Export Button */}
               <button
                 type="button"
