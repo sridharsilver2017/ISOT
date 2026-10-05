@@ -1,0 +1,18 @@
+[
+  {
+    "id": "admin-1",
+    "username": "admin",
+    "name": "ISOT Organizing Committee Admin",
+    "email": "admin@isot2026.com",
+    "role": "super_admin",
+    "passwordHash": "$2b$10$FbseUew3sfgo1mCcD6IZ7OEh9kDZsof2miNXsypIkA50GVvfmwrHK"
+  },
+  {
+    "id": "admin-2",
+    "username": "secretariat",
+    "name": "Scientific Secretariat",
+    "email": "secretariat@isot2026.com",
+    "role": "editor",
+    "passwordHash": "$2b$10$jLyZX0hw3J7NUr/LZ5FZ1.bwAv.0c3eTin.8FEkMoHPAlhfX6pl5C"
+  }
+]
