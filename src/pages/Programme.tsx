@@ -8,6 +8,7 @@ import { SessionCard } from '../components/SessionCard';
 import { TalkCard } from '../components/TalkCard';
 import { TimelineView } from '../components/TimelineView';
 import { useScheduleStore } from '../store/scheduleStore';
+import { getSessionItems } from '../types/programme';
 import { Filter } from 'lucide-react';
 
 export const Programme: React.FC = () => {
@@ -50,6 +51,7 @@ export const Programme: React.FC = () => {
 
   // Filter sessions based on criteria
   const filteredSessions = daySessions.filter((session) => {
+    const items = getSessionItems(session);
     // Hall filter
     if (selectedHall !== 'All Halls') {
       const matchHall =
@@ -66,7 +68,7 @@ export const Programme: React.FC = () => {
     // Saved filter
     if (showSavedOnly) {
       const isSaved = isSessionSaved(session.id);
-      const hasSavedTalks = session.items.some((i) => isTalkSaved(i.id));
+      const hasSavedTalks = items.some((i) => isTalkSaved(i.id));
       if (!isSaved && !hasSavedTalks) return false;
     }
 
@@ -78,13 +80,14 @@ export const Programme: React.FC = () => {
       const inInCharge = session.sessionInCharge?.some((c) =>
         c.toLowerCase().includes(query)
       );
-      const inItems = session.items.some(
+      const inItems = items.some(
         (i) =>
           i.title.toLowerCase().includes(query) ||
           i.speakers?.some((s) => s.toLowerCase().includes(query)) ||
           i.chairpersons?.some((c) => c.toLowerCase().includes(query)) ||
           i.panelists?.some((p) => p.toLowerCase().includes(query)) ||
-          i.moderator?.toLowerCase().includes(query)
+          i.moderator?.toLowerCase().includes(query) ||
+          i.moderators?.some((m) => m.toLowerCase().includes(query))
       );
 
       if (!inTitle && !inVenue && !inInCharge && !inItems) return false;
@@ -95,9 +98,10 @@ export const Programme: React.FC = () => {
 
   // Flattened items for talk view
   const allFilteredItems = filteredSessions.flatMap((s) => {
-    if (!searchQuery.trim() && !showSavedOnly) return s.items;
+    const items = getSessionItems(s);
+    if (!searchQuery.trim() && !showSavedOnly) return items;
 
-    return s.items.filter((item) => {
+    return items.filter((item) => {
       if (showSavedOnly && !isTalkSaved(item.id)) return false;
 
       if (searchQuery.trim()) {
@@ -106,7 +110,7 @@ export const Programme: React.FC = () => {
         const inSpeakers = item.speakers?.some((sp) => sp.toLowerCase().includes(q));
         const inChairs = item.chairpersons?.some((c) => c.toLowerCase().includes(q));
         const inPanelists = item.panelists?.some((p) => p.toLowerCase().includes(q));
-        const inModerator = item.moderator?.toLowerCase().includes(q);
+        const inModerator = item.moderator?.toLowerCase().includes(q) || item.moderators?.some((m) => m.toLowerCase().includes(q));
         const inVenue = item.venue.toLowerCase().includes(q);
         if (!inTitle && !inSpeakers && !inChairs && !inPanelists && !inModerator && !inVenue) {
           return false;

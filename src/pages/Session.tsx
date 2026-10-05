@@ -4,6 +4,7 @@ import { useProgrammeStore } from '../store/programmeStore';
 import { Clock, MapPin, User, ChevronLeft, Bookmark, Share2, Layers, Calendar, ArrowLeft, Edit2 } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
 import { TalkCard } from '../components/TalkCard';
+import { getSessionItems } from '../types/programme';
 
 export const Session: React.FC = () => {
   const { sessionId } = useParams<{ sessionId: string }>();
@@ -31,6 +32,7 @@ export const Session: React.FC = () => {
   }
 
   const saved = isSessionSaved(session.id);
+  const allItems = getSessionItems(session);
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -169,20 +171,40 @@ export const Session: React.FC = () => {
         </div>
       </div>
 
-      {/* Programme Items Sequence */}
-      <div className="space-y-4">
+      {/* Programme Items Sequence with Hierarchical Section Headings */}
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-lg sm:text-xl font-black text-gray-900 dark:text-white">
-            Programme Sequence ({session.items.length} items)
+            Programme Sequence ({allItems.length} items)
           </h2>
           <span className="text-xs text-gray-500 dark:text-gray-400">Chronological Order</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {session.items.map((item) => (
-            <TalkCard key={item.id} item={item} />
-          ))}
-        </div>
+        {session.sections && session.sections.length > 0 ? (
+          session.sections.map((section, sIdx) => (
+            <div key={section.id || sIdx} className="space-y-3">
+              {section.title && (
+                <div className="programme-section-heading mt-6 mb-3 pt-3 pb-2 border-b border-isot-burgundy/20 dark:border-rose-900/40 flex items-center gap-2.5">
+                  <div className="w-1.5 h-4 bg-isot-burgundy dark:bg-rose-500 rounded-full" />
+                  <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-isot-burgundy dark:text-rose-400">
+                    {section.title}
+                  </h3>
+                </div>
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {section.items && section.items.map((item) => (
+                  <TalkCard key={item.id} item={item} />
+                ))}
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {allItems.map((item) => (
+              <TalkCard key={item.id} item={item} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

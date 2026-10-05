@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useProgrammeStore } from '../store/programmeStore';
 import { useAuthStore } from '../store/authStore';
-import { Session, ProgrammeItem, ProgrammeItemType } from '../types/programme';
+import { Session, ProgrammeItem, ProgrammeItemType, getSessionItems } from '../types/programme';
 import { CONFERENCE_DAYS } from '../data/event';
 import { HALLS } from '../data/halls';
 import {
@@ -113,13 +113,14 @@ export const Admin: React.FC = () => {
   // Filtered sessions
   const filteredSessions = useMemo(() => {
     return sessions.filter((s) => {
+      const items = getSessionItems(s);
       if (selectedDay !== 'all' && s.date !== selectedDay) return false;
       if (selectedHall !== 'All' && !s.venue.includes(selectedHall) && !selectedHall.includes(s.venue)) return false;
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const inTitle = s.title.toLowerCase().includes(q);
         const inIncharge = s.sessionInCharge?.some((c) => c.toLowerCase().includes(q));
-        const inTalks = s.items.some(
+        const inTalks = items.some(
           (i) =>
             i.title.toLowerCase().includes(q) ||
             i.speakers?.some((sp) => sp.toLowerCase().includes(q)) ||
@@ -135,7 +136,8 @@ export const Admin: React.FC = () => {
   const allTalks = useMemo(() => {
     const list: { item: ProgrammeItem; session: Session }[] = [];
     sessions.forEach((s) => {
-      s.items.forEach((item) => {
+      const items = getSessionItems(s);
+      items.forEach((item) => {
         list.push({ item, session: s });
       });
     });
@@ -161,7 +163,7 @@ export const Admin: React.FC = () => {
     });
   }, [allTalks, selectedDay, selectedHall, searchQuery]);
 
-  const totalTalks = sessions.reduce((acc, s) => acc + s.items.length, 0);
+  const totalTalks = sessions.reduce((acc, s) => acc + getSessionItems(s).length, 0);
   const totalSpeakers = getSpeakers().length;
 
   // Login Handler
@@ -675,7 +677,7 @@ export const Admin: React.FC = () => {
                           </span>
 
                           <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-gray-200 dark:bg-zinc-700 text-gray-700 dark:text-gray-300">
-                            {session.items.length} talk{session.items.length === 1 ? '' : 's'}
+                            {getSessionItems(session).length} talk{getSessionItems(session).length === 1 ? '' : 's'}
                           </span>
                         </div>
 
@@ -748,7 +750,7 @@ export const Admin: React.FC = () => {
                         onClick={() => toggleSessionExpand(session.id)}
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors"
                       >
-                        <span>{isExpanded ? 'Hide Talks' : `View ${session.items.length} Talks`}</span>
+                        <span>{isExpanded ? 'Hide Talks' : `View ${getSessionItems(session).length} Talks`}</span>
                         {isExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                       </button>
                     </div>
@@ -756,13 +758,79 @@ export const Admin: React.FC = () => {
 
                   {/* Expandable Talks List */}
                   {isExpanded && (
-                    <div className="p-3 sm:p-5 space-y-2.5 border-t border-gray-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900">
-                      {session.items.length === 0 ? (
+                    <div className="p-3 sm:p-5 space-y-4 border-t border-gray-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                      {session.sections && session.sections.length > 0 ? (
+                        session.sections.map((section, secIdx) => (
+                          <div key={section.id || secIdx} className="space-y-2">
+                            {section.title && (
+                              <div className="flex items-center gap-2 pt-2 pb-1 border-b border-rose-200/60 dark:border-rose-900/40">
+                                <span className="w-2 h-2 rounded-full bg-isot-burgundy" />
+                                <span className="text-xs font-bold uppercase tracking-wider text-isot-burgundy dark:text-rose-400">
+                                  {section.title}
+                                </span>
+                              </div>
+                            )}
+                            {section.items && section.items.map((item, idx) => (
+                              <div
+                                key={item.id}
+                                className="p-3.5 rounded-2xl bg-gray-50 dark:bg-zinc-800/70 border border-gray-200/60 dark:border-zinc-700/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-isot-burgundy/40 transition-all"
+                              >
+                                <div className="space-y-1.5 flex-1 min-w-0">
+                                  <div className="flex flex-wrap items-center gap-1.5">
+                                    <span className="text-[11px] font-black text-isot-burgundy dark:text-rose-400">
+                                      #{idx + 1} • {item.startTime} {item.endTime ? `– ${item.endTime}` : ''}
+                                    </span>
+                                    <span
+                                      className={`text-[10px] uppercase font-black px-2 py-0.5 rounded-md ${getTalkTypeBadge(
+                                        item.type
+                                      )}`}
+                                    >
+                                      {item.type}
+                                    </span>
+                                  </div>
+                                  <h4 className="text-sm font-extrabold text-gray-900 dark:text-white leading-snug">
+                                    {item.title}
+                                  </h4>
+                                  {item.speakers && item.speakers.length > 0 && (
+                                    <div className="text-xs text-gray-600 dark:text-gray-300">
+                                      <span className="font-semibold text-gray-400">Speaker:</span> {item.speakers.join(', ')}
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="flex items-center gap-1.5 self-end sm:self-center">
+                                  <button
+                                    type="button"
+                                    onClick={() => setEditingTalk({ talk: item, sessionId: session.id })}
+                                    className="p-1.5 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-700"
+                                    title="Edit Talk"
+                                  >
+                                    <Edit2 size={14} />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setDeleteConfirm({
+                                        type: 'talk',
+                                        id: item.id,
+                                        title: item.title,
+                                      })
+                                    }
+                                    className="p-1.5 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                                    title="Delete Talk"
+                                  >
+                                    <Trash2 size={14} />
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ))
+                      ) : getSessionItems(session).length === 0 ? (
                         <div className="py-6 text-center text-xs text-gray-400">
                           No presentations in this session yet. Tap "Add Talk" above to add one.
                         </div>
                       ) : (
-                        session.items.map((item, idx) => (
+                        getSessionItems(session).map((item, idx) => (
                           <div
                             key={item.id}
                             className="p-3.5 rounded-2xl bg-gray-50 dark:bg-zinc-800/70 border border-gray-200/60 dark:border-zinc-700/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-isot-burgundy/40 transition-all"
@@ -772,7 +840,6 @@ export const Admin: React.FC = () => {
                                 <span className="text-[11px] font-black text-isot-burgundy dark:text-rose-400">
                                   #{idx + 1} • {item.startTime} {item.endTime ? `– ${item.endTime}` : ''}
                                 </span>
-
                                 <span
                                   className={`text-[10px] uppercase font-black px-2 py-0.5 rounded-md ${getTalkTypeBadge(
                                     item.type
@@ -781,61 +848,9 @@ export const Admin: React.FC = () => {
                                   {item.type}
                                 </span>
                               </div>
-
                               <h4 className="text-sm font-extrabold text-gray-900 dark:text-white leading-snug">
                                 {item.title}
                               </h4>
-
-                              {/* Faculty Tags */}
-                              <div className="flex flex-wrap items-center gap-1.5 text-xs">
-                                {item.speakers && item.speakers.length > 0 && (
-                                  <span className="text-gray-600 dark:text-gray-300">
-                                    <strong>Speaker:</strong> {item.speakers.join(', ')}
-                                  </span>
-                                )}
-                                {item.chairpersons && item.chairpersons.length > 0 && (
-                                  <span className="text-gray-500 dark:text-gray-400">
-                                    • <strong>Chair:</strong> {item.chairpersons.join(', ')}
-                                  </span>
-                                )}
-                                {item.moderator && (
-                                  <span className="text-gray-500 dark:text-gray-400">
-                                    • <strong>Mod:</strong> {item.moderator}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* Actions */}
-                            <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setEditingTalk({
-                                    talk: item,
-                                    sessionId: session.id,
-                                  })
-                                }
-                                className="px-3 py-1.5 rounded-xl bg-white dark:bg-zinc-700 text-gray-800 dark:text-gray-200 text-xs font-bold flex items-center gap-1.5 border border-gray-200 dark:border-zinc-600 shadow-sm active:scale-95"
-                              >
-                                <Edit2 size={13} className="text-isot-burgundy" />
-                                <span>Edit</span>
-                              </button>
-
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setDeleteConfirm({
-                                    type: 'talk',
-                                    id: item.id,
-                                    title: item.title,
-                                  });
-                                }}
-                                className="p-1.5 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40"
-                                title="Delete Talk"
-                              >
-                                <Trash2 size={15} />
-                              </button>
                             </div>
                           </div>
                         ))
@@ -1275,7 +1290,7 @@ export const Admin: React.FC = () => {
                   endTime,
                   venue,
                   sessionInCharge: incharge ? incharge.split(',').map((s) => s.trim()).filter(Boolean) : undefined,
-                  items: [],
+                  sections: [{ id: `${newId}-sec-1`, title: '', items: [] }],
                 };
 
                 addSession(newSession);

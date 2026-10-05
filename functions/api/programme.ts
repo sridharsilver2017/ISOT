@@ -21,21 +21,48 @@ export async function onRequestGet(context: any) {
   const { env } = context;
 
   try {
-    // 1. Primary: Cloudflare D1 Database
+    // 1. Primary: Cloudflare D1 Database (Multi-row session query)
     if (env.DB) {
       await ensureD1Table(env.DB);
-      const row = await env.DB.prepare(
-        "SELECT * FROM programme_data WHERE id = 'active_programme'"
-      ).first();
+      const rows = await env.DB.prepare(
+        "SELECT * FROM programme_data WHERE id LIKE 'session_%' ORDER BY id"
+      ).all();
 
-      if (row && row.data) {
-        const sessions = JSON.parse(row.data);
+      if (rows && rows.results && rows.results.length > 0) {
+        const sessions = rows.results.map((r: any) => JSON.parse(r.data));
         return new Response(
           JSON.stringify({
             hasCustomData: true,
             sessions,
-            lastUpdated: row.last_updated,
-            updatedBy: row.updated_by,
+            lastUpdated: rows.results[0]?.last_updated || new Date().toISOString(),
+            updatedBy: rows.results[0]?.updated_by || 'ISOT Admin',
+            storage: 'Cloudflare D1 SQL Database',
+            databaseName: 'isot2026',
+            databaseId: 'ea1748cd-971b-475b-92b1-4a2e0c95f211',
+          }),
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+            },
+          }
+        );
+      }
+
+      // Fallback single row check
+      const singleRow = await env.DB.prepare(
+        "SELECT * FROM programme_data WHERE id = 'active_programme'"
+      ).first();
+
+      if (singleRow && singleRow.data) {
+        const sessions = JSON.parse(singleRow.data);
+        return new Response(
+          JSON.stringify({
+            hasCustomData: true,
+            sessions,
+            lastUpdated: singleRow.last_updated,
+            updatedBy: singleRow.updated_by,
             storage: 'Cloudflare D1 SQL Database',
             databaseName: 'isot2026',
             databaseId: 'ea1748cd-971b-475b-92b1-4a2e0c95f211',
@@ -133,18 +160,24 @@ export async function onRequestPut(context: any) {
     const lastUpdated = new Date().toISOString();
     const updatedBy = user.name || user.username || 'Admin';
 
-    // 3. Persist to Cloudflare D1 Database
+    // 3. Persist to Cloudflare D1 Database via batch queries
     if (env.DB) {
       await ensureD1Table(env.DB);
-      const dataStr = JSON.stringify(sessions);
-      await env.DB.prepare(`
-        INSERT INTO programme_data (id, data, last_updated, updated_by)
-        VALUES ('active_programme', ?, ?, ?)
-        ON CONFLICT(id) DO UPDATE SET
-          data = excluded.data,
-          last_updated = excluded.last_updated,
-          updated_by = excluded.updated_by
-      `).bind(dataStr, lastUpdated, updatedBy).run();
+      const stmts: any[] = [
+        env.DB.prepare("DELETE FROM programme_data WHERE id LIKE 'session_%' OR id = 'active_programme'")
+      ];
+
+      for (let i = 0; i < sessions.length; i++) {
+        const sess = sessions[i];
+        const sessKey = `session_${String(i + 1).padStart(2, '0')}_${(sess.id || `sess_${i + 1}`).replace(/[^a-zA-Z0-9_]/g, '_')}`;
+        stmts.push(
+          env.DB.prepare(
+            "INSERT INTO programme_data (id, data, last_updated, updated_by) VALUES (?, ?, ?, ?)"
+          ).bind(sessKey, JSON.stringify(sess), lastUpdated, updatedBy)
+        );
+      }
+
+      await env.DB.batch(stmts);
     }
 
     // 4. Persist to Cloudflare KV (if available)

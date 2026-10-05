@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Session, ProgrammeItem, Speaker, SpeakerRoleInfo } from '../types/programme';
+import { Session, ProgrammeItem, Speaker, SpeakerRoleInfo, getSessionItems } from '../types/programme';
 
 export function slugify(text: string): string {
   return text
@@ -63,7 +63,8 @@ export function extractSpeakersFromSessions(sessions: Session[]): Speaker[] {
       });
     }
 
-    session.items.forEach((item) => {
+    const items = getSessionItems(session);
+    items.forEach((item) => {
       if (item.speakers) {
         item.speakers.forEach((name) => {
           if (!name.trim()) return;
@@ -134,6 +135,25 @@ export function extractSpeakersFromSessions(sessions: Session[]): Speaker[] {
           time: `${item.startTime}–${item.endTime || ''}`,
           date: item.date,
           venue: item.venue,
+        });
+      }
+
+      if (item.moderators) {
+        item.moderators.forEach((name) => {
+          if (!name.trim()) return;
+          const sp = getOrCreate(name);
+          if (!sp.talkIds.includes(item.id)) sp.talkIds.push(item.id);
+          if (!sp.sessionIds.includes(session.id)) sp.sessionIds.push(session.id);
+          sp.roles.push({
+            role: 'moderator',
+            talkId: item.id,
+            talkTitle: item.title,
+            sessionId: session.id,
+            sessionTitle: session.title,
+            time: `${item.startTime}–${item.endTime || ''}`,
+            date: item.date,
+            venue: item.venue,
+          });
         });
       }
 
@@ -213,7 +233,7 @@ interface ProgrammeState {
   syncWithBackend: () => Promise<boolean>;
   updateSession: (sessionId: string, updatedData: Partial<Session>) => void;
   updateTalk: (talkId: string, updatedData: Partial<ProgrammeItem>) => void;
-  addTalk: (sessionId: string, newTalk: ProgrammeItem) => void;
+  addTalk: (sessionId: string, newTalk: ProgrammeItem, sectionId?: string) => void;
   deleteTalk: (talkId: string) => void;
   addSession: (newSession: Session) => void;
   deleteSession: (sessionId: string) => void;
@@ -338,13 +358,18 @@ export const useProgrammeStore = create<ProgrammeState>()(
             if (s.id === sessionId) {
               const updatedSession = { ...s, ...updatedData };
               if (updatedData.date || updatedData.venue || updatedData.title) {
-                updatedSession.items = updatedSession.items.map((item) => ({
-                  ...item,
-                  date: updatedData.date || item.date,
-                  dayName: updatedData.dayName || item.dayName,
-                  venue: updatedData.venue || item.venue,
-                  sessionTitle: updatedData.title || item.sessionTitle,
-                }));
+                if (updatedSession.sections) {
+                  updatedSession.sections = updatedSession.sections.map((sec) => ({
+                    ...sec,
+                    items: sec.items.map((item) => ({
+                      ...item,
+                      date: updatedData.date || item.date,
+                      dayName: updatedData.dayName || item.dayName,
+                      venue: updatedData.venue || item.venue,
+                      sessionTitle: updatedData.title || item.sessionTitle,
+                    })),
+                  }));
+                }
               }
               return updatedSession;
             }
@@ -357,27 +382,41 @@ export const useProgrammeStore = create<ProgrammeState>()(
 
       updateTalk: (talkId, updatedData) => {
         set((state) => {
-          const newSessions = state.sessions.map((s) => ({
-            ...s,
-            items: s.items.map((item) => {
-              if (item.id === talkId) {
-                return { ...item, ...updatedData };
-              }
-              return item;
-            }),
-          }));
+          const newSessions = state.sessions.map((s) => {
+            if (!s.sections || s.sections.length === 0) return s;
+            return {
+              ...s,
+              sections: s.sections.map((sec) => ({
+                ...sec,
+                items: sec.items.map((item) => {
+                  if (item.id === talkId) {
+                    return { ...item, ...updatedData };
+                  }
+                  return item;
+                }),
+              })),
+            };
+          });
           pushToBackend(newSessions);
           return { sessions: newSessions };
         });
       },
 
-      addTalk: (sessionId, newTalk) => {
+      addTalk: (sessionId, newTalk, sectionId) => {
         set((state) => {
           const newSessions = state.sessions.map((s) => {
             if (s.id === sessionId) {
+              const sections = s.sections && s.sections.length > 0 ? [...s.sections] : [{ id: 'sec-main', title: '', items: [] }];
+              const targetSecIdx = sectionId ? sections.findIndex((sec) => sec.id === sectionId) : 0;
+              const idx = targetSecIdx >= 0 ? targetSecIdx : 0;
+              
+              const targetSec = { ...sections[idx] };
+              targetSec.items = [...targetSec.items, newTalk].sort((a, b) => a.startTime.localeCompare(b.startTime));
+              sections[idx] = targetSec;
+              
               return {
                 ...s,
-                items: [...s.items, newTalk].sort((a, b) => a.startTime.localeCompare(b.startTime)),
+                sections,
               };
             }
             return s;
@@ -389,10 +428,16 @@ export const useProgrammeStore = create<ProgrammeState>()(
 
       deleteTalk: (talkId) => {
         set((state) => {
-          const newSessions = state.sessions.map((s) => ({
-            ...s,
-            items: s.items.filter((item) => item.id !== talkId),
-          }));
+          const newSessions = state.sessions.map((s) => {
+            if (!s.sections) return s;
+            return {
+              ...s,
+              sections: s.sections.map((sec) => ({
+                ...sec,
+                items: sec.items.filter((item) => item.id !== talkId),
+              })),
+            };
+          });
           pushToBackend(newSessions);
           return { sessions: newSessions };
         });
@@ -434,7 +479,7 @@ export const useProgrammeStore = create<ProgrammeState>()(
       importProgrammeJson: (json) => {
         try {
           const parsed = JSON.parse(json);
-          if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].items) {
+          if (Array.isArray(parsed) && parsed.length > 0 && (parsed[0].sections || parsed[0].items)) {
             set({ sessions: parsed });
             pushToBackend(parsed);
             return true;
@@ -451,7 +496,8 @@ export const useProgrammeStore = create<ProgrammeState>()(
 
       getTalkById: (id) => {
         for (const session of get().sessions) {
-          const found = session.items.find((item) => item.id === id);
+          const items = getSessionItems(session);
+          const found = items.find((item) => item.id === id);
           if (found) {
             return { item: found, session };
           }

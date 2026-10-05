@@ -3,6 +3,7 @@ import { useProgrammeStore } from '../store/programmeStore';
 import { SessionCard } from '../components/SessionCard';
 import { TalkCard } from '../components/TalkCard';
 import { SpeakerCard } from '../components/SpeakerCard';
+import { getSessionItems } from '../types/programme';
 import { Search as SearchIcon, X, Sparkles, Layers, Mic } from 'lucide-react';
 
 export const Search: React.FC = () => {
@@ -27,11 +28,13 @@ export const Search: React.FC = () => {
       const inVenue = session.venue.toLowerCase().includes(q);
       const inTrack = session.track?.toLowerCase().includes(q);
       const inInCharge = session.sessionInCharge?.some((c) => c.toLowerCase().includes(q));
-      return inTitle || inVenue || inTrack || inInCharge;
+      const inCoInCharge = session.coInCharge?.some((c) => c.toLowerCase().includes(q));
+      const inCoordinators = session.programmeCoordinators?.some((c) => c.toLowerCase().includes(q));
+      return inTitle || inVenue || inTrack || inInCharge || inCoInCharge || inCoordinators;
     });
 
     // Talks matching
-    const allTalks = sessions.flatMap((s) => s.items);
+    const allTalks = sessions.flatMap((s) => getSessionItems(s));
     const matchingTalks = allTalks.filter((item) => {
       const inTitle = item.title.toLowerCase().includes(q);
       const inVenue = item.venue.toLowerCase().includes(q);
@@ -39,7 +42,10 @@ export const Search: React.FC = () => {
       const inSpeakers = item.speakers?.some((s) => s.toLowerCase().includes(q));
       const inChairs = item.chairpersons?.some((c) => c.toLowerCase().includes(q));
       const inPanelists = item.panelists?.some((p) => p.toLowerCase().includes(q));
-      const inModerator = item.moderator?.toLowerCase().includes(q);
+      const inModerator = item.moderator?.toLowerCase().includes(q) || item.moderators?.some((m) => m.toLowerCase().includes(q));
+      const inCasePresenters = item.casePresenters?.some((cp) => cp.toLowerCase().includes(q));
+      const inProSpeakers = item.proSpeakers?.some((ps) => ps.toLowerCase().includes(q));
+      const inConSpeakers = item.conSpeakers?.some((cs) => cs.toLowerCase().includes(q));
       const inDescription = item.description?.some((d) => d.toLowerCase().includes(q));
 
       return (
@@ -50,6 +56,9 @@ export const Search: React.FC = () => {
         inChairs ||
         inPanelists ||
         inModerator ||
+        inCasePresenters ||
+        inProSpeakers ||
+        inConSpeakers ||
         inDescription
       );
     });

@@ -1,4 +1,4 @@
-import { ProgrammeItem, Session } from '../types/programme';
+import { ProgrammeItem, Session, getSessionItems } from '../types/programme';
 
 // Parse HH:mm to minutes since start of day
 export function timeToMinutes(timeStr: string): number {
@@ -31,7 +31,7 @@ export function getCurrentProgrammeItem(
   // Get all items for this date
   const dayItems = sessions
     .filter((s) => s.date === currentDate)
-    .flatMap((s) => s.items);
+    .flatMap((s) => getSessionItems(s));
 
   if (dayItems.length === 0) {
     return {

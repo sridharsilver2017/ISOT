@@ -35,6 +35,12 @@ export interface ProgrammeItem {
   tags?: string[];
 }
 
+export interface ProgrammeSection {
+  id: string;
+  title: string;
+  items: ProgrammeItem[];
+}
+
 export interface Session {
   id: string;
   index: number;
@@ -50,7 +56,17 @@ export interface Session {
   programmeCoordinators?: string[];
   page?: number;
   track?: string;
-  items: ProgrammeItem[];
+  sections: ProgrammeSection[];
+  items?: ProgrammeItem[]; // Optional backwards compatibility helper
+}
+
+// Utility helper to safely get all items from a session
+export function getSessionItems(session: Session | null | undefined): ProgrammeItem[] {
+  if (!session) return [];
+  if (Array.isArray(session.sections) && session.sections.length > 0) {
+    return session.sections.flatMap((sec) => sec.items || []);
+  }
+  return session.items || [];
 }
 
 export interface SpeakerRoleInfo {

@@ -78,7 +78,10 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
         {/* Programme count preview */}
         <div className="text-xs text-gray-500 dark:text-gray-400 mb-5 flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
-          <span>{session.items.length} programme items / talks</span>
+          <span>{session.sections && session.sections.length > 0 ? session.sections.reduce((acc, sec) => acc + (sec.items?.length || 0), 0) : (session.items?.length || 0)} programme items</span>
+          {session.sections && session.sections.length > 1 && (
+            <span className="text-isot-burgundy dark:text-rose-400 font-semibold">• {session.sections.length} sub-sessions</span>
+          )}
           {session.page && (
             <span className="text-gray-400 dark:text-gray-500">• Page {session.page}</span>
           )}
