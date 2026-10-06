@@ -93,12 +93,12 @@ export const Brochure: React.FC = () => {
 
           {/* Original Brochure PDF */}
           <a
-            href="/ISOT-2026-Brochure-V23-1.pdf"
-            download="ISOT-2026-Brochure-V23-1.pdf"
+            href="/ISOT-2026-Brochure-Final.pdf"
+            download="ISOT-2026-Brochure-Final.pdf"
             className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-800 dark:text-gray-200 font-bold text-xs border border-gray-200 dark:border-zinc-700 transition-all text-center"
           >
             <FileText size={16} />
-            <span>Brochure PDF (V23-1)</span>
+            <span>Brochure PDF (Final)</span>
           </a>
         </div>
 

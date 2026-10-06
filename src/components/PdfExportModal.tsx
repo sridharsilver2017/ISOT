@@ -334,7 +334,7 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
               <FileText className="text-amber-700 dark:text-amber-400 shrink-0" size={18} />
               <div>
                 <p className="text-xs font-bold text-amber-950 dark:text-amber-200">
-                  Official 32-Page Brochure (V23-1 PDF)
+                  Official 32-Page Brochure (Final PDF)
                 </p>
                 <p className="text-[10px] text-amber-700 dark:text-amber-400">
                   Original high-res conference catalogue document
@@ -342,8 +342,8 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
               </div>
             </div>
             <a
-              href="/ISOT-2026-Brochure-V23-1.pdf"
-              download="ISOT-2026-Brochure-V23-1.pdf"
+              href="/ISOT-2026-Brochure-Final.pdf"
+              download="ISOT-2026-Brochure-Final.pdf"
               className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold shadow-sm whitespace-nowrap"
             >
               Brochure PDF
