@@ -296,16 +296,21 @@ export const useProgrammeStore = create<ProgrammeState>()(
           }
 
           const res = await fetch('/api/programme', {
-            headers: { 'Cache-Control': 'no-cache' },
+            headers: { 'Cache-Control': 'no-cache, no-store' },
           });
           if (res.ok) {
             const data = await res.json();
             const sessionList = Array.isArray(data.sessions) ? data.sessions : Array.isArray(data) ? data : null;
             if (sessionList && sessionList.length > 0) {
-              const isV22Data = sessionList.some(
-                (s: Session) => s.id === 'fri-ha-kidney' || s.id === 'sun-hb3-pediatric'
+              const isV23_1Data = sessionList.some(
+                (s: Session) =>
+                  s.sections?.some((sec) =>
+                    sec.items?.some(
+                      (it) => it.id === 'sat-ha-07' && it.title?.includes('Genesis of an ecosystem')
+                    )
+                  )
               );
-              if (isV22Data) {
+              if (isV23_1Data) {
                 set({
                   sessions: sessionList,
                   lastSynced: data.lastUpdated || new Date().toISOString(),
@@ -318,7 +323,7 @@ export const useProgrammeStore = create<ProgrammeState>()(
               }
             }
           }
-          // Default fallback to V22 data
+          // Default fallback to V23-1 data
           set({
             sessions: DEFAULT_PROGRAMME_SESSIONS,
             isSyncing: false,
@@ -545,7 +550,18 @@ export const useProgrammeStore = create<ProgrammeState>()(
     {
       name: 'isot2026-custom-programme-v23-1',
       onRehydrateStorage: () => (state) => {
-        if (!state || !state.sessions || state.sessions.length === 0 || !state.sessions.some((s) => s.id === 'fri-ha-kidney')) {
+        if (
+          !state ||
+          !state.sessions ||
+          state.sessions.length === 0 ||
+          !state.sessions.some((s) =>
+            s.sections?.some((sec) =>
+              sec.items?.some(
+                (it) => it.id === 'sat-ha-07' && it.title?.includes('Genesis of an ecosystem')
+              )
+            )
+          )
+        ) {
           if (state) {
             state.sessions = DEFAULT_PROGRAMME_SESSIONS;
           }

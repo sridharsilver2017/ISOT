@@ -5738,13 +5738,13 @@ export async function onRequestGet(context: { env: { DB: any } }): Promise<Respo
   const corsHeaders = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'Cache-Control': 'public, max-age=60',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
   };
 
   try {
     const db = context.env.DB;
     if (!db) {
-      return new Response(JSON.stringify({ sessions: FALLBACK_V23_SESSIONS, source: 'fallback' }), {
+      return new Response(JSON.stringify({ sessions: FALLBACK_V23_SESSIONS, source: 'fallback_v23_1' }), {
         headers: corsHeaders,
       });
     }
@@ -5771,11 +5771,36 @@ export async function onRequestGet(context: { env: { DB: any } }): Promise<Respo
       .prepare('SELECT data_json FROM programme_sessions ORDER BY order_num ASC, start_time ASC')
       .all();
 
+    // Check if D1 has latest V23-1 dataset
+    let needsReseed = false;
+    let sessions: any[] = [];
+
     if (!results || results.length === 0) {
-      // Auto-seed
+      needsReseed = true;
+    } else {
+      try {
+        sessions = results.map((r: any) => JSON.parse(r.data_json));
+        const hasV23_1 = sessions.some((s: any) =>
+          s.sections?.some((sec: any) =>
+            sec.items?.some((it: any) =>
+              it.id === 'sat-ha-07' && it.title?.includes('Genesis of an ecosystem')
+            )
+          )
+        );
+        if (!hasV23_1) {
+          needsReseed = true;
+        }
+      } catch {
+        needsReseed = true;
+      }
+    }
+
+    if (needsReseed) {
+      await db.prepare('DELETE FROM programme_sessions;').run();
+
       const statements = FALLBACK_V23_SESSIONS.map((s: any, idx: number) => {
         return db.prepare(`
-          INSERT OR REPLACE INTO programme_sessions (
+          INSERT INTO programme_sessions (
             id, day_name, day_display, date, start_time, end_time, title, venue, track, session_in_charge, order_num, data_json
           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `).bind(
@@ -5793,14 +5818,14 @@ export async function onRequestGet(context: { env: { DB: any } }): Promise<Respo
           JSON.stringify(s)
         );
       });
+
       await db.batch(statements);
 
-      return new Response(JSON.stringify({ sessions: FALLBACK_V23_SESSIONS, source: 'd1_auto_seeded' }), {
+      return new Response(JSON.stringify({ sessions: FALLBACK_V23_SESSIONS, source: 'd1_auto_seeded_v23_1' }), {
         headers: corsHeaders,
       });
     }
 
-    const sessions = results.map((r: any) => JSON.parse(r.data_json));
     return new Response(JSON.stringify({ sessions, source: 'd1' }), { headers: corsHeaders });
   } catch (err: any) {
     return new Response(
