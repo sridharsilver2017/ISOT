@@ -1,6 +1,7 @@
 import React from 'react';
 import { EVENT_DETAILS, ISOT_COUNCIL } from '../data/event';
 import { ShieldCheck, Award, HeartHandshake, MapPin, ExternalLink, Users } from 'lucide-react';
+import { SpeakerAvatar } from '../components/SpeakerAvatar';
 
 export const About: React.FC = () => {
   return (
@@ -78,9 +79,7 @@ export const About: React.FC = () => {
               key={idx}
               className="bg-white dark:bg-zinc-900 rounded-2xl p-4 border border-gray-200/80 dark:border-zinc-800 shadow-sm flex items-center gap-3.5 hover:border-isot-burgundy/30 transition-colors"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-isot-burgundy/10 to-isot-gold/20 dark:from-rose-950/60 dark:to-zinc-800 text-isot-burgundy dark:text-rose-400 font-black text-sm flex items-center justify-center shrink-0">
-                {member.name.replace(/^Dr\.?\s*/, '').charAt(0)}
-              </div>
+              <SpeakerAvatar name={member.name} size="md" />
               <div>
                 <h4 className="font-extrabold text-sm text-gray-900 dark:text-white">
                   {member.name}
@@ -119,9 +118,12 @@ export const About: React.FC = () => {
               Organizing Secretaries
             </span>
             {EVENT_DETAILS.organizingSecretaries.map((sec, i) => (
-              <div key={i} className="p-3 rounded-2xl bg-gray-50 dark:bg-zinc-800/60 border border-gray-200/60 dark:border-zinc-700/60">
-                <p className="font-extrabold text-sm text-gray-900 dark:text-white">{sec.name}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{sec.affiliation}</p>
+              <div key={i} className="p-3 rounded-2xl bg-gray-50 dark:bg-zinc-800/60 border border-gray-200/60 dark:border-zinc-700/60 flex items-center gap-3">
+                <SpeakerAvatar name={sec.name} size="md" />
+                <div>
+                  <p className="font-extrabold text-sm text-gray-900 dark:text-white">{sec.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{sec.affiliation}</p>
+                </div>
               </div>
             ))}
           </div>

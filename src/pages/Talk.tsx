@@ -4,6 +4,7 @@ import { useProgrammeStore, slugify } from '../store/programmeStore';
 import { Clock, MapPin, User, Users, Mic, Award, ChevronLeft, Bookmark, Share2, Calendar, ArrowLeft, Edit2 } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
 import { getTypeBadgeColor } from '../utils/timeUtils';
+import { SpeakerAvatar } from '../components/SpeakerAvatar';
 
 export const Talk: React.FC = () => {
   const { talkId } = useParams<{ talkId: string }>();
@@ -152,9 +153,7 @@ export const Talk: React.FC = () => {
                     className="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-zinc-900 border border-rose-100 dark:border-zinc-800 hover:border-isot-burgundy transition-colors group"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-isot-burgundy/10 text-isot-burgundy flex items-center justify-center font-bold text-xs">
-                        {sp.charAt(0)}
-                      </div>
+                      <SpeakerAvatar name={sp} size="sm" />
                       <span className="font-extrabold text-sm text-gray-900 dark:text-white group-hover:text-isot-burgundy">
                         {sp}
                       </span>
@@ -180,9 +179,7 @@ export const Talk: React.FC = () => {
                     to={`/speaker/${slugify(p)}`}
                     className="flex items-center gap-2.5 p-2 rounded-xl bg-white dark:bg-zinc-900 border border-indigo-100 dark:border-zinc-800 hover:border-indigo-500 transition-colors"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs">
-                      {p.charAt(0)}
-                    </div>
+                    <SpeakerAvatar name={p} size="sm" />
                     <span className="font-bold text-xs sm:text-sm text-gray-900 dark:text-white">
                       {p}
                     </span>
@@ -203,9 +200,7 @@ export const Talk: React.FC = () => {
                 to={`/speaker/${slugify(item.moderator)}`}
                 className="inline-flex items-center gap-2.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-amber-100 dark:border-zinc-800 hover:border-amber-500 transition-colors"
               >
-                <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-xs">
-                  {item.moderator.charAt(0)}
-                </div>
+                <SpeakerAvatar name={item.moderator} size="sm" />
                 <span className="font-extrabold text-sm text-gray-900 dark:text-white">
                   {item.moderator}
                 </span>
@@ -227,9 +222,7 @@ export const Talk: React.FC = () => {
                     to={`/speaker/${slugify(c)}`}
                     className="flex items-center gap-2.5 p-2 rounded-xl bg-white dark:bg-zinc-900 border border-sky-100 dark:border-zinc-800 hover:border-sky-500 transition-colors"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs">
-                      {c.charAt(0)}
-                    </div>
+                    <SpeakerAvatar name={c} size="sm" />
                     <span className="font-bold text-xs sm:text-sm text-gray-900 dark:text-white">
                       {c}
                     </span>

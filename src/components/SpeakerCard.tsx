@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Speaker } from '../types/programme';
 import { ChevronRight } from 'lucide-react';
 
+import { SpeakerAvatar } from './SpeakerAvatar';
+
 interface SpeakerCardProps {
   speaker: Speaker;
 }
@@ -37,9 +39,7 @@ export const SpeakerCard: React.FC<SpeakerCardProps> = ({ speaker }) => {
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-isot-burgundy/10 to-isot-gold/20 dark:from-rose-950/60 dark:to-zinc-800 border border-isot-burgundy/20 flex items-center justify-center text-isot-burgundy dark:text-rose-400 font-bold text-lg group-hover:scale-105 transition-transform shrink-0">
-            {speaker.name.charAt(0)}
-          </div>
+          <SpeakerAvatar name={speaker.name} size="md" className="group-hover:scale-105 transition-transform" />
           <div>
             <h4 className="font-bold text-base sm:text-lg text-gray-900 dark:text-white group-hover:text-isot-burgundy dark:group-hover:text-rose-400 transition-colors">
               {speaker.name}

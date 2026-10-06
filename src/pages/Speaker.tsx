@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useProgrammeStore } from '../store/programmeStore';
 import { Award, ChevronLeft, ArrowRight, ArrowLeft } from 'lucide-react';
+import { SpeakerAvatar } from '../components/SpeakerAvatar';
 
 export const Speaker: React.FC = () => {
   const { speakerId } = useParams<{ speakerId: string }>();
@@ -43,9 +44,7 @@ export const Speaker: React.FC = () => {
 
       {/* Speaker Header Card */}
       <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-zinc-800 shadow-sm flex flex-col sm:flex-row items-center sm:items-start gap-5">
-        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-isot-burgundy to-isot-deep-burgundy flex items-center justify-center text-white font-black text-3xl sm:text-4xl shadow-lg shadow-isot-burgundy/25 shrink-0">
-          {speaker.name.charAt(0)}
-        </div>
+        <SpeakerAvatar name={speaker.name} size="xl" className="shadow-lg shadow-isot-burgundy/25" />
 
         <div className="text-center sm:text-left flex-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 font-bold text-xs mb-2">
