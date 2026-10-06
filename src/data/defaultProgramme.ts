@@ -601,7 +601,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Mahesha V"
             ],
             "chairpersons": [
-              "Meenakshi Swain",
+              "Bhavna A Mehta",
               "Vaijapure Vijetha"
             ],
             "page": 7
@@ -2050,7 +2050,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "dayName": "Saturday",
             "startTime": "11:20",
             "endTime": "11:40",
-            "title": "ISOT President Oration",
+            "title": "ISOT President Oration: Genesis of an ecosystem - Instilling heartbeat in the heart of India.",
             "type": "oration",
             "venue": "Hall A",
             "speakers": [
@@ -3215,7 +3215,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             ],
             "chairpersons": [
               "Bibekananda kar",
-              "Sandeep Peddi",
+              "BNR Ramesh",
               "J J Jeeja"
             ],
             "page": 18
@@ -5041,8 +5041,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             ],
             "chairpersons": [
               "Anil Kumar",
-              "Chandini",
-              "BNR Ramesh"
+              "Chandini"
             ],
             "page": 26
           },

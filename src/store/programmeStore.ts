@@ -286,6 +286,7 @@ export const useProgrammeStore = create<ProgrammeState>()(
           // Clean up old obsolete localStorage caches if present
           try {
             localStorage.removeItem('isot2026-custom-programme');
+            localStorage.removeItem('isot2026-custom-programme-v23');
             localStorage.removeItem('isot2026-custom-programme-v22');
             localStorage.removeItem('isot2026-custom-programme-v21');
             localStorage.removeItem('isot2026-custom-programme-v19');
@@ -542,7 +543,7 @@ export const useProgrammeStore = create<ProgrammeState>()(
       },
     }),
     {
-      name: 'isot2026-custom-programme-v23',
+      name: 'isot2026-custom-programme-v23-1',
       onRehydrateStorage: () => (state) => {
         if (!state || !state.sessions || state.sessions.length === 0 || !state.sessions.some((s) => s.id === 'fri-ha-kidney')) {
           if (state) {

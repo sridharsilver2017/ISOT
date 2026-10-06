@@ -1,5 +1,5 @@
 // Cloudflare Pages Function: /api/seed
-// Endpoint to initialize or reset D1 database with official ISOT 2026 Programme V23
+// Endpoint to initialize or reset D1 database with official ISOT 2026 Programme V23-1
 
 const DEFAULT_V23_SESSIONS = [
   {
@@ -602,7 +602,7 @@ const DEFAULT_V23_SESSIONS = [
               "Mahesha V"
             ],
             "chairpersons": [
-              "Meenakshi Swain",
+              "Bhavna A Mehta",
               "Vaijapure Vijetha"
             ],
             "page": 7
@@ -2051,7 +2051,7 @@ const DEFAULT_V23_SESSIONS = [
             "dayName": "Saturday",
             "startTime": "11:20",
             "endTime": "11:40",
-            "title": "ISOT President Oration",
+            "title": "ISOT President Oration: Genesis of an ecosystem - Instilling heartbeat in the heart of India.",
             "type": "oration",
             "venue": "Hall A",
             "speakers": [
@@ -3216,7 +3216,7 @@ const DEFAULT_V23_SESSIONS = [
             ],
             "chairpersons": [
               "Bibekananda kar",
-              "Sandeep Peddi",
+              "BNR Ramesh",
               "J J Jeeja"
             ],
             "page": 18
@@ -5042,8 +5042,7 @@ const DEFAULT_V23_SESSIONS = [
             ],
             "chairpersons": [
               "Anil Kumar",
-              "Chandini",
-              "BNR Ramesh"
+              "Chandini"
             ],
             "page": 26
           },
@@ -5791,7 +5790,7 @@ export async function onRequestPost(context: { env: { DB: any } }): Promise<Resp
     return new Response(
       JSON.stringify({
         success: true,
-        message: 'Successfully seeded D1 database with ISOT 2026 Programme V23',
+        message: 'Successfully seeded D1 database with ISOT 2026 Programme V23-1',
         count: DEFAULT_V23_SESSIONS.length,
       }),
       {
