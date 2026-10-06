@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FileText, ExternalLink, ArrowRight, BookOpen, FileDown, Sparkles } from 'lucide-react';
+import { FileText, ExternalLink, ArrowRight, BookOpen, FileDown, Sparkles, FileSpreadsheet, Table } from 'lucide-react';
 import { PdfExportModal } from '../components/PdfExportModal';
+import { useProgrammeStore } from '../store/programmeStore';
+import { downloadProgrammeExcel, downloadProgrammeCsv } from '../utils/excelGenerator';
 
 export const Brochure: React.FC = () => {
   const [isPdfModalOpen, setIsPdfModalOpen] = useState<boolean>(false);
+  const { sessions } = useProgrammeStore();
 
   return (
     <div className="space-y-6 sm:space-y-8 pb-12">
@@ -12,21 +15,21 @@ export const Brochure: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight">
-            Conference Brochure & Downloads
+            Programme Downloads & Brochure
           </h1>
           <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-            Official ISOT 2026 Programme Documents & Beautiful PDF Exports
+            Export ISOT 2026 Schedule as PDF, Excel (.xlsx), CSV or View Official Brochure
           </p>
         </div>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
           <button
             type="button"
             onClick={() => setIsPdfModalOpen(true)}
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-md shadow-amber-500/25 transition-all"
           >
             <Sparkles size={16} />
-            <span>Generate Custom PDF</span>
+            <span>Export Options</span>
           </button>
 
           <Link
@@ -48,41 +51,54 @@ export const Brochure: React.FC = () => {
           </div>
           <div>
             <h2 className="text-lg sm:text-xl font-black text-gray-900 dark:text-white">
-              ISOT 2026 Official Programme Brochure (V21)
+              ISOT 2026 Official Programme Data (V21)
             </h2>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              36th Annual Conference • Indian Society of Organ Transplantation • 32 Pages Complete Catalogue
+              36th Annual Conference • Indian Society of Organ Transplantation • 19 Sessions • 276 Programme Items
             </p>
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3">
+        {/* Action Buttons Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {/* PDF Button */}
           <button
             type="button"
             onClick={() => setIsPdfModalOpen(true)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white font-bold text-xs shadow-md shadow-isot-burgundy/25 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white font-bold text-xs shadow-md shadow-isot-burgundy/25 transition-all text-center"
           >
             <FileDown size={16} />
-            <span>Download Formatted PDF Programme</span>
+            <span>Download PDF</span>
           </button>
 
-          <a
-            href="/ISOT-2026-Brochure-V21.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-800 dark:text-gray-200 font-bold text-xs border border-gray-200 dark:border-zinc-700 transition-all"
+          {/* Excel Button */}
+          <button
+            type="button"
+            onClick={() => downloadProgrammeExcel(sessions, { scope: 'all' })}
+            className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/25 transition-all text-center"
           >
-            <FileText size={16} />
-            <span>Open V21 Brochure PDF</span>
-            <ExternalLink size={14} />
-          </a>
+            <FileSpreadsheet size={16} />
+            <span>Download Excel (.xlsx)</span>
+          </button>
 
+          {/* CSV Button */}
+          <button
+            type="button"
+            onClick={() => downloadProgrammeCsv(sessions, { scope: 'all' })}
+            className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-md shadow-sky-600/25 transition-all text-center"
+          >
+            <Table size={16} />
+            <span>Download CSV (.csv)</span>
+          </button>
+
+          {/* Original Brochure PDF */}
           <a
             href="/ISOT-2026-Brochure-V21.pdf"
             download="ISOT-2026-Brochure-V21.pdf"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-800 dark:text-gray-200 font-bold text-xs border border-gray-200 dark:border-zinc-700 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-800 dark:text-gray-200 font-bold text-xs border border-gray-200 dark:border-zinc-700 transition-all text-center"
           >
-            <span>Direct Download Original PDF (V21)</span>
+            <FileText size={16} />
+            <span>Brochure PDF (V21)</span>
           </a>
         </div>
 

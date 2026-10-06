@@ -14,7 +14,9 @@ import {
 import { useProgrammeStore } from '../store/programmeStore';
 import { useScheduleStore } from '../store/scheduleStore';
 import { generateProgrammePdf } from '../utils/pdfGenerator';
+import { downloadProgrammeExcel, downloadProgrammeCsv } from '../utils/excelGenerator';
 import { CONFERENCE_DAYS } from '../data/event';
+import { FileSpreadsheet, Table } from 'lucide-react';
 
 const CONFERENCE_HALLS: string[] = [
   'Hall A',
@@ -62,6 +64,24 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const handleDownloadExcel = () => {
+    downloadProgrammeExcel(sessions, {
+      scope,
+      selectedDate,
+      selectedHall,
+      savedItemIds: savedItems.map((item) => item.id),
+    });
+  };
+
+  const handleDownloadCsv = () => {
+    downloadProgrammeCsv(sessions, {
+      scope,
+      selectedDate,
+      selectedHall,
+      savedItemIds: savedItems.map((item) => item.id),
+    });
   };
 
   const handlePrint = () => {
@@ -259,16 +279,65 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
             </select>
           </div>
 
+          {/* Excel & CSV Export Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Excel Download Option */}
+            <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 flex flex-col justify-between gap-3">
+              <div className="flex items-start gap-2.5">
+                <FileSpreadsheet className="text-emerald-700 dark:text-emerald-400 shrink-0 mt-0.5" size={18} />
+                <div>
+                  <p className="text-xs font-bold text-emerald-950 dark:text-emerald-200">
+                    Microsoft Excel (.xlsx)
+                  </p>
+                  <p className="text-[10px] text-emerald-700 dark:text-emerald-400 leading-tight">
+                    Multi-tab workbook with Day sheets & Faculty Directory
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={handleDownloadExcel}
+                className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold shadow-sm transition-all"
+              >
+                <FileSpreadsheet size={13} />
+                <span>Download Excel (.xlsx)</span>
+              </button>
+            </div>
+
+            {/* CSV Download Option */}
+            <div className="p-3.5 rounded-2xl bg-sky-50 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-900/50 flex flex-col justify-between gap-3">
+              <div className="flex items-start gap-2.5">
+                <Table className="text-sky-700 dark:text-sky-400 shrink-0 mt-0.5" size={18} />
+                <div>
+                  <p className="text-xs font-bold text-sky-950 dark:text-sky-200">
+                    CSV Spreadsheet (.csv)
+                  </p>
+                  <p className="text-[10px] text-sky-700 dark:text-sky-400 leading-tight">
+                    Clean UTF-8 format for Google Sheets & data analysis
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={handleDownloadCsv}
+                className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-[11px] font-bold shadow-sm transition-all"
+              >
+                <Table size={13} />
+                <span>Download CSV (.csv)</span>
+              </button>
+            </div>
+          </div>
+
           {/* Direct Download Official Brochure Option */}
-          <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 flex items-center justify-between gap-3">
+          <div className="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <FileText className="text-amber-700 dark:text-amber-400 shrink-0" size={20} />
+              <FileText className="text-amber-700 dark:text-amber-400 shrink-0" size={18} />
               <div>
-                <p className="text-xs font-bold text-amber-900 dark:text-amber-200">
+                <p className="text-xs font-bold text-amber-950 dark:text-amber-200">
                   Official 32-Page Brochure (V21 PDF)
                 </p>
                 <p className="text-[10px] text-amber-700 dark:text-amber-400">
-                  Direct official high-res catalogue file
+                  Original high-res conference catalogue document
                 </p>
               </div>
             </div>
@@ -277,45 +346,45 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
               download="ISOT-2026-Brochure-V21.pdf"
               className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold shadow-sm whitespace-nowrap"
             >
-              Download PDF
+              Brochure PDF
             </a>
           </div>
         </div>
 
         {/* Footer Actions */}
-        <div className="p-6 bg-gray-50 dark:bg-zinc-800/60 border-t border-gray-200/80 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="p-5 bg-gray-50 dark:bg-zinc-800/60 border-t border-gray-200/80 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-2.5">
           <button
             type="button"
             onClick={handlePrint}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-700 dark:text-gray-300 text-xs font-bold transition-all"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-700 dark:text-gray-300 text-xs font-bold transition-all"
           >
-            <Printer size={15} />
+            <Printer size={14} />
             <span>Print View</span>
           </button>
 
-          <div className="w-full sm:w-auto flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="w-1/2 sm:w-auto px-4 py-2.5 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+              className="px-3 py-2 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             >
-              Cancel
+              Close
             </button>
 
             <button
               type="button"
               disabled={isGenerating}
               onClick={handleGeneratePdf}
-              className="w-1/2 sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-isot-burgundy hover:bg-isot-deep-burgundy disabled:opacity-50 text-white text-xs font-bold shadow-md shadow-isot-burgundy/25 transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-isot-burgundy hover:bg-isot-deep-burgundy disabled:opacity-50 text-white text-xs font-bold shadow-md shadow-isot-burgundy/25 transition-all"
             >
               {isGenerating ? (
                 <>
-                  <Loader2 size={15} className="animate-spin" />
-                  <span>Generating...</span>
+                  <Loader2 size={14} className="animate-spin" />
+                  <span>Generating PDF...</span>
                 </>
               ) : (
                 <>
-                  <Sparkles size={15} className="text-amber-300" />
+                  <Sparkles size={14} className="text-amber-300" />
                   <span>Download Styled PDF</span>
                 </>
               )}

@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useScheduleStore, SavedItem } from '../store/scheduleStore';
 import { CONFERENCE_DAYS } from '../data/event';
-import { Bookmark, Calendar, Clock, Trash2, ChevronRight, Mic, ArrowRight, Download, FileDown } from 'lucide-react';
+import { Bookmark, Calendar, Clock, Trash2, ChevronRight, Mic, ArrowRight, Download, FileDown, FileSpreadsheet, Table } from 'lucide-react';
 import { timeToMinutes } from '../utils/timeUtils';
 import { PdfExportModal } from '../components/PdfExportModal';
+import { useProgrammeStore } from '../store/programmeStore';
+import { downloadProgrammeExcel, downloadProgrammeCsv } from '../utils/excelGenerator';
 
 export const MySchedule: React.FC = () => {
   const { savedItems, removeSavedItem, clearSchedule } = useScheduleStore();
+  const { sessions } = useProgrammeStore();
   const [selectedDayFilter, setSelectedDayFilter] = useState<string>('all');
   const [isPdfModalOpen, setIsPdfModalOpen] = useState<boolean>(false);
 
@@ -53,6 +56,20 @@ export const MySchedule: React.FC = () => {
     document.body.removeChild(link);
   };
 
+  const handleExportExcel = () => {
+    downloadProgrammeExcel(sessions, {
+      scope: 'saved',
+      savedItemIds: savedItems.map((i) => i.id),
+    });
+  };
+
+  const handleExportCsv = () => {
+    downloadProgrammeCsv(sessions, {
+      scope: 'saved',
+      savedItemIds: savedItems.map((i) => i.id),
+    });
+  };
+
   return (
     <div className="space-y-6 pb-12">
       {/* Header */}
@@ -72,15 +89,35 @@ export const MySchedule: React.FC = () => {
         </div>
 
         {savedItems.length > 0 && (
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={() => setIsPdfModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white text-xs font-bold shadow-md shadow-isot-burgundy/25 transition-all"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white text-xs font-bold shadow-md shadow-isot-burgundy/25 transition-all"
               title="Download Personalized PDF Itinerary"
             >
               <FileDown size={14} />
-              <span>Download PDF</span>
+              <span>PDF</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleExportExcel}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition-all"
+              title="Download Excel Spreadsheet (.xlsx)"
+            >
+              <FileSpreadsheet size={14} />
+              <span>Excel</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleExportCsv}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold shadow-sm transition-all"
+              title="Download CSV (.csv)"
+            >
+              <Table size={14} />
+              <span>CSV</span>
             </button>
 
             <button
@@ -103,7 +140,7 @@ export const MySchedule: React.FC = () => {
               className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-xs font-bold transition-all"
             >
               <Trash2 size={14} />
-              <span>Clear All</span>
+              <span>Clear</span>
             </button>
           </div>
         )}
