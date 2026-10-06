@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { HALLS } from '../data/halls';
 import { useParams, useNavigate } from 'react-router-dom';
 import { CONFERENCE_DAYS } from '../data/event';
 import { useProgrammeStore } from '../store/programmeStore';
@@ -44,12 +45,47 @@ export const Programme: React.FC = () => {
   const [displayMode, setDisplayMode] = useState<'sessions' | 'talks'>('sessions');
 
   // Filter sessions by active date
-  const daySessions = sessions.filter((s) => s.date === activeDate);
+  const daySessions = useMemo(() => {
+    return sessions.filter((s) => s.date === activeDate);
+  }, [sessions, activeDate]);
+
+  // Compute available halls that actually have at least 1 session on this day
+  const availableHalls = useMemo(() => {
+    const hallNamesWithSessions = new Set<string>();
+    daySessions.forEach((s) => {
+      if (s.venue) {
+        hallNamesWithSessions.add(s.venue.trim());
+      }
+    });
+
+    return HALLS.filter((h) =>
+      hallNamesWithSessions.has(h.name) ||
+      Array.from(hallNamesWithSessions).some(
+        (v) => v.toLowerCase().includes(h.name.toLowerCase()) || h.name.toLowerCase().includes(v.toLowerCase())
+      )
+    );
+  }, [daySessions]);
+
+  // If selected hall has 0 sessions on this newly selected day, auto-reset to 'All Halls'
+  useEffect(() => {
+    if (selectedHall !== 'All Halls') {
+      const isHallAvailable = availableHalls.some(
+        (h) =>
+          h.name.toLowerCase().includes(selectedHall.toLowerCase()) ||
+          selectedHall.toLowerCase().includes(h.name.toLowerCase())
+      );
+      if (!isHallAvailable) {
+        setSelectedHall('All Halls');
+      }
+    }
+  }, [activeDate, availableHalls, selectedHall]);
 
   // Extract all tracks for active date
-  const dayTracks = Array.from(
-    new Set(daySessions.map((s) => s.track).filter(Boolean))
-  ) as string[];
+  const dayTracks = useMemo(() => {
+    return Array.from(
+      new Set(daySessions.map((s) => s.track).filter(Boolean))
+    ) as string[];
+  }, [daySessions]);
 
   // Filter sessions based on criteria
   const filteredSessions = daySessions.filter((session) => {
@@ -185,6 +221,7 @@ export const Programme: React.FC = () => {
       <FilterBar
         selectedHall={selectedHall}
         onSelectHall={setSelectedHall}
+        availableHalls={availableHalls}
         selectedTrack={selectedTrack}
         onSelectTrack={setSelectedTrack}
         tracks={dayTracks}

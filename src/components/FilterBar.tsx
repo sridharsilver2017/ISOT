@@ -5,6 +5,7 @@ import { HALLS } from '../data/halls';
 interface FilterBarProps {
   selectedHall: string;
   onSelectHall: (hallName: string) => void;
+  availableHalls?: Array<{ id: string; name: string; shortName: string; count?: number }>;
   selectedTrack?: string;
   onSelectTrack?: (track: string) => void;
   tracks?: string[];
@@ -20,6 +21,7 @@ interface FilterBarProps {
 export const FilterBar: React.FC<FilterBarProps> = ({
   selectedHall,
   onSelectHall,
+  availableHalls,
   selectedTrack,
   onSelectTrack,
   tracks = [],
@@ -31,9 +33,11 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onToggleViewMode,
   totalResultsCount,
 }) => {
+  const activeHalls = availableHalls !== undefined ? availableHalls : HALLS;
+
   const hallOptions = [
     { name: 'All Halls', short: 'All Halls' },
-    ...HALLS.map((h) => ({ name: h.name, short: h.shortName })),
+    ...activeHalls.map((h) => ({ name: h.name, short: h.shortName })),
   ];
 
   return (
@@ -109,36 +113,38 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         </div>
       </div>
 
-      {/* Hall Filter Horizontal Scrollable Pills */}
-      <div>
-        <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5 px-0.5 flex items-center justify-between">
-          <span>Filter by Hall</span>
-          {totalResultsCount !== undefined && (
-            <span className="text-isot-burgundy dark:text-rose-400 font-semibold lowercase">
-              {totalResultsCount} items found
-            </span>
-          )}
+      {/* Hall Filter Horizontal Scrollable Pills (Only shown if active halls exist) */}
+      {activeHalls.length > 0 && (
+        <div>
+          <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5 px-0.5 flex items-center justify-between">
+            <span>Filter by Hall</span>
+            {totalResultsCount !== undefined && (
+              <span className="text-isot-burgundy dark:text-rose-400 font-semibold lowercase">
+                {totalResultsCount} items found
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            {hallOptions.map((h) => {
+              const isSelected = selectedHall === h.name;
+              return (
+                <button
+                  key={h.name}
+                  type="button"
+                  onClick={() => onSelectHall(h.name)}
+                  className={`whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-semibold transition-all shrink-0 ${
+                    isSelected
+                      ? 'bg-isot-burgundy text-white shadow-sm shadow-isot-burgundy/25 scale-[1.02]'
+                      : 'bg-gray-100 hover:bg-gray-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-gray-700 dark:text-gray-300'
+                  }`}
+                >
+                  {h.name}
+                </button>
+              );
+            })}
+          </div>
         </div>
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-          {hallOptions.map((h) => {
-            const isSelected = selectedHall === h.name;
-            return (
-              <button
-                key={h.name}
-                type="button"
-                onClick={() => onSelectHall(h.name)}
-                className={`whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-semibold transition-all shrink-0 ${
-                  isSelected
-                    ? 'bg-isot-burgundy text-white shadow-sm shadow-isot-burgundy/25 scale-[1.02]'
-                    : 'bg-gray-100 hover:bg-gray-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-gray-700 dark:text-gray-300'
-                }`}
-              >
-                {h.name}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      )}
 
       {/* Track filters (if available) */}
       {tracks.length > 0 && onSelectTrack && (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   FileDown,
   X,
@@ -46,6 +46,23 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
   const [selectedDate, setSelectedDate] = useState<string>(defaultDate);
   const [selectedHall, setSelectedHall] = useState<string>('All Halls');
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
+
+  // Filter halls to only those that have sessions for the selected scope and date
+  const availableHalls = useMemo(() => {
+    const relevantSessions = scope === 'day'
+      ? sessions.filter((s) => s.date === selectedDate)
+      : sessions;
+    const venues = new Set(relevantSessions.map((s) => s.venue?.trim()).filter(Boolean));
+    return CONFERENCE_HALLS.filter((h) =>
+      venues.has(h) || Array.from(venues).some((v) => v.toLowerCase().includes(h.toLowerCase()) || h.toLowerCase().includes(v.toLowerCase()))
+    );
+  }, [sessions, scope, selectedDate]);
+
+  useEffect(() => {
+    if (selectedHall !== 'All Halls' && !availableHalls.includes(selectedHall)) {
+      setSelectedHall('All Halls');
+    }
+  }, [availableHalls, selectedHall]);
 
   if (!isOpen) return null;
 
@@ -269,7 +286,7 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
               className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-800 text-xs font-medium text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-isot-burgundy/40"
             >
               <option value="All Halls">All Halls (Complete Coverage)</option>
-              {CONFERENCE_HALLS.map((h) => (
+              {availableHalls.map((h) => (
                 <option key={h} value={h}>
                   {h}
                 </option>
