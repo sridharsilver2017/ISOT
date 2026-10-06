@@ -175,7 +175,7 @@ export const Programme: React.FC = () => {
     CONFERENCE_DAYS.find((d) => d.date === activeDate) || CONFERENCE_DAYS[0];
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-4 sm:space-y-6 pb-12 w-full max-w-full overflow-x-hidden">
       {/* Header Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
@@ -188,7 +188,7 @@ export const Programme: React.FC = () => {
         </div>
 
         {/* Action controls: Mode switcher & PDF Export */}
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto w-full sm:w-auto">
           <button
             type="button"
             onClick={() => setIsPdfModalOpen(true)}
@@ -253,7 +253,7 @@ export const Programme: React.FC = () => {
       ) : displayMode === 'sessions' ? (
         /* Sessions Card Grid */
         filteredSessions.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-full overflow-hidden">
             {filteredSessions.map((session) => (
               <SessionCard key={session.id} session={session} />
             ))}
@@ -284,7 +284,7 @@ export const Programme: React.FC = () => {
       ) : (
         /* Individual Talks View */
         allFilteredItems.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-full overflow-hidden">
             {allFilteredItems.map((item) => (
               <TalkCard key={item.id} item={item} showSessionContext />
             ))}

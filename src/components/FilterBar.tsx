@@ -41,10 +41,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   ];
 
   return (
-    <div className="w-full space-y-3 bg-white dark:bg-zinc-900/90 p-4 rounded-3xl border border-gray-200/80 dark:border-zinc-800/80 shadow-sm">
+    <div className="w-full max-w-full space-y-3 bg-white dark:bg-zinc-900/90 p-3.5 sm:p-4 rounded-3xl border border-gray-200/80 dark:border-zinc-800/80 shadow-sm overflow-hidden">
       {/* Search Input and View Switcher Row */}
-      <div className="flex items-center gap-2">
-        <div className="relative flex-1">
+      <div className="flex items-center gap-2 w-full max-w-full min-w-0">
+        <div className="relative flex-1 min-w-0">
           <Search
             size={18}
             className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"
@@ -83,7 +83,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         </button>
 
         {/* View Mode Toggle: Cards vs Timeline */}
-        <div className="flex items-center bg-gray-100 dark:bg-zinc-800 p-1 rounded-xl border border-gray-200 dark:border-zinc-700">
+        <div className="flex items-center bg-gray-100 dark:bg-zinc-800 p-1 rounded-xl border border-gray-200 dark:border-zinc-700 shrink-0">
           <button
             type="button"
             onClick={() => onToggleViewMode('cards')}
@@ -124,7 +124,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               </span>
             )}
           </div>
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 w-full max-w-full">
             {hallOptions.map((h) => {
               const isSelected = selectedHall === h.name;
               return (

@@ -34,7 +34,7 @@ export const TalkCard: React.FC<TalkCardProps> = ({ item, showSessionContext = f
   };
 
   return (
-    <div className="group bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-gray-200/80 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-isot-burgundy/30 dark:hover:border-rose-900/40 transition-all duration-200 relative flex flex-col justify-between">
+    <div className="group bg-white dark:bg-zinc-900 rounded-3xl p-4 sm:p-5 border border-gray-200/80 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-isot-burgundy/30 dark:hover:border-rose-900/40 transition-all duration-200 relative flex flex-col justify-between w-full max-w-full overflow-hidden break-words">
       <div>
         {/* Top Badges */}
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3">

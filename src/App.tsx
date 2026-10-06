@@ -50,12 +50,12 @@ export const App: React.FC = () => {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen bg-isot-bg dark:bg-isot-bg-dark text-isot-dark dark:text-gray-100 flex flex-col font-sans transition-colors">
+      <div className="min-h-screen bg-isot-bg dark:bg-isot-bg-dark text-isot-dark dark:text-gray-100 flex flex-col font-sans transition-colors w-full max-w-full overflow-x-hidden">
         {/* Desktop Top Header */}
         <AppHeader />
 
         {/* Main Content Area */}
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-28 md:pb-12">
+        <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 pt-4 pb-28 md:pb-12 overflow-x-hidden">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/programme" element={<Programme />} />
