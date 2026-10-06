@@ -50,9 +50,6 @@ export const AppHeader: React.FC = () => {
                   Hyderabad
                 </span>
               </div>
-              <p className="hidden sm:block text-[11px] text-gray-500 dark:text-gray-400 font-medium line-clamp-1">
-                36th Annual Conference • Indian Society of Organ Transplantation
-              </p>
             </div>
           </Link>
 
