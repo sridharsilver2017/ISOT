@@ -12,14 +12,36 @@ function apiDevPlugin() {
           res.end(JSON.stringify({ images: {}, success: true }));
           return;
         }
-        if (req.url === '/api/auth/login') {
-          res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({ token: 'dev-token', user: { id: 'admin', username: 'admin', name: 'Admin', role: 'admin' } }));
+        if (req.url === '/api/auth/login' && req.method === 'POST') {
+          let body = '';
+          req.on('data', (chunk: any) => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const data = JSON.parse(body || '{}');
+              const pwd = data.password || '';
+              if (pwd === 'srd4usSR@78' || pwd === 'admin123' || pwd === 'isot2026') {
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({
+                  token: 'dev-token',
+                  success: true,
+                  user: { id: 'admin-1', username: 'admin', name: 'ISOT Admin', role: 'super_admin' }
+                }));
+                return;
+              }
+              res.statusCode = 401;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ error: 'Invalid password. Access denied.' }));
+            } catch {
+              res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ error: 'Bad request' }));
+            }
+          });
           return;
         }
         if (req.url === '/api/auth/me') {
           res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({ user: { id: 'admin', username: 'admin', name: 'Admin', role: 'admin' } }));
+          res.end(JSON.stringify({ user: { id: 'admin-1', username: 'admin', name: 'ISOT Admin', role: 'super_admin' } }));
           return;
         }
         if (req.url === '/api/programme' && req.method === 'GET') {
@@ -82,40 +104,6 @@ export default defineConfig({
           },
         ],
       },
-      workbox: {
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2}'],
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
-              },
-              cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
-          },
-          {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'gstatic-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
-              },
-              cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
-          }
-        ]
-      }
     }),
   ],
 });
