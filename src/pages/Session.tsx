@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useProgrammeStore } from '../store/programmeStore';
-import { Clock, MapPin, User, ChevronLeft, Bookmark, Share2, Layers, Calendar, ArrowLeft, Edit2 } from 'lucide-react';
+import { Clock, MapPin, User, ChevronLeft, Bookmark, Share2, Layers, Calendar, ArrowLeft } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
 import { TalkCard } from '../components/TalkCard';
 import { getSessionItems } from '../types/programme';
@@ -53,7 +53,7 @@ export const Session: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-12">
-      {/* Back Button & Admin Shortcut */}
+      {/* Back Button */}
       <div className="flex items-center justify-between">
         <button
           type="button"
@@ -63,14 +63,6 @@ export const Session: React.FC = () => {
           <ChevronLeft size={16} />
           <span>Back</span>
         </button>
-
-        <Link
-          to="/admin"
-          className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 hover:text-isot-burgundy text-xs font-bold transition-colors"
-        >
-          <Edit2 size={13} />
-          <span>Edit in Admin</span>
-        </Link>
       </div>
 
       {/* Main Header Card */}

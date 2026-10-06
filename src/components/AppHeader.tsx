@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Moon, Sun, Search, Calendar, Users, MapPin, Bookmark, FileText, Info, WifiOff, ShieldCheck } from 'lucide-react';
+import { Moon, Sun, Search, Calendar, Users, MapPin, Bookmark, FileText, Info, WifiOff } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
 
 export const AppHeader: React.FC = () => {
@@ -29,7 +29,6 @@ export const AppHeader: React.FC = () => {
     { name: 'Venue', path: '/venue', icon: MapPin },
     { name: 'Brochure', path: '/brochure', icon: FileText },
     { name: 'About', path: '/about', icon: Info },
-    { name: 'Admin', path: '/admin', icon: ShieldCheck },
   ];
 
   return (

@@ -19,7 +19,6 @@ import { Venue } from './pages/Venue';
 import { About } from './pages/About';
 import { Settings } from './pages/Settings';
 import { Brochure } from './pages/Brochure';
-import { Admin } from './pages/Admin';
 
 // Scroll to top helper on route change
 function ScrollToTop() {
@@ -71,7 +70,6 @@ export const App: React.FC = () => {
             <Route path="/about" element={<About />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/brochure" element={<Brochure />} />
-            <Route path="/admin" element={<Admin />} />
             {/* Fallback route */}
             <Route path="*" element={<Home />} />
           </Routes>

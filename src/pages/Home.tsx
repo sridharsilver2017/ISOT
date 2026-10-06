@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Users, Bookmark, MapPin, Sparkles, ArrowRight, Award, ChevronRight, Settings as SettingsIcon } from 'lucide-react';
+import { Calendar, Users, Bookmark, MapPin, Sparkles, ArrowRight, Award, ChevronRight } from 'lucide-react';
 import { EVENT_DETAILS, CONFERENCE_DAYS } from '../data/event';
 import { useProgrammeStore } from '../store/programmeStore';
 import { useScheduleStore } from '../store/scheduleStore';
@@ -64,10 +64,10 @@ export const Home: React.FC = () => {
       badge: savedItems.length > 0 ? savedItems.length : undefined,
     },
     {
-      title: 'Admin CMS',
-      subtitle: 'Edit Topics, Dates & Halls',
-      icon: SettingsIcon,
-      link: '/admin',
+      title: 'ISOT Council & About',
+      subtitle: 'Committee, Venue & Secretariat',
+      icon: Users,
+      link: '/about',
       bg: 'from-purple-500/10 to-purple-600/20 dark:from-purple-950/40 dark:to-zinc-800',
       iconColor: 'text-purple-600 dark:text-purple-400',
     },

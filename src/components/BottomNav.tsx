@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Home, Calendar, Bookmark, Search, MoreHorizontal, MapPin, FileText, Info, Settings as SettingsIcon, ShieldCheck, X } from 'lucide-react';
+import { Home, Calendar, Bookmark, Search, MoreHorizontal, MapPin, FileText, Info, Settings as SettingsIcon, X } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
 
 export const BottomNav: React.FC = () => {
@@ -21,7 +21,6 @@ export const BottomNav: React.FC = () => {
   ];
 
   const moreItems = [
-    { name: 'Admin CMS', path: '/admin', icon: ShieldCheck, desc: 'Edit topics, sessions, times & faculty' },
     { name: 'Venue & Halls', path: '/venue', icon: MapPin, desc: 'HITEX Hyderabad & Hall Guides' },
     { name: 'Speakers', path: '/speakers', icon: Calendar, desc: 'Full Faculty Directory & Search' },
     { name: 'ISOT Council & About', path: '/about', icon: Info, desc: 'Committee, Organisers, Secretariat' },
@@ -29,7 +28,7 @@ export const BottomNav: React.FC = () => {
     { name: 'Settings & Tools', path: '/settings', icon: SettingsIcon, desc: 'Theme, Day Simulator, Offline Mode' },
   ];
 
-  const isMoreActive = ['/admin', '/venue', '/speakers', '/about', '/brochure', '/settings'].some((p) =>
+  const isMoreActive = ['/venue', '/speakers', '/about', '/brochure', '/settings'].some((p) =>
     location.pathname.startsWith(p)
   );
 
