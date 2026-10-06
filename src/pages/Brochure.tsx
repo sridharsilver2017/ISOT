@@ -51,7 +51,7 @@ export const Brochure: React.FC = () => {
           </div>
           <div>
             <h2 className="text-lg sm:text-xl font-black text-gray-900 dark:text-white">
-              ISOT 2026 Official Programme Data (V22)
+              ISOT 2026 Official Programme Data (V23)
             </h2>
             <p className="text-xs text-gray-500 dark:text-gray-400">
               36th Annual Conference • Indian Society of Organ Transplantation • 19 Sessions • 276 Programme Items
@@ -93,12 +93,12 @@ export const Brochure: React.FC = () => {
 
           {/* Original Brochure PDF */}
           <a
-            href="/ISOT-2026-Brochure-V22.pdf"
-            download="ISOT-2026-Brochure-V22.pdf"
+            href="/ISOT-2026-Brochure-V23.pdf"
+            download="ISOT-2026-Brochure-V23.pdf"
             className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-800 dark:text-gray-200 font-bold text-xs border border-gray-200 dark:border-zinc-700 transition-all text-center"
           >
             <FileText size={16} />
-            <span>Brochure PDF (V22)</span>
+            <span>Brochure PDF (V23)</span>
           </a>
         </div>
 

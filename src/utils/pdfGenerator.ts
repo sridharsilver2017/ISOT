@@ -95,7 +95,7 @@ export const generateProgrammePdf = async (
       doc.setFontSize(9);
       doc.setTextColor(245, 230, 211);
       doc.text('36th Annual Conference of Indian Society of Organ Transplantation', margin, 21);
-      doc.text('09 – 11 October 2026 • HITEX Exhibition Centre, Hyderabad • Official V22 Schedule', margin, 27);
+      doc.text('09 – 11 October 2026 • HITEX Exhibition Centre, Hyderabad • Official V23 Schedule', margin, 27);
 
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8.5);
@@ -111,7 +111,7 @@ export const generateProgrammePdf = async (
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(10);
       doc.setTextColor(255, 255, 255);
-      doc.text('ISOT 2026 • Scientific Programme (V22 Official)', margin, 12);
+      doc.text('ISOT 2026 • Scientific Programme (V23 Official)', margin, 12);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
@@ -283,7 +283,7 @@ export const generateProgrammePdf = async (
     doc.setFontSize(7.5);
     doc.setTextColor(100, 116, 139);
     doc.text(
-      'ISOT 2026 Conference App • Official V22 Brochure Programme • www.isot2026.com',
+      'ISOT 2026 Conference App • Official V23 Brochure Programme • www.isot2026.com',
       margin,
       pageHeight - 4
     );

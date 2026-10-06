@@ -1,8 +1,3 @@
-// ISOT 2026 Scientific Programme Baseline Data (Official Brochure V22)
-// Source of truth: ISOT 2026 Brochure-V22.pdf (32 pages)
-// Generated on: 2026-10-06
-// Total Sessions: 19
-
 import { Session } from '../types/programme';
 
 export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
@@ -143,7 +138,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "dayName": "Friday",
             "startTime": "10:40",
             "endTime": "11:00",
-            "title": "Panel Discussion on ISOT Delphi consensus: Obesity in Organ Transplantation \u2014 Should We Restrict, Optimise or Individualise Transplant Access?",
+            "title": "Panel Discussion on ISOT Delphi consensus: Obesity in Organ Transplantation — Should We Restrict, Optimise or Individualise Transplant Access?",
             "type": "panel",
             "venue": "Hall A",
             "panelists": [
@@ -199,7 +194,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "dayName": "Friday",
             "startTime": "14:00",
             "endTime": "14:20",
-            "title": "A New Horizon In nsMRA Therapy: Unlocking Esaxerenone\u2019s Potential",
+            "title": "A New Horizon In nsMRA Therapy: Unlocking Esaxerenone’s Potential",
             "type": "talk",
             "venue": "Hall A",
             "speakers": [
@@ -322,7 +317,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "dayName": "Friday",
             "startTime": "16:05",
             "endTime": "16:40",
-            "title": "The Doctor\u2019s Survival Guide- By Dr Homo Sapiens",
+            "title": "The Doctor’s Survival Guide- By Dr Homo Sapiens",
             "type": "talk",
             "venue": "Hall A",
             "speakers": [
@@ -412,7 +407,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "title": "Transplant Pathology",
     "startTime": "09:00",
     "endTime": "18:00",
-    "venue": "Hall B \u2013 Screen 1",
+    "venue": "Hall B – Screen 1",
     "sessionInCharge": [
       "Vrushali Deshpande",
       "Radhika Krishna Patil"
@@ -434,7 +429,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:00",
             "title": "Registration",
             "type": "registration",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "page": 6
           },
           {
@@ -447,7 +442,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:20",
             "title": "Navigating Liver Allograft Injury: Early to Late",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Archana Rastogi"
             ],
@@ -468,7 +463,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:45",
             "title": "Decoding Allograft Injury: Non-Invasive Diagnostics and Molecular Pathology",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Ritambara Nada"
             ],
@@ -489,7 +484,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:10",
             "title": "Banff Updates in Renal Allograft Biopsy",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Vrushali Deshpande"
             ],
@@ -509,7 +504,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:35",
             "title": "The Silent Smoldering Attack -Chronic Active ABMR and TCMR",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Swarnalata Gowrishankar"
             ],
@@ -529,7 +524,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:00",
             "title": "Viral Infections in the Renal Allograft",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Bhavna A Mehta"
             ],
@@ -549,7 +544,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "13:00",
             "title": "Inaugural Ceremony",
             "type": "ceremony",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "page": 6
           },
           {
@@ -562,7 +557,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "page": 6
           }
         ]
@@ -581,7 +576,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:20",
             "title": "Role of AI and digital pathology in renal allograft biopsy",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Pallav Gupta"
             ],
@@ -601,7 +596,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:45",
             "title": "Post transplant TMA- An Algorithmic Approach",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Mahesha V"
             ],
@@ -621,7 +616,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:10",
             "title": "Unmasking C4d-Negative ABMR and MVI",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Geetika Singh"
             ],
@@ -641,7 +636,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:35",
             "title": "Optimizing Kidney Allocation: Overlooked and Undervalued Donor biopsies",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Anila Abraham"
             ],
@@ -661,7 +656,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:05",
             "title": "Protocol Biopsies in Renal Transplantation: Discovering Subclinical Rejection-Risk vs Reward",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Kamal Kanodia"
             ],
@@ -681,7 +676,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:20",
             "title": "Tea Break",
             "type": "break",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "page": 7
           },
           {
@@ -694,7 +689,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:40",
             "title": "Role of Electron Microscopy in Renal Transplant Pathology",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Alok Sharma"
             ],
@@ -714,7 +709,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:05",
             "title": "Recurrent and De Novo Glomerular diseases in Renal Allografts",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Vinita Agrawal"
             ],
@@ -734,7 +729,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:30",
             "title": "Navigating Interstitial Infiltrates in Renal Allograft Biopsies: Case based approch",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "BH Srinivas"
             ],
@@ -754,7 +749,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:55",
             "title": "Fungal infections in a renal allograft",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Seethalakshmy N V"
             ],
@@ -777,7 +772,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "title": "ISOT - ISCCM",
     "startTime": "09:00",
     "endTime": "18:00",
-    "venue": "Hall B \u2013 Screen 2",
+    "venue": "Hall B – Screen 2",
     "sessionInCharge": [
       "Jigar Shrimali",
       "Mayur Patil",
@@ -800,7 +795,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:00",
             "title": "Registration",
             "type": "registration",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 8
           },
           {
@@ -813,7 +808,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:20",
             "title": "Nutrition and Metabolic ICU Care in Solid Organ Transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Yash Javeri"
             ],
@@ -834,7 +829,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:45",
             "title": "Expanding the Donor Pool: ICU Strategies for Marginal and Extended-Criteria Donors",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Kulwant Singh"
             ],
@@ -855,7 +850,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:10",
             "title": "Transplant Recipient in Septic Shock: When Should Immunosuppression Be Reduced or Escalated?",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Akash Deep Suri"
             ],
@@ -876,7 +871,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:35",
             "title": "Machine Perfusion of ECD Organs (Kidney and Liver) , why it is not becoming popular in India?",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Tapas Kumar Sahoo"
             ],
@@ -897,7 +892,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:00",
             "title": "Role of Newer Filters in Sepsis in Transplant candidates",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Pinaki Mukhopadhyay"
             ],
@@ -918,7 +913,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "13:00",
             "title": "Inaugural Ceremony",
             "type": "ceremony",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 8
           },
           {
@@ -931,7 +926,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 8
           }
         ]
@@ -950,7 +945,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:20",
             "title": "Sepsis in the Immunosuppressed Transplant Recipient: ICU Dilemmas and Solutions",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Biswabikash Mohanty"
             ],
@@ -971,7 +966,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:45",
             "title": "Fluid Management in Transplant Critical Care: Liberal, Restrictive or Personalized?",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Jitendra Goswami"
             ],
@@ -992,7 +987,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:10",
             "title": "Acute Liver Failure and Emergency Transplantation: Critical Care Decision-Making",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Vignesh Chandrasekharan"
             ],
@@ -1013,7 +1008,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:35",
             "title": "Infection control Practice in transplant ICU",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Ghanshyam Jagathkar"
             ],
@@ -1034,7 +1029,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:05",
             "title": "The First 72 Hours After Transplant: ICU Pearls That Change Outcomes",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Bharat Jagiasi"
             ],
@@ -1055,7 +1050,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:20",
             "title": "Tea Break",
             "type": "break",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 8
           },
           {
@@ -1068,7 +1063,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:40",
             "title": "Hemodynamic Monitoring in Post-Transplant ICU Patients: How Much Is Too Much?",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Deepak Swarna"
             ],
@@ -1089,7 +1084,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:05",
             "title": "ECMO to Organ Donation: Ethical and Clinical Considerations",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Ramesh"
             ],
@@ -1110,7 +1105,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:30",
             "title": "CRRT in Solid Organ Transplantation: Timing, Modality and Outcomes",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Monalisa Mishra"
             ],
@@ -1131,7 +1126,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:55",
             "title": "Drug Drug Interaction in post transplant Scenario in ICU settings",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Pragya Pant"
             ],
@@ -1153,7 +1148,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "20:00",
             "title": "GBM for ISOT members only",
             "type": "gbm",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 9
           },
           {
@@ -1182,7 +1177,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "title": "ISOT - BTS Transplant Immunology",
     "startTime": "09:00",
     "endTime": "18:00",
-    "venue": "Hall B \u2013 Screen 3",
+    "venue": "Hall B – Screen 3",
     "sessionInCharge": [
       "Narayan Prasad"
     ],
@@ -1209,7 +1204,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:00",
             "title": "Registration",
             "type": "registration",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "page": 9
           },
           {
@@ -1222,7 +1217,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:20",
             "title": "Basic Pre-transplant Immunology - HLA Typing, Crossmatching",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Ritu Agarwal"
             ],
@@ -1243,7 +1238,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:45",
             "title": "Complete Pre-transplant Immunology - Screen, PRA, SAB",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Mamidi Neeraja"
             ],
@@ -1264,7 +1259,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:10",
             "title": "Precision Immunogenetics and HLA Testing: transforming kidney transplant outcomes",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Narinder Kumar Mehra"
             ],
@@ -1285,7 +1280,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:35",
             "title": "Pattern Recognition in SAB - What is acceptable and what is not",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Feroz Aziz"
             ],
@@ -1312,7 +1307,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:00",
             "title": "Immune Work-up in Immunologically Low-risk Patient - 2 cases",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Jeyakumar Meyyappan"
             ],
@@ -1333,7 +1328,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "13:00",
             "title": "Inaugural Ceremony",
             "type": "ceremony",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "page": 9
           },
           {
@@ -1346,7 +1341,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "page": 9
           },
           {
@@ -1359,7 +1354,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:15",
             "title": "Case 3: Immunologically high risk - Limited DSA",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Gopaluni Seerapani"
             ],
@@ -1380,7 +1375,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:35",
             "title": "Case 4: Immunologically high risk - Broadly sensitized",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Jithu Kurian"
             ],
@@ -1401,7 +1396,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:00",
             "title": "Case 5: The deceased donor candidate - What is distinct?",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Subho Banerjee"
             ],
@@ -1428,7 +1423,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:25",
             "title": "Immunosuppression minimisation - Can you manage with Tacrolimus monotherapy?",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Sunil Daga"
             ],
@@ -1448,7 +1443,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:50",
             "title": "Current state of immunological risk assessment- equity and effectiveness",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Sunil Daga"
             ],
@@ -1469,7 +1464,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:10",
             "title": "Learning Cases: Balancing ABOi - Swap - Desensitization - Waitlisting",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Pratik Das"
             ],
@@ -1490,7 +1485,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:20",
             "title": "Tea Break",
             "type": "break",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "page": 10
           },
           {
@@ -1503,7 +1498,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:40",
             "title": "Learning Cases: Non HLA antibodies in KT",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Shruti Tapiawala"
             ],
@@ -1524,7 +1519,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:05",
             "title": "Case 6: ABMR in KT - Immunological Viewpoint",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Shafi Malik"
             ],
@@ -1544,7 +1539,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:30",
             "title": "Post Transplant Immune Monitoring in KT",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Jasmeet Kaur"
             ],
@@ -1565,7 +1560,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:55",
             "title": "Behind the scenes of a transplant laboratory: The evolution from crossmatching to clinical decision - making, education and innovation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Adrienne Seitz"
             ],
@@ -1749,8 +1744,8 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Om J Lakhani"
             ],
             "description": [
-              "Part A (09:15\u201310:00): Introduction to ChatGPT - What is ChatGPT and how do LLMs work; Prompting techniques for transplant medicine; Context windows; Privacy & ethics; Custom GPTs",
-              "Part B (10:00\u201310:45): Using ChatGPT for Transplant Scenarios - Step-by-step exercises on immunosuppression protocols, BK virus nephropathy protocols, drug interactions"
+              "Part A (09:15–10:00): Introduction to ChatGPT - What is ChatGPT and how do LLMs work; Prompting techniques for transplant medicine; Context windows; Privacy & ethics; Custom GPTs",
+              "Part B (10:00–10:45): Using ChatGPT for Transplant Scenarios - Step-by-step exercises on immunosuppression protocols, BK virus nephropathy protocols, drug interactions"
             ],
             "page": 11
           },
@@ -1795,8 +1790,8 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Avneesh Khare"
             ],
             "description": [
-              "Part A (13:00\u201313:45): Introduction to Perplexity and AI Agents - Web search integration, source verification, AI agents, Comet Browser workflows",
-              "Part B (13:45\u201314:30): Using Perplexity for Transplant Research - Belatacept evidence, Perplexity Labs comparison dashboards, AST/ESOT proceedings, Comet Browser organ donation drafting"
+              "Part A (13:00–13:45): Introduction to Perplexity and AI Agents - Web search integration, source verification, AI agents, Comet Browser workflows",
+              "Part B (13:45–14:30): Using Perplexity for Transplant Research - Belatacept evidence, Perplexity Labs comparison dashboards, AST/ESOT proceedings, Comet Browser organ donation drafting"
             ],
             "page": 11
           },
@@ -1815,8 +1810,8 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Om J Lakhani"
             ],
             "description": [
-              "Part A (14:30\u201315:15): Introduction to Google Gemini Ecosystem - Gemini vs ChatGPT vs Perplexity, RAG, Gemini Deep Research, NotebookLM source grounding",
-              "Part B (15:15\u201316:00): Using Gemini/NotebookLM for Transplant Medicine - Deep research on ABMR, protocol study guides, audio overviews on DSA"
+              "Part A (14:30–15:15): Introduction to Google Gemini Ecosystem - Gemini vs ChatGPT vs Perplexity, RAG, Gemini Deep Research, NotebookLM source grounding",
+              "Part B (15:15–16:00): Using Gemini/NotebookLM for Transplant Medicine - Deep research on ABMR, protocol study guides, audio overviews on DSA"
             ],
             "page": 12
           },
@@ -1851,8 +1846,8 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Atul Tiwari"
             ],
             "description": [
-              "Part A (16:15\u201317:00): Introduction to Computer Vision in Transplant Pathology - Image recognition, Banff classification AI role, Google Teachable Machine",
-              "Part B (17:00\u201317:45): Hands-on Computer Vision Exercise - Building an AI model to classify Banff rejection grades from kidney biopsy images"
+              "Part A (16:15–17:00): Introduction to Computer Vision in Transplant Pathology - Image recognition, Banff classification AI role, Google Teachable Machine",
+              "Part B (17:00–17:45): Hands-on Computer Vision Exercise - Building an AI model to classify Banff rejection grades from kidney biopsy images"
             ],
             "page": 12
           },
@@ -1871,8 +1866,8 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Jaideep Rayapudi"
             ],
             "description": [
-              "Part A (17:45\u201318:30): Documentation & Decision Support - WhisperFlow voice-to-text referral letters, GlassHealth post-transplant complication solving",
-              "Part B (18:30\u201319:15): Presentation, Visual & Data Tools - DoctorPPT/Gamma presentations, Napkin AI AMR algorithm, Canva AI infographics"
+              "Part A (17:45–18:30): Documentation & Decision Support - WhisperFlow voice-to-text referral letters, GlassHealth post-transplant complication solving",
+              "Part B (18:30–19:15): Presentation, Visual & Data Tools - DoctorPPT/Gamma presentations, Napkin AI AMR algorithm, Canva AI infographics"
             ],
             "page": 13
           },
@@ -1893,7 +1888,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "description": [
               "Resources for continued learning on Technocrinology.com",
               "Certificate distribution and feedback",
-              "Announcement: Sunday Keynote \u2014 The Role of AI in Solid Organ Transplantation"
+              "Announcement: Sunday Keynote — The Role of AI in Solid Organ Transplantation"
             ],
             "page": 13
           },
@@ -2404,10 +2399,10 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "date": "2026-10-10",
     "dayName": "Saturday",
     "dayDisplay": "10 October",
-    "title": "ISOT \u2013 Transplantation Surgery",
+    "title": "ISOT – Transplantation Surgery",
     "startTime": "11:20",
     "endTime": "18:00",
-    "venue": "Hall B \u2013 Screen 1",
+    "venue": "Hall B – Screen 1",
     "sessionInCharge": [
       "Sanjay Kolte"
     ],
@@ -2421,20 +2416,20 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-01",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "08:00",
             "endTime": "09:00",
             "title": "Registration",
             "type": "registration",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "page": 15
           },
           {
             "id": "sat-hb1-02",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "09:00",
@@ -2453,14 +2448,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-03",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:20",
             "endTime": "11:40",
             "title": "The Difficult Living Donor Nephrectomy",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Manoj Das"
             ],
@@ -2475,14 +2470,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-04",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:45",
             "endTime": "12:05",
             "title": "Deceased Donor with sepsis -Will you accept it",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Chandrakant Munjewar"
             ],
@@ -2496,14 +2491,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-05",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "12:10",
             "endTime": "12:30",
             "title": "Panel Discussion: Rare Surgical Complications in Transplant",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "moderator": "Chandrakant Munjewar",
             "moderators": [
               "Chandrakant Munjewar"
@@ -2522,14 +2517,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-06",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "12:35",
             "endTime": "13:00",
             "title": "Graft Nephrectomy - Early Vs Delayed",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Kishor Wani"
             ],
@@ -2543,27 +2538,27 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-07",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "13:00",
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "page": 16
           },
           {
             "id": "sat-hb1-08",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "14:00",
             "endTime": "14:20",
             "title": "Renal Transplantation in Grafts with Multiple Renal Vessels",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "H Bhatyal"
             ],
@@ -2577,14 +2572,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-09",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "14:25",
             "endTime": "14:45",
             "title": "Dual Kidney Transplant - Point Of technique",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Jamal Rizvi"
             ],
@@ -2598,14 +2593,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-10",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "14:50",
             "endTime": "15:10",
             "title": "Difficult Bladder",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Ganesh Gopalkrishnan"
             ],
@@ -2619,14 +2614,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-11",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "15:15",
             "endTime": "15:35",
             "title": "Hostile Iliac Fossa - Calcified/ thromosed vessels and Retransplant",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Sanjoy Sureka"
             ],
@@ -2640,14 +2635,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-12",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "15:40",
             "endTime": "16:05",
-            "title": "The Urologist\u2019s Role from Recipient Evaluation to Managing Surgical Complications",
+            "title": "The Urologist’s Role from Recipient Evaluation to Managing Surgical Complications",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Koushik Amancharla"
             ],
@@ -2661,14 +2656,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-13",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "16:05",
             "endTime": "16:20",
             "title": "Robotic Management of Surgical complications following Kidney Transplantation.",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Anant Kumar"
             ],
@@ -2681,14 +2676,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-14",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "16:20",
             "endTime": "16:40",
             "title": "Simultaneous Pancreas Kidney Transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Rajinder Singh"
             ],
@@ -2702,14 +2697,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-15",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "16:45",
             "endTime": "17:05",
             "title": "Paediatric Transplant: Surgical aspect",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Priyadarshi Ranjan"
             ],
@@ -2723,14 +2718,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-16",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "17:10",
             "endTime": "17:30",
             "title": "Robotic Transplantation - Trans Vs Retro",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Anup Kumar"
             ],
@@ -2744,14 +2739,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb1-17",
             "sessionId": "sat-hb1-surgery",
-            "sessionTitle": "ISOT \u2013 Transplantation Surgery",
+            "sessionTitle": "ISOT – Transplantation Surgery",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "17:35",
             "endTime": "17:55",
             "title": "Robotic kidney transplant without regional hypothermia",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Bipin Pal"
             ],
@@ -2772,10 +2767,10 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "date": "2026-10-10",
     "dayName": "Saturday",
     "dayDisplay": "10 October",
-    "title": "ISOT \u2013 Heart / Lungs / Hand Transplant Session",
+    "title": "ISOT – Heart / Lungs / Hand Transplant Session",
     "startTime": "11:20",
     "endTime": "13:00",
-    "venue": "Hall B \u2013 Screen 2",
+    "venue": "Hall B – Screen 2",
     "sessionInCharge": [
       "Sandeep Attawar"
     ],
@@ -2789,20 +2784,20 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb2-hlh-01",
             "sessionId": "sat-hb2-hlh",
-            "sessionTitle": "ISOT \u2013 Heart / Lungs / Hand Transplant Session",
+            "sessionTitle": "ISOT – Heart / Lungs / Hand Transplant Session",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "08:00",
             "endTime": "09:00",
             "title": "Registration",
             "type": "registration",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 17
           },
           {
             "id": "sat-hb2-hlh-02",
             "sessionId": "sat-hb2-hlh",
-            "sessionTitle": "ISOT \u2013 Heart / Lungs / Hand Transplant Session",
+            "sessionTitle": "ISOT – Heart / Lungs / Hand Transplant Session",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "09:00",
@@ -2815,14 +2810,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb2-hlh-03",
             "sessionId": "sat-hb2-hlh",
-            "sessionTitle": "ISOT \u2013 Heart / Lungs / Hand Transplant Session",
+            "sessionTitle": "ISOT – Heart / Lungs / Hand Transplant Session",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:20",
             "endTime": "11:45",
             "title": "Current Challenges & Solutions of Lung Transplantation in India",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Sandeep Attawar"
             ],
@@ -2835,14 +2830,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb2-hlh-04",
             "sessionId": "sat-hb2-hlh",
-            "sessionTitle": "ISOT \u2013 Heart / Lungs / Hand Transplant Session",
+            "sessionTitle": "ISOT – Heart / Lungs / Hand Transplant Session",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:50",
             "endTime": "12:10",
             "title": "Current challenges & Solutions of Heart Transplantation in India",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Debasis Das"
             ],
@@ -2856,14 +2851,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb2-hlh-05",
             "sessionId": "sat-hb2-hlh",
-            "sessionTitle": "ISOT \u2013 Heart / Lungs / Hand Transplant Session",
+            "sessionTitle": "ISOT – Heart / Lungs / Hand Transplant Session",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "12:15",
             "endTime": "12:35",
             "title": "Current challenges & Solutions of Hand Transplantation in India",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Subramania Iyer"
             ],
@@ -2876,14 +2871,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb2-hlh-06",
             "sessionId": "sat-hb2-hlh",
-            "sessionTitle": "ISOT \u2013 Heart / Lungs / Hand Transplant Session",
+            "sessionTitle": "ISOT – Heart / Lungs / Hand Transplant Session",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "12:40",
             "endTime": "13:05",
-            "title": "Utilization of heart from pediatric DBD Donor\u2019s: current challenges & solution",
+            "title": "Utilization of heart from pediatric DBD Donor’s: current challenges & solution",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Gopala Krishna Gokhale"
             ],
@@ -2896,14 +2891,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb2-hlh-07",
             "sessionId": "sat-hb2-hlh",
-            "sessionTitle": "ISOT \u2013 Heart / Lungs / Hand Transplant Session",
+            "sessionTitle": "ISOT – Heart / Lungs / Hand Transplant Session",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "13:05",
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 17
           }
         ]
@@ -2919,7 +2914,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "title": "Multi Organ Transplantation",
     "startTime": "14:00",
     "endTime": "18:00",
-    "venue": "Hall B \u2013 Screen 2",
+    "venue": "Hall B – Screen 2",
     "sessionInCharge": [
       "Jamal Rizvi"
     ],
@@ -2953,7 +2948,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:20",
             "title": "Multivisceral transplant; overview, experience and Prospects in India",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Anil Vaidya"
             ],
@@ -2973,7 +2968,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:45",
             "title": "Donor selection and organ allocation policies in multiorgan transplant",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Suresh Raghavaiah"
             ],
@@ -2993,7 +2988,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:10",
             "title": "Immunological challenges in multiorgan transplant.",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Shruti Tapiawala"
             ],
@@ -3013,7 +3008,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:35",
             "title": "SPK: lessons learned and the road ahead",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Deepesh Kenwar"
             ],
@@ -3033,7 +3028,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:05",
             "title": "Normothermic machine perfusion in pancreas transplant",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Sanjay Sinha"
             ],
@@ -3053,7 +3048,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:20",
             "title": "Tea Break",
             "type": "break",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 17
           },
           {
@@ -3066,7 +3061,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:40",
             "title": "Liver-kidney transplant; overview and experience",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Sharad Putta"
             ],
@@ -3086,7 +3081,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:05",
             "title": "Simultaneous kidney pancreas transplant for patients with Type 2 diabetes and Nephropathy",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Deepesh Kenwar"
             ],
@@ -3106,7 +3101,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:30",
             "title": "Multiorgan xenotransplant: Concepts ahead",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Ajay Sharma"
             ],
@@ -3126,10 +3121,10 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "date": "2026-10-10",
     "dayName": "Saturday",
     "dayDisplay": "10 October",
-    "title": "ISOT \u2013 ABO Incompatible Transplantation",
+    "title": "ISOT – ABO Incompatible Transplantation",
     "startTime": "11:20",
     "endTime": "18:00",
-    "venue": "Hall B \u2013 Screen 3",
+    "venue": "Hall B – Screen 3",
     "sessionInCharge": [
       "Pratik Das",
       "Divyesh Engineer"
@@ -3144,20 +3139,20 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-01",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "08:00",
             "endTime": "09:00",
             "title": "Registration",
             "type": "registration",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "page": 18
           },
           {
             "id": "sat-hb3-02",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "09:00",
@@ -3170,14 +3165,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-03",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:15",
             "endTime": "11:20",
             "title": "Welcome Address & Agenda",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Pratik Das"
             ],
@@ -3186,14 +3181,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-04",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:20",
             "endTime": "11:40",
             "title": "Physiology of ABO system and its implication in solid organ transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Arpita Ray Chaudhury"
             ],
@@ -3207,14 +3202,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-05",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:45",
             "endTime": "12:05",
             "title": "Pre transplant counselling of an ABO incompatible pair before transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Anurag Gupta"
             ],
@@ -3228,14 +3223,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-06",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "12:10",
             "endTime": "12:30",
             "title": "Methods of testing ABO antibody titre & setting up a smart lab to support that",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Sree Bhushan Raju"
             ],
@@ -3249,14 +3244,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-07",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "12:35",
             "endTime": "12:55",
             "title": "Clinical interpretation of ABO antibody titre in different stages of ABOi transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Umapati Hegde"
             ],
@@ -3270,14 +3265,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-08",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "13:00",
             "endTime": "13:20",
             "title": "Antibody removal in ABOi transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Narayan Prasad"
             ],
@@ -3291,14 +3286,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-09",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "13:20",
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "page": 18
           }
         ]
@@ -3310,14 +3305,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-10",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "14:00",
             "endTime": "14:40",
             "title": "Panel Discussion",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "moderator": "Pratik Das",
             "moderators": [
               "Pratik Das"
@@ -3334,14 +3329,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-11",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "14:45",
             "endTime": "15:05",
             "title": "Use of Rituximab in ABOi transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Amit Gupta"
             ],
@@ -3354,14 +3349,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-12",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "15:10",
             "endTime": "15:30",
             "title": "Optimal desensitization protocol in resource restricted countries",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Rushi Deshpande"
             ],
@@ -3375,14 +3370,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-13",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "15:35",
             "endTime": "15:55",
             "title": "Perfect blend of ABOi & Swap transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Feroz Aziz"
             ],
@@ -3396,14 +3391,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-14",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "16:00",
             "endTime": "16:20",
             "title": "Transplanting the sensitized with a twist of ABO incompatibility",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Shruti Tapiawala"
             ],
@@ -3417,14 +3412,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-15",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "16:25",
             "endTime": "16:45",
             "title": "Concept of accommodation and its clinical implication in ABOi transplant",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Vijay kher"
             ],
@@ -3438,14 +3433,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-16",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "16:50",
             "endTime": "17:10",
             "title": "Early graft dysfunction after ABOi transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Edwin Fernando"
             ],
@@ -3459,14 +3454,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-17",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "17:15",
             "endTime": "17:35",
             "title": "Long Term outcome in ABOi Transplantation - vs ABOc or DCD transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Dinesh Khullar"
             ],
@@ -3480,14 +3475,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-18",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "17:40",
             "endTime": "18:00",
             "title": "Interesting case of ABOi Pre & Post transplant dilemma",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Manish Jain"
             ],
@@ -3501,20 +3496,20 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hb3-19",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "18:30",
             "endTime": "20:00",
             "title": "GBM",
             "type": "gbm",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "page": 19
           },
           {
             "id": "sat-hb3-20",
             "sessionId": "sat-hb3-aboi",
-            "sessionTitle": "ISOT \u2013 ABO Incompatible Transplantation",
+            "sessionTitle": "ISOT – ABO Incompatible Transplantation",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "20:00",
@@ -3534,7 +3529,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "date": "2026-10-10",
     "dayName": "Saturday",
     "dayDisplay": "10 October",
-    "title": "ISOT \u2013 NOTTO",
+    "title": "ISOT – NOTTO",
     "startTime": "11:20",
     "endTime": "18:00",
     "venue": "Hall C",
@@ -3552,7 +3547,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-01",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "08:00",
@@ -3565,7 +3560,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-02",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "09:00",
@@ -3578,7 +3573,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-03",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:00",
@@ -3597,7 +3592,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-04",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:20",
@@ -3617,7 +3612,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-05",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:55",
@@ -3637,7 +3632,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-06",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "12:20",
@@ -3657,7 +3652,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-07",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "12:45",
@@ -3674,7 +3669,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-08",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "13:10",
@@ -3693,7 +3688,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-09",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "14:00",
@@ -3713,7 +3708,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-10",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "14:25",
@@ -3732,7 +3727,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-11",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "14:50",
@@ -3748,7 +3743,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-12",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "15:15",
@@ -3768,7 +3763,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-13",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "15:40",
@@ -3787,7 +3782,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-14",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "16:05",
@@ -3800,7 +3795,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-15",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "16:20",
@@ -3820,7 +3815,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-16",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "16:45",
@@ -3844,7 +3839,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-17",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "17:20",
@@ -3863,7 +3858,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-18",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "18:30",
@@ -3876,7 +3871,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-hc-19",
             "sessionId": "sat-hc-notto",
-            "sessionTitle": "ISOT \u2013 NOTTO",
+            "sessionTitle": "ISOT – NOTTO",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "20:00",
@@ -3969,8 +3964,8 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Om J Lakhani"
             ],
             "description": [
-              "Part A (09:15\u201310:00): Introduction to ChatGPT - What is ChatGPT and how do LLMs work; Prompting techniques; Context windows; Privacy & ethics; Custom GPTs",
-              "Part B (10:00\u201310:45): Using ChatGPT for Transplant Scenarios - Step-by-step exercises on immunosuppression protocols, BK virus nephropathy, drug interactions"
+              "Part A (09:15–10:00): Introduction to ChatGPT - What is ChatGPT and how do LLMs work; Prompting techniques; Context windows; Privacy & ethics; Custom GPTs",
+              "Part B (10:00–10:45): Using ChatGPT for Transplant Scenarios - Step-by-step exercises on immunosuppression protocols, BK virus nephropathy, drug interactions"
             ],
             "page": 20
           },
@@ -4002,8 +3997,8 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Avneesh Khare"
             ],
             "description": [
-              "Part A (11:00\u201311:45): Introduction to Perplexity and AI Agents - Web search integration, source verification, AI agents, Comet Browser workflows",
-              "Part B (11:45\u201312:30): Using Perplexity for Transplant Research - Belatacept evidence, Perplexity Labs comparison dashboards, AST/ESOT proceedings, Comet Browser organ donation drafting"
+              "Part A (11:00–11:45): Introduction to Perplexity and AI Agents - Web search integration, source verification, AI agents, Comet Browser workflows",
+              "Part B (11:45–12:30): Using Perplexity for Transplant Research - Belatacept evidence, Perplexity Labs comparison dashboards, AST/ESOT proceedings, Comet Browser organ donation drafting"
             ],
             "page": 21
           },
@@ -4022,9 +4017,9 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Om J Lakhani"
             ],
             "description": [
-              "Part A (12:30\u201313:15): Introduction to Google Gemini Ecosystem - Gemini vs ChatGPT vs Perplexity, RAG, Gemini Deep Research, NotebookLM",
-              "Lunch Break (13:00\u201314:00)",
-              "Part B (14:00\u201314:45): Using Gemini/NotebookLM for Transplant Medicine - Deep research on ABMR, protocol study guides, audio overviews on DSA"
+              "Part A (12:30–13:15): Introduction to Google Gemini Ecosystem - Gemini vs ChatGPT vs Perplexity, RAG, Gemini Deep Research, NotebookLM",
+              "Lunch Break (13:00–14:00)",
+              "Part B (14:00–14:45): Using Gemini/NotebookLM for Transplant Medicine - Deep research on ABMR, protocol study guides, audio overviews on DSA"
             ],
             "page": 21
           },
@@ -4043,8 +4038,8 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Atul Tiwari"
             ],
             "description": [
-              "Part A (14:45\u201315:30): Introduction to Computer Vision in Transplant Pathology - Image recognition, Banff classification AI role, Google Teachable Machine",
-              "Part B (15:30\u201316:15): Hands-on Computer Vision Exercise - Building an AI model to classify Banff rejection grades from kidney biopsy images"
+              "Part A (14:45–15:30): Introduction to Computer Vision in Transplant Pathology - Image recognition, Banff classification AI role, Google Teachable Machine",
+              "Part B (15:30–16:15): Hands-on Computer Vision Exercise - Building an AI model to classify Banff rejection grades from kidney biopsy images"
             ],
             "page": 21
           },
@@ -4076,8 +4071,8 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Jaideep Rayapudi"
             ],
             "description": [
-              "Part A (16:30\u201317:15 / 18:00): Documentation & Decision Support - WhisperFlow voice-to-text referral letters, GlassHealth post-transplant complication solving",
-              "Part B (17:15\u201318:00): Presentation, Visual & Data Tools - DoctorPPT/Gamma presentations, Napkin AI AMR algorithm, Canva AI infographics"
+              "Part A (16:30–17:15 / 18:00): Documentation & Decision Support - WhisperFlow voice-to-text referral letters, GlassHealth post-transplant complication solving",
+              "Part B (17:15–18:00): Presentation, Visual & Data Tools - DoctorPPT/Gamma presentations, Napkin AI AMR algorithm, Canva AI infographics"
             ],
             "page": 22
           },
@@ -4098,7 +4093,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "description": [
               "Resources for continued learning on Technocrinology.com",
               "Certificate distribution and feedback",
-              "Announcement: Sunday Keynote \u2014 The Role of AI in Solid Organ Transplantation"
+              "Announcement: Sunday Keynote — The Role of AI in Solid Organ Transplantation"
             ],
             "page": 22
           },
@@ -4128,7 +4123,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "title": "Liver in Transplantation",
     "startTime": "11:20",
     "endTime": "18:00",
-    "venue": "Hall B \u2013 Screen 2",
+    "venue": "Hall B – Screen 2",
     "sessionInCharge": [
       "Abhideep Choudhary",
       "Ravi Mohanka"
@@ -4154,7 +4149,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:00",
             "title": "Registration",
             "type": "registration",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 23
           },
           {
@@ -4186,7 +4181,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:40",
             "title": "Case report of first DCD-Liver transplantation using NRP in India (each speaker 5 minutes for case presentation, followed by 5 minutes discussion)",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Avnish Seth",
               "Viniyendra Pamecha",
@@ -4211,7 +4206,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "12:10",
             "title": "Panel Discussion: Machine perfusion technology in India-Current status, challenges and strategies",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "moderator": "Yashavanth Kumar",
             "moderators": [
               "Yashavanth Kumar"
@@ -4241,7 +4236,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "12:40",
             "title": "Panel Discussion: Downstaging with systemic therapy in HCC in LDLT and DDLT",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "moderator": "Dharmesh Kapoor",
             "moderators": [
               "Dharmesh Kapoor"
@@ -4264,7 +4259,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "13:10",
             "title": "Panel Discussion: Liver transplantation for Cholangiocarcinoma and colorectal liver tumors- Indian experience",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "moderator": "Neerav Goyal",
             "moderators": [
               "Neerav Goyal"
@@ -4287,7 +4282,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 23
           }
         ]
@@ -4306,7 +4301,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:30",
             "title": "Panel Discussion: MVT and IT in India - Indications, outcomes, challenges",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "moderator": "Sumana Ramachandra",
             "moderators": [
               "Sumana Ramachandra"
@@ -4330,7 +4325,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:00",
             "title": "Panel Discussion: Combined Liver Kidney transplantation",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "moderator": "Gomathy N",
             "moderators": [
               "Gomathy N"
@@ -4353,7 +4348,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:30",
             "title": "Panel Discussion: Overcoming barriers to Basic organ transplantation research in India",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "moderator": "Sonal Asthana",
             "moderators": [
               "Sonal Asthana"
@@ -4375,7 +4370,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:00",
             "title": "Panel Discussion: How can we incorporate AI in our liver transplant practice?",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "moderator": "Akash Shukla",
             "moderators": [
               "Akash Shukla"
@@ -4397,7 +4392,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:20",
             "title": "Tea Break",
             "type": "break",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 24
           }
         ]
@@ -4416,7 +4411,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:40",
             "title": "The Future of Robotic surgery in Liver Transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Mohamed Rela"
             ],
@@ -4440,7 +4435,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:00",
             "title": "Absorbable bile duct stents for prophylaxis / treatment of bile leaks / strictures",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Sonal Asthana"
             ],
@@ -4460,7 +4455,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:20",
             "title": "Future of liver transplantation: IFLT, long-term perfusion, Xenotransplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Ravi Mohanka"
             ],
@@ -4483,7 +4478,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "date": "2026-10-10",
     "dayName": "Saturday",
     "dayDisplay": "10 October",
-    "title": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+    "title": "TID 2026 – Solid Organ Transplant (SOT)",
     "startTime": "09:00",
     "endTime": "17:00",
     "venue": "As per programme",
@@ -4500,7 +4495,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-01",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "09:00",
@@ -4513,12 +4508,12 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-02",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "09:15",
             "endTime": "09:45",
-            "title": "Vaccination in SOT: What\u2019s New and What\u2019s Necessary?",
+            "title": "Vaccination in SOT: What’s New and What’s Necessary?",
             "type": "talk",
             "venue": "As per programme",
             "speakers": [
@@ -4529,7 +4524,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-03",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "09:45",
@@ -4545,7 +4540,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-04",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "10:15",
@@ -4561,7 +4556,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-05",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "10:45",
@@ -4574,7 +4569,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-06",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:00",
@@ -4590,7 +4585,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-07",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "11:30",
@@ -4606,7 +4601,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-08",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "12:00",
@@ -4629,7 +4624,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-09",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "12:45",
@@ -4645,7 +4640,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-10",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "13:15",
@@ -4658,7 +4653,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-11",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "14:00",
@@ -4674,7 +4669,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-12",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "14:30",
@@ -4690,7 +4685,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-13",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "15:00",
@@ -4706,12 +4701,12 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sat-tid-14",
             "sessionId": "sat-tid-sot",
-            "sessionTitle": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
+            "sessionTitle": "TID 2026 – Solid Organ Transplant (SOT)",
             "date": "2026-10-10",
             "dayName": "Saturday",
             "startTime": "15:30",
             "endTime": "17:00",
-            "title": "Panel Discussion: Transplant ID\u2014Ask the Experts",
+            "title": "Panel Discussion: Transplant ID—Ask the Experts",
             "type": "panel",
             "venue": "As per programme",
             "page": 24
@@ -5006,7 +5001,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "title": "DCD",
     "startTime": "09:00",
     "endTime": "14:00",
-    "venue": "Hall B \u2013 Screen 1",
+    "venue": "Hall B – Screen 1",
     "sessionInCharge": [
       "Amol Bhawane"
     ],
@@ -5027,7 +5022,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:00",
             "title": "Registration",
             "type": "registration",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "page": 26
           },
           {
@@ -5040,7 +5035,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:20",
             "title": "DCD in India: Ethical Foundations, Legal Framework and Future Directions",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Avnish Seth"
             ],
@@ -5061,7 +5056,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:45",
             "title": "National Organ Allocation Pathways for DCD: Challenges and Opportunities in India",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Anil Kumar"
             ],
@@ -5081,7 +5076,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:10",
             "title": "Normothermic Regional Perfusion (NRP) in DCD: Implementation Strategies in the Indian Setting",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Jumana Haji"
             ],
@@ -5101,7 +5096,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:35",
             "title": "Ex-vivo Normothermic Machine Perfusion in DCD: Expanding Organ Utilization in the Indian Setting",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Devprakash Chaudhary"
             ],
@@ -5122,7 +5117,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:00",
             "title": "The ICU Playbook for DCD: From Donor Identification to Organ Retrieval",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Shrikanth Srinivasan"
             ],
@@ -5142,7 +5137,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:20",
             "title": "Tea Break",
             "type": "break",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "page": 26
           },
           {
@@ -5155,7 +5150,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:55",
             "title": "Abdominal Organ Retrieval in DCD: Surgical Strategies, Technical Challenges and Indian Experience",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Sarbpreet Singh"
             ],
@@ -5176,7 +5171,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "12:20",
             "title": "DCD Heart Transplantation: Surgical Techniques, Perfusion Strategies, Outcomes and Future Directions",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Kumud Dhital"
             ],
@@ -5195,7 +5190,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "12:45",
             "title": "DCD Liver Transplantation: Expanding Boundaries Through Machine Perfusion , Optimized Retrieval Strategies and outcomes",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "speakers": [
               "Ravi Mohanka"
             ],
@@ -5215,7 +5210,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "13:10",
             "title": "Panel Discussion: on DCD in India: Barriers, Opportunities and the Way Forward",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "moderator": "Anand Chellappan",
             "moderators": [
               "Anand Chellappan"
@@ -5239,7 +5234,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:00",
             "title": "Valedictory Function",
             "type": "ceremony",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "page": 26
           },
           {
@@ -5252,7 +5247,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:30",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall B \u2013 Screen 1",
+            "venue": "Hall B – Screen 1",
             "page": 26
           }
         ]
@@ -5268,7 +5263,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "title": "Kidney and Organ Transplantation",
     "startTime": "09:00",
     "endTime": "13:00",
-    "venue": "Hall B \u2013 Screen 2",
+    "venue": "Hall B – Screen 2",
     "sessionInCharge": [
       "Vivek Kute"
     ],
@@ -5289,7 +5284,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:00",
             "title": "Registration",
             "type": "registration",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 27
           },
           {
@@ -5302,7 +5297,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:20",
             "title": "Pregnancy After Kidney Transplantation: Counselling, Safety, Risk Stratification and Outcomes",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Vinant Bhargava"
             ],
@@ -5323,7 +5318,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:45",
             "title": "Gender Disparity in Organ Transplantation in India: Challenges and Solutions",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Urmila Anand"
             ],
@@ -5344,7 +5339,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:10",
             "title": "Recommendations for Living Kidney Donor Follow up in India",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "RP Mathur"
             ],
@@ -5364,7 +5359,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:35",
             "title": "NMC and Organ Transplantation in India: Strengthening Training, Ethics, Governance and Quality Standards",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Abhijat Sheth"
             ],
@@ -5384,7 +5379,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:00",
             "title": "Operational guidelines for National swap transplantation program in India: A modified Delphi Consensus by ISOT and NOTTO",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Anil Kumar"
             ],
@@ -5404,7 +5399,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:20",
             "title": "Tea Break",
             "type": "break",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 27
           },
           {
@@ -5417,7 +5412,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:55",
             "title": "ISOT consensus recommendations on Latent tuberculosis in kidney transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Pranjal Kashiv"
             ],
@@ -5437,7 +5432,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "12:20",
             "title": "Organ Transplantation in Resource-Limited Settings: Challenges, Opportunities and the Way Forward",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Anup Barman"
             ],
@@ -5457,7 +5452,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "12:45",
             "title": "PTLD After Organ Transplantation: Risk Stratification, Monitoring and Management",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Manjusha Yadla"
             ],
@@ -5476,7 +5471,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "13:10",
             "title": "Role of SGLT2 inhibitors in post transplant scenario",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "speakers": [
               "Gireesh MS"
             ],
@@ -5496,7 +5491,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:00",
             "title": "Valedictory Function",
             "type": "ceremony",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 27
           },
           {
@@ -5509,7 +5504,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:30",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall B – Screen 2",
             "page": 27
           }
         ]
@@ -5522,10 +5517,10 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "date": "2026-10-11",
     "dayName": "Sunday",
     "dayDisplay": "11 October",
-    "title": "ISOT \u2013 IPTA Pediatric Transplantation",
+    "title": "ISOT – IPTA Pediatric Transplantation",
     "startTime": "09:00",
     "endTime": "14:00",
-    "venue": "Hall B \u2013 Screen 3",
+    "venue": "Hall B – Screen 3",
     "sessionInCharge": [
       "Kinnari Vala"
     ],
@@ -5539,27 +5534,27 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sun-hb3-01",
             "sessionId": "sun-hb3-pediatric",
-            "sessionTitle": "ISOT \u2013 IPTA Pediatric Transplantation",
+            "sessionTitle": "ISOT – IPTA Pediatric Transplantation",
             "date": "2026-10-11",
             "dayName": "Sunday",
             "startTime": "08:00",
             "endTime": "09:00",
             "title": "Registration",
             "type": "registration",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "page": 28
           },
           {
             "id": "sun-hb3-02",
             "sessionId": "sun-hb3-pediatric",
-            "sessionTitle": "ISOT \u2013 IPTA Pediatric Transplantation",
+            "sessionTitle": "ISOT – IPTA Pediatric Transplantation",
             "date": "2026-10-11",
             "dayName": "Sunday",
             "startTime": "09:00",
             "endTime": "09:45",
             "title": "Panel Discussion: Challenging cases in pediatric kidney transplantation- 3 cases",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "moderator": "Susan Uthup",
             "moderators": [
               "Susan Uthup"
@@ -5579,14 +5574,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sun-hb3-03",
             "sessionId": "sun-hb3-pediatric",
-            "sessionTitle": "ISOT \u2013 IPTA Pediatric Transplantation",
+            "sessionTitle": "ISOT – IPTA Pediatric Transplantation",
             "date": "2026-10-11",
             "dayName": "Sunday",
             "startTime": "09:50",
             "endTime": "10:35",
             "title": "Pediatric transplantation in a nutshell: When/How/Why(15*3) - a) Kidney, b) Liver, c) Heart",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Rajiv Sinha",
               "Neelam Mohan",
@@ -5600,14 +5595,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sun-hb3-04",
             "sessionId": "sun-hb3-pediatric",
-            "sessionTitle": "ISOT \u2013 IPTA Pediatric Transplantation",
+            "sessionTitle": "ISOT – IPTA Pediatric Transplantation",
             "date": "2026-10-11",
             "dayName": "Sunday",
             "startTime": "10:40",
             "endTime": "11:10",
             "title": "Top 10 mistakes we make in transplant OPD",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Lars Pape"
             ],
@@ -5620,27 +5615,27 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sun-hb3-05",
             "sessionId": "sun-hb3-pediatric",
-            "sessionTitle": "ISOT \u2013 IPTA Pediatric Transplantation",
+            "sessionTitle": "ISOT – IPTA Pediatric Transplantation",
             "date": "2026-10-11",
             "dayName": "Sunday",
             "startTime": "11:10",
             "endTime": "11:20",
             "title": "Tea Break",
             "type": "break",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "page": 28
           },
           {
             "id": "sun-hb3-06",
             "sessionId": "sun-hb3-pediatric",
-            "sessionTitle": "ISOT \u2013 IPTA Pediatric Transplantation",
+            "sessionTitle": "ISOT – IPTA Pediatric Transplantation",
             "date": "2026-10-11",
             "dayName": "Sunday",
             "startTime": "11:25",
             "endTime": "12:10",
             "title": "Symposium on Advances in Immuno-monitoring(15 min*3) - a) How can monitoring viral serology help us?, b) Practicality of monitoring DSA, c) Novel noninvasive test for surveillance",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Sanjeev Gulati",
               "Kinnari Vala",
@@ -5658,14 +5653,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sun-hb3-07",
             "sessionId": "sun-hb3-pediatric",
-            "sessionTitle": "ISOT \u2013 IPTA Pediatric Transplantation",
+            "sessionTitle": "ISOT – IPTA Pediatric Transplantation",
             "date": "2026-10-11",
             "dayName": "Sunday",
             "startTime": "12:15",
             "endTime": "12:35",
             "title": "Combined liver kidney transplantation: my experience",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Lars Pape"
             ],
@@ -5678,14 +5673,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sun-hb3-08",
             "sessionId": "sun-hb3-pediatric",
-            "sessionTitle": "ISOT \u2013 IPTA Pediatric Transplantation",
+            "sessionTitle": "ISOT – IPTA Pediatric Transplantation",
             "date": "2026-10-11",
             "dayName": "Sunday",
             "startTime": "12:40",
             "endTime": "13:00",
             "title": "Therapeutic drug monitoring : its role in precision medicine in transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "speakers": [
               "Tom D. Blydt-Hansen"
             ],
@@ -5698,20 +5693,19 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sun-hb3-09",
             "sessionId": "sun-hb3-pediatric",
-            "sessionTitle": "ISOT \u2013 IPTA Pediatric Transplantation",
+            "sessionTitle": "ISOT – IPTA Pediatric Transplantation",
             "date": "2026-10-11",
             "dayName": "Sunday",
             "startTime": "13:05",
             "endTime": "13:30",
             "title": "Panel Discussion: Perioperative care in Pediatric solid Organ transplantation",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "moderator": "Sidharth Sethi",
             "moderators": [
               "Sidharth Sethi"
             ],
             "panelists": [
-              "Pankaj Hari",
               "Uma Ali",
               "Mehul Shah",
               "Neelam Mohan",
@@ -5724,14 +5718,14 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
           {
             "id": "sun-hb3-10",
             "sessionId": "sun-hb3-pediatric",
-            "sessionTitle": "ISOT \u2013 IPTA Pediatric Transplantation",
+            "sessionTitle": "ISOT – IPTA Pediatric Transplantation",
             "date": "2026-10-11",
             "dayName": "Sunday",
             "startTime": "13:30",
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall B \u2013 Screen 3",
+            "venue": "Hall B – Screen 3",
             "page": 28
           }
         ]
