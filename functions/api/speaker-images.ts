@@ -1,7 +1,11 @@
 // Cloudflare Pages Function: /api/speaker-images
 // Handles speaker photo uploads via Cloudflare R2 / D1 storage and mapping
 
-export async function onRequestGet(context: { env: { DB?: any; BUCKET?: any } }): Promise<Response> {
+function getR2Bucket(env: any) {
+  return env?.BUCKET || env?.['isot-2026'] || env?.ISOT_2026 || env?.R2_BUCKET || env?.STORAGE;
+}
+
+export async function onRequestGet(context: { env: any }): Promise<Response> {
   const corsHeaders = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -37,7 +41,7 @@ export async function onRequestGet(context: { env: { DB?: any; BUCKET?: any } })
   }
 }
 
-export async function onRequestPost(context: { request: Request; env: { DB?: any; BUCKET?: any } }): Promise<Response> {
+export async function onRequestPost(context: { request: Request; env: any }): Promise<Response> {
   const corsHeaders = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -47,6 +51,7 @@ export async function onRequestPost(context: { request: Request; env: { DB?: any
     const contentType = context.request.headers.get('content-type') || '';
     let speakerId = '';
     let imageUrl = '';
+    const bucket = getR2Bucket(context.env);
 
     if (contentType.includes('multipart/form-data')) {
       const formData = await context.request.formData();
@@ -62,13 +67,13 @@ export async function onRequestPost(context: { request: Request; env: { DB?: any
       }
 
       if (file && file.size > 0) {
-        // If Cloudflare R2 BUCKET is bound, upload to R2
-        if (context.env.BUCKET) {
+        // If Cloudflare R2 bucket (isot-2026) is bound, upload to R2
+        if (bucket) {
           const extension = file.name.split('.').pop() || 'png';
           const r2Key = `speaker-${speakerId}-${Date.now()}.${extension}`;
           const arrayBuffer = await file.arrayBuffer();
 
-          await context.env.BUCKET.put(r2Key, arrayBuffer, {
+          await bucket.put(r2Key, arrayBuffer, {
             httpMetadata: {
               contentType: file.type || 'image/png',
             },
