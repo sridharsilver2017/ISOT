@@ -283,32 +283,49 @@ export const useProgrammeStore = create<ProgrammeState>()(
       fetchProgrammeFromServer: async () => {
         set({ isSyncing: true, syncError: null });
         try {
+          // Clean up old obsolete localStorage caches if present
+          try {
+            localStorage.removeItem('isot2026-custom-programme');
+            localStorage.removeItem('isot2026-custom-programme-v19');
+            localStorage.removeItem('isot2026-custom-programme-v18');
+          } catch {
+            // ignore
+          }
+
           const res = await fetch('/api/programme', {
             headers: { 'Cache-Control': 'no-cache' },
           });
           if (res.ok) {
             const data = await res.json();
             if (Array.isArray(data.sessions) && data.sessions.length > 0) {
-              set({
-                sessions: data.sessions,
-                lastSynced: data.lastUpdated || new Date().toISOString(),
-                isDbConnected: true,
-                dbStorage: data.storage || 'Cloudflare D1 SQL Database',
-                isSyncing: false,
-                isLoadingFromDb: false,
-              });
-              return;
+              const isV21Data = data.sessions.some(
+                (s: Session) => s.id === 'fri-ha-kidney' || s.id === 'sun-hb3-pediatric'
+              );
+              if (isV21Data) {
+                set({
+                  sessions: data.sessions,
+                  lastSynced: data.lastUpdated || new Date().toISOString(),
+                  isDbConnected: true,
+                  dbStorage: data.storage || 'Cloudflare D1 SQL Database',
+                  isSyncing: false,
+                  isLoadingFromDb: false,
+                });
+                return;
+              }
             }
           }
-          if (!get().sessions || get().sessions.length === 0) {
-            set({ sessions: DEFAULT_PROGRAMME_SESSIONS });
-          }
-          set({ isSyncing: false, isLoadingFromDb: false });
-        } catch (err) {
-          if (!get().sessions || get().sessions.length === 0) {
-            set({ sessions: DEFAULT_PROGRAMME_SESSIONS });
-          }
-          set({ isSyncing: false, isLoadingFromDb: false });
+          // Default fallback to V21 data
+          set({
+            sessions: DEFAULT_PROGRAMME_SESSIONS,
+            isSyncing: false,
+            isLoadingFromDb: false,
+          });
+        } catch {
+          set({
+            sessions: DEFAULT_PROGRAMME_SESSIONS,
+            isSyncing: false,
+            isLoadingFromDb: false,
+          });
         }
       },
 
@@ -523,6 +540,13 @@ export const useProgrammeStore = create<ProgrammeState>()(
     }),
     {
       name: 'isot2026-custom-programme-v21',
+      onRehydrateStorage: () => (state) => {
+        if (!state || !state.sessions || state.sessions.length === 0 || !state.sessions.some((s) => s.id === 'fri-ha-kidney')) {
+          if (state) {
+            state.sessions = DEFAULT_PROGRAMME_SESSIONS;
+          }
+        }
+      },
     }
   )
 );
