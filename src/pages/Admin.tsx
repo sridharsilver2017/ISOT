@@ -5,6 +5,8 @@ import { Session, ProgrammeItem, ProgrammeItemType, getSessionItems } from '../t
 import { CONFERENCE_DAYS } from '../data/event';
 import { HALLS } from '../data/halls';
 import { exportProgrammeToCsv, parseCsvToProgramme, getBlankCsvTemplate } from '../utils/csvHelper';
+import { SpeakerAvatar } from '../components/SpeakerAvatar';
+import { getSpeakerPhoto } from '../utils/speakerImages';
 import {
   Plus,
   Edit2,
@@ -35,6 +37,11 @@ import {
   FileSpreadsheet,
   HelpCircle,
   FileText,
+  Camera,
+  Image as ImageIcon,
+  Users,
+  Check,
+  Link as LinkIcon,
 } from 'lucide-react';
 
 export const Admin: React.FC = () => {
@@ -49,6 +56,9 @@ export const Admin: React.FC = () => {
     resetToDefaultProgramme,
     importProgrammeJson,
     getSpeakers,
+    speakerPhotos,
+    uploadSpeakerPhoto,
+    deleteSpeakerPhoto,
     isSyncing,
     lastSynced,
     syncError,
@@ -70,8 +80,16 @@ export const Admin: React.FC = () => {
   const [loginPassword, setLoginPassword] = useState('admin123');
   const [showPassword, setShowPassword] = useState(false);
 
-  // View Mode: 'sessions' | 'talks' | 'tools'
-  const [activeTab, setActiveTab] = useState<'sessions' | 'talks' | 'tools'>('sessions');
+  // View Mode: 'sessions' | 'talks' | 'faculty' | 'tools'
+  const [activeTab, setActiveTab] = useState<'sessions' | 'talks' | 'faculty' | 'tools'>('sessions');
+  const [facultyRoleFilter, setFacultyRoleFilter] = useState<string>('all');
+  const [facultyPhotoFilter, setFacultyPhotoFilter] = useState<'all' | 'has_photo' | 'missing_photo'>('all');
+  const [editingPhotoSpeaker, setEditingPhotoSpeaker] = useState<{ id: string; name: string } | null>(null);
+  const [photoUploadMethod, setPhotoUploadMethod] = useState<'file' | 'url'>('file');
+  const [directPhotoUrl, setDirectPhotoUrl] = useState('');
+  const [selectedPhotoFile, setSelectedPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [isPhotoUploading, setIsPhotoUploading] = useState(false);
 
   const [selectedDay, setSelectedDay] = useState<string>('all');
   const [selectedHall, setSelectedHall] = useState<string>('All');
@@ -169,6 +187,139 @@ export const Admin: React.FC = () => {
 
   const totalTalks = sessions.reduce((acc, s) => acc + getSessionItems(s).length, 0);
   const totalSpeakers = getSpeakers().length;
+  // Faculty List & Photos Calculation
+  const allFaculty = useMemo(() => {
+    return getSpeakers();
+  }, [sessions, getSpeakers]);
+
+  const filteredFaculty = useMemo(() => {
+    return allFaculty.filter((sp) => {
+      // Name search
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        if (!sp.name.toLowerCase().includes(q)) return false;
+      }
+      // Role filter
+      if (facultyRoleFilter !== 'all') {
+        if (!sp.roles.some((r) => r.role === facultyRoleFilter)) return false;
+      }
+      // Photo filter
+      const hasPhoto = !!getSpeakerPhoto(sp.name, speakerPhotos);
+      if (facultyPhotoFilter === 'has_photo' && !hasPhoto) return false;
+      if (facultyPhotoFilter === 'missing_photo' && hasPhoto) return false;
+      return true;
+    });
+  }, [allFaculty, searchQuery, facultyRoleFilter, facultyPhotoFilter, speakerPhotos]);
+
+  const facultyWithPhotosCount = useMemo(() => {
+    return allFaculty.filter((sp) => !!getSpeakerPhoto(sp.name, speakerPhotos)).length;
+  }, [allFaculty, speakerPhotos]);
+
+  const compressAndResizeImage = (file: File): Promise<File> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const size = Math.min(img.width, img.height);
+          canvas.width = 500;
+          canvas.height = 500;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            const startX = (img.width - size) / 2;
+            const startY = (img.height - size) / 2;
+            ctx.drawImage(img, startX, startY, size, size, 0, 0, 500, 500);
+            canvas.toBlob(
+              (blob) => {
+                if (blob) {
+                  const resizedFile = new File([blob], file.name.replace(/\.[^.]+$/, '.png'), {
+                    type: 'image/png',
+                  });
+                  resolve(resizedFile);
+                } else {
+                  resolve(file);
+                }
+              },
+              'image/png',
+              0.9
+            );
+          } else {
+            resolve(file);
+          }
+        };
+        img.src = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handlePhotoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const compressed = await compressAndResizeImage(file);
+      setSelectedPhotoFile(compressed);
+      setPhotoPreview(URL.createObjectURL(compressed));
+    } catch {
+      setSelectedPhotoFile(file);
+      setPhotoPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSaveSpeakerPhoto = async () => {
+    if (!editingPhotoSpeaker) return;
+    setIsPhotoUploading(true);
+    try {
+      if (photoUploadMethod === 'file') {
+        if (!selectedPhotoFile) {
+          showNotification('Please choose an image file first.', 'error');
+          setIsPhotoUploading(false);
+          return;
+        }
+        const res = await uploadSpeakerPhoto(editingPhotoSpeaker.id, selectedPhotoFile);
+        if (res) {
+          showNotification(`Photo updated for ${editingPhotoSpeaker.name}!`);
+          setEditingPhotoSpeaker(null);
+          setSelectedPhotoFile(null);
+          setPhotoPreview(null);
+        } else {
+          showNotification('Failed to upload photo to server.', 'error');
+        }
+      } else {
+        if (!directPhotoUrl.trim()) {
+          showNotification('Please enter a valid image URL.', 'error');
+          setIsPhotoUploading(false);
+          return;
+        }
+        const res = await uploadSpeakerPhoto(editingPhotoSpeaker.id, directPhotoUrl.trim());
+        if (res) {
+          showNotification(`Photo URL updated for ${editingPhotoSpeaker.name}!`);
+          setEditingPhotoSpeaker(null);
+          setDirectPhotoUrl('');
+          setPhotoPreview(null);
+        } else {
+          showNotification('Failed to update photo URL.', 'error');
+        }
+      }
+    } catch (err: any) {
+      showNotification(err?.message || 'Error updating speaker photo', 'error');
+    } finally {
+      setIsPhotoUploading(false);
+    }
+  };
+
+  const handleRemoveSpeakerPhoto = async (speaker: { id: string; name: string }) => {
+    if (window.confirm(`Remove custom photo for ${speaker.name}?`)) {
+      const ok = await deleteSpeakerPhoto(speaker.id);
+      if (ok) {
+        showNotification(`Removed photo for ${speaker.name}.`);
+      } else {
+        showNotification('Failed to remove photo.', 'error');
+      }
+    }
+  };
+
 
   const [isGoogleSheetsGuideOpen, setIsGoogleSheetsGuideOpen] = useState(false);
   const [isUploadingCsv, setIsUploadingCsv] = useState(false);
@@ -546,8 +697,8 @@ export const Admin: React.FC = () => {
         </div>
       </div>
 
-      {/* Primary Mobile Navigation Segmented Tabs */}
-      <div className="bg-gray-200/80 dark:bg-zinc-800 p-1 rounded-2xl grid grid-cols-3 gap-1 shadow-inner text-xs font-black">
+      {/* Primary Navigation Segmented Tabs */}
+      <div className="bg-gray-200/80 dark:bg-zinc-800 p-1 rounded-2xl grid grid-cols-2 sm:grid-cols-4 gap-1 shadow-inner text-xs font-black">
         <button
           type="button"
           onClick={() => setActiveTab('sessions')}
@@ -576,6 +727,19 @@ export const Admin: React.FC = () => {
 
         <button
           type="button"
+          onClick={() => setActiveTab('faculty')}
+          className={`py-2.5 px-2 rounded-xl flex items-center justify-center gap-1.5 transition-all ${
+            activeTab === 'faculty'
+              ? 'bg-white dark:bg-zinc-900 text-isot-burgundy dark:text-rose-400 shadow-sm'
+              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
+          }`}
+        >
+          <Camera size={15} />
+          <span className="truncate">Faculty & Photos ({allFaculty.length})</span>
+        </button>
+
+        <button
+          type="button"
           onClick={() => setActiveTab('tools')}
           className={`py-2.5 px-2 rounded-xl flex items-center justify-center gap-1.5 transition-all ${
             activeTab === 'tools'
@@ -589,7 +753,7 @@ export const Admin: React.FC = () => {
       </div>
 
       {/* Interactive Search & Filter Toolbar (for Sessions & Talks views) */}
-      {activeTab !== 'tools' && (
+      {(activeTab === 'sessions' || activeTab === 'talks') && (
         <div className="bg-white dark:bg-zinc-900 p-3.5 sm:p-4 rounded-3xl border border-gray-200/80 dark:border-zinc-800 shadow-sm space-y-3">
           {/* Search Box */}
           <div className="relative">
@@ -680,6 +844,56 @@ export const Admin: React.FC = () => {
                   {h.name}
                 </button>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Search & Filter Toolbar for Faculty view */}
+      {activeTab === 'faculty' && (
+        <div className="bg-white dark:bg-zinc-900 p-3.5 sm:p-4 rounded-3xl border border-gray-200/80 dark:border-zinc-800 shadow-sm space-y-3">
+          <div className="relative">
+            <Search size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search faculty name, speaker, chairperson, panelist..."
+              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-white rounded-2xl text-xs sm:text-sm font-medium border border-gray-200 dark:border-zinc-700 outline-none focus:border-isot-burgundy dark:focus:border-rose-400 transition-all"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-bold">
+            {/* Role Filter */}
+            <div className="flex items-center gap-2">
+              <span className="text-gray-400 text-[11px] uppercase tracking-wider shrink-0">Role:</span>
+              <select
+                value={facultyRoleFilter}
+                onChange={(e) => setFacultyRoleFilter(e.target.value)}
+                className="w-full p-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-800 dark:text-gray-200 text-xs font-semibold outline-none focus:border-isot-burgundy"
+              >
+                <option value="all">All Roles ({allFaculty.length})</option>
+                <option value="speaker">Speakers</option>
+                <option value="chairperson">Chairpersons</option>
+                <option value="panelist">Panelists</option>
+                <option value="moderator">Moderators</option>
+                <option value="incharge">Session In-Charges</option>
+                <option value="coordinator">Coordinators</option>
+              </select>
+            </div>
+
+            {/* Photo Filter */}
+            <div className="flex items-center gap-2">
+              <span className="text-gray-400 text-[11px] uppercase tracking-wider shrink-0">Photo:</span>
+              <select
+                value={facultyPhotoFilter}
+                onChange={(e) => setFacultyPhotoFilter(e.target.value as any)}
+                className="w-full p-2 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-800 dark:text-gray-200 text-xs font-semibold outline-none focus:border-isot-burgundy"
+              >
+                <option value="all">All Faculty ({allFaculty.length})</option>
+                <option value="has_photo">Has Photo ({facultyWithPhotosCount})</option>
+                <option value="missing_photo">Needs Photo ({allFaculty.length - facultyWithPhotosCount})</option>
+              </select>
             </div>
           </div>
         </div>
@@ -1029,7 +1243,122 @@ export const Admin: React.FC = () => {
       )}
 
       {/* ============================================================ */}
-      {/* TAB 3: TOOLS & BACKUP VIEW */}
+      {/* VIEW 3: FACULTY & SPEAKER PHOTO MANAGEMENT VIEW */}
+      {/* ============================================================ */}
+      {activeTab === 'faculty' && (
+        <div className="space-y-4">
+          {/* Summary Metric Badges */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-800 shadow-sm">
+              <span className="text-[10px] uppercase font-bold text-gray-400 block">Total Faculty</span>
+              <p className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">{allFaculty.length}</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-800/40 shadow-sm">
+              <span className="text-[10px] uppercase font-bold text-emerald-700 dark:text-emerald-300 block">Photos Available</span>
+              <p className="text-xl sm:text-2xl font-black text-emerald-700 dark:text-emerald-300">{facultyWithPhotosCount}</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-800/40 shadow-sm">
+              <span className="text-[10px] uppercase font-bold text-amber-700 dark:text-amber-300 block">Needs Photo</span>
+              <p className="text-xl sm:text-2xl font-black text-amber-700 dark:text-amber-300">{allFaculty.length - facultyWithPhotosCount}</p>
+            </div>
+          </div>
+
+          {/* Faculty Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            {filteredFaculty.map((sp) => {
+              const photo = getSpeakerPhoto(sp.name, speakerPhotos);
+              const uniqueRoles = Array.from(new Set(sp.roles.map((r) => r.role)));
+
+              return (
+                <div
+                  key={sp.id}
+                  className="bg-white dark:bg-zinc-900 rounded-3xl p-4 sm:p-5 border border-gray-200/80 dark:border-zinc-800 shadow-sm hover:border-isot-burgundy/30 transition-all flex flex-col justify-between gap-4"
+                >
+                  <div className="flex items-start gap-3.5">
+                    <div className="relative group/avatar shrink-0">
+                      <SpeakerAvatar name={sp.name} size="lg" />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditingPhotoSpeaker(sp);
+                          setPhotoUploadMethod('file');
+                          setSelectedPhotoFile(null);
+                          setDirectPhotoUrl('');
+                          setPhotoPreview(photo || null);
+                        }}
+                        className="absolute inset-0 rounded-2xl bg-black/50 text-white opacity-0 group-hover/avatar:opacity-100 flex items-center justify-center transition-opacity"
+                        title="Change photo"
+                      >
+                        <Camera size={18} />
+                      </button>
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white truncate" title={sp.name}>
+                        {sp.name}
+                      </h4>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        {sp.roles.length} contribution{sp.roles.length > 1 ? 's' : ''}
+                      </p>
+
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {uniqueRoles.map((role) => (
+                          <span
+                            key={role}
+                            className="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300"
+                          >
+                            {role}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-2 pt-3 border-t border-gray-100 dark:border-zinc-800/80">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingPhotoSpeaker(sp);
+                        setPhotoUploadMethod('file');
+                        setSelectedPhotoFile(null);
+                        setDirectPhotoUrl('');
+                        setPhotoPreview(photo || null);
+                      }}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-isot-burgundy/10 hover:bg-isot-burgundy hover:text-white text-isot-burgundy dark:bg-rose-950/40 dark:text-rose-300 dark:hover:bg-rose-600 dark:hover:text-white text-xs font-bold transition-all"
+                    >
+                      <Camera size={13} />
+                      <span>{photo ? 'Change Photo' : 'Upload Photo'}</span>
+                    </button>
+
+                    {photo && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveSpeakerPhoto(sp)}
+                        className="p-2 rounded-xl text-gray-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
+                        title="Remove custom photo"
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {filteredFaculty.length === 0 && (
+            <div className="text-center py-12 bg-white dark:bg-zinc-900 rounded-3xl border border-gray-200 dark:border-zinc-800 p-6">
+              <Users size={32} className="mx-auto text-gray-400 mb-2" />
+              <p className="text-sm font-bold text-gray-700 dark:text-gray-300">No faculty members found</p>
+              <p className="text-xs text-gray-500 mt-1">Try adjusting your search query or filter options.</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ============================================================ */}
+      {/* TAB 4: TOOLS & BACKUP VIEW */}
       {/* ============================================================ */}
       {activeTab === 'tools' && (
         <div className="space-y-4">
@@ -1851,6 +2180,143 @@ export const Admin: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* ============================================================ */}
+      {/* MODAL: SPEAKER PHOTO UPLOADER (Option A Cloudflare Storage) */}
+      {/* ============================================================ */}
+      {editingPhotoSpeaker && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto animate-fade-in">
+          <div className="bg-white dark:bg-zinc-900 rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 max-w-md w-full border-t sm:border border-gray-200 dark:border-zinc-800 shadow-2xl space-y-4 animate-scale-up">
+            <div className="flex items-center justify-between pb-2 border-b border-gray-100 dark:border-zinc-800">
+              <div className="flex items-center gap-2">
+                <Camera size={18} className="text-isot-burgundy dark:text-rose-400" />
+                <h3 className="font-extrabold text-base text-gray-900 dark:text-white">
+                  Upload Faculty Photo
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingPhotoSpeaker(null)}
+                className="p-1 text-gray-400 hover:text-gray-600 rounded-full"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="text-center space-y-2 py-1">
+              <div className="w-24 h-24 mx-auto rounded-3xl overflow-hidden border-2 border-isot-burgundy/30 shadow-md bg-gray-100 dark:bg-zinc-800 flex items-center justify-center">
+                {photoPreview ? (
+                  <img src={photoPreview} alt="Preview" className="w-full h-full object-cover object-top" />
+                ) : (
+                  <SpeakerAvatar name={editingPhotoSpeaker.name} size="xl" />
+                )}
+              </div>
+              <h4 className="font-black text-base text-gray-900 dark:text-white">
+                {editingPhotoSpeaker.name}
+              </h4>
+              <p className="text-xs text-gray-500">Auto-resized to 500×500 px high-res portrait</p>
+            </div>
+
+            {/* Method Segmented Switch */}
+            <div className="grid grid-cols-2 gap-1 p-1 bg-gray-100 dark:bg-zinc-800 rounded-xl text-xs font-bold">
+              <button
+                type="button"
+                onClick={() => setPhotoUploadMethod('file')}
+                className={`py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+                  photoUploadMethod === 'file'
+                    ? 'bg-white dark:bg-zinc-900 text-isot-burgundy dark:text-rose-400 shadow-sm'
+                    : 'text-gray-500'
+                }`}
+              >
+                <ImageIcon size={14} />
+                <span>Upload File</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setPhotoUploadMethod('url')}
+                className={`py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+                  photoUploadMethod === 'url'
+                    ? 'bg-white dark:bg-zinc-900 text-isot-burgundy dark:text-rose-400 shadow-sm'
+                    : 'text-gray-500'
+                }`}
+              >
+                <LinkIcon size={14} />
+                <span>Image URL</span>
+              </button>
+            </div>
+
+            {/* File Upload Option */}
+            {photoUploadMethod === 'file' ? (
+              <div className="space-y-2">
+                <label className="block p-6 rounded-2xl border-2 border-dashed border-gray-300 dark:border-zinc-700 hover:border-isot-burgundy text-center cursor-pointer transition-all bg-gray-50 dark:bg-zinc-800/50">
+                  <Camera size={28} className="mx-auto text-isot-burgundy dark:text-rose-400 mb-2" />
+                  <span className="text-xs font-bold text-gray-700 dark:text-gray-200 block">
+                    {selectedPhotoFile ? selectedPhotoFile.name : 'Click or Drag photo here'}
+                  </span>
+                  <span className="text-[10px] text-gray-400 block mt-1">PNG, JPG, JPEG, WebP</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePhotoFileChange}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+            ) : (
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-300 block">
+                  Direct Image URL (HTTPS)
+                </label>
+                <input
+                  type="url"
+                  value={directPhotoUrl}
+                  onChange={(e) => {
+                    setDirectPhotoUrl(e.target.value);
+                    if (e.target.value) setPhotoPreview(e.target.value);
+                  }}
+                  placeholder="https://example.com/photo.jpg"
+                  className="w-full p-2.5 rounded-xl bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs font-semibold outline-none focus:border-isot-burgundy"
+                />
+              </div>
+            )}
+
+            <div className="flex items-center justify-end gap-2 pt-3 border-t border-gray-100 dark:border-zinc-800">
+              <button
+                type="button"
+                onClick={() => {
+                  setEditingPhotoSpeaker(null);
+                  setSelectedPhotoFile(null);
+                  setPhotoPreview(null);
+                }}
+                className="px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 font-bold text-xs"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                disabled={isPhotoUploading || (photoUploadMethod === 'file' && !selectedPhotoFile) || (photoUploadMethod === 'url' && !directPhotoUrl)}
+                onClick={handleSaveSpeakerPhoto}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-isot-burgundy hover:bg-isot-deep-burgundy disabled:opacity-50 text-white font-bold text-xs shadow-md shadow-isot-burgundy/25 transition-all"
+              >
+                {isPhotoUploading ? (
+                  <>
+                    <RefreshCw size={14} className="animate-spin" />
+                    <span>Uploading...</span>
+                  </>
+                ) : (
+                  <>
+                    <Check size={14} />
+                    <span>Save Photo</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

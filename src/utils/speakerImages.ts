@@ -76,13 +76,27 @@ export const normalizeSpeakerKey = (name: string): string => {
     .replace(/^-+|-+$/g, '');
 };
 
-export const getSpeakerPhoto = (nameOrSlug?: string): string | undefined => {
+export const getSpeakerPhoto = (
+  nameOrSlug?: string,
+  customPhotos?: Record<string, string>
+): string | undefined => {
   if (!nameOrSlug) return undefined;
   const key = normalizeSpeakerKey(nameOrSlug);
+  const rawKey = nameOrSlug.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-');
+
+  // 1. Check custom uploaded photos first
+  if (customPhotos) {
+    if (customPhotos[key]) return customPhotos[key];
+    if (customPhotos[rawKey]) return customPhotos[rawKey];
+  }
+
+  // 2. Check static mapped photos
   if (SPEAKER_PHOTOS[key]) {
     return SPEAKER_PHOTOS[key];
   }
-  // Try prefixed or raw
-  const rawKey = nameOrSlug.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-');
-  return SPEAKER_PHOTOS[rawKey];
+  if (SPEAKER_PHOTOS[rawKey]) {
+    return SPEAKER_PHOTOS[rawKey];
+  }
+
+  return undefined;
 };

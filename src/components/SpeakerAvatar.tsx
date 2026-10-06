@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import { getSpeakerPhoto } from '../utils/speakerImages';
+import { useProgrammeStore } from '../store/programmeStore';
 
 interface SpeakerAvatarProps {
   name: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
+  customPhotoUrl?: string;
 }
 
 export const SpeakerAvatar: React.FC<SpeakerAvatarProps> = ({
   name,
   size = 'md',
   className = '',
+  customPhotoUrl,
 }) => {
   const [hasError, setHasError] = useState(false);
-  const photoUrl = getSpeakerPhoto(name);
+  const speakerPhotos = useProgrammeStore((state) => state.speakerPhotos || {});
+  const photoUrl = customPhotoUrl || getSpeakerPhoto(name, speakerPhotos);
 
   // Size configurations
   const sizeClasses = {

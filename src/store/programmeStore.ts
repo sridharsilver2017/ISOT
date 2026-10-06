@@ -222,6 +222,7 @@ export function extractSpeakersFromSessions(sessions: Session[]): Speaker[] {
 
 interface ProgrammeState {
   sessions: Session[];
+  speakerPhotos: Record<string, string>;
   isSyncing: boolean;
   isLoadingFromDb: boolean;
   isDbConnected: boolean;
@@ -231,6 +232,9 @@ interface ProgrammeState {
   
   // Actions
   fetchProgrammeFromServer: () => Promise<void>;
+  fetchSpeakerPhotos: () => Promise<void>;
+  uploadSpeakerPhoto: (speakerId: string, fileOrUrl: File | string) => Promise<string | null>;
+  deleteSpeakerPhoto: (speakerId: string) => Promise<boolean>;
   syncWithBackend: () => Promise<boolean>;
   updateSession: (sessionId: string, updatedData: Partial<Session>) => void;
   updateTalk: (talkId: string, updatedData: Partial<ProgrammeItem>) => void;
@@ -273,6 +277,7 @@ export const useProgrammeStore = create<ProgrammeState>()(
   persist(
     (set, get) => ({
       sessions: DEFAULT_PROGRAMME_SESSIONS,
+      speakerPhotos: {},
       isSyncing: false,
       isLoadingFromDb: false,
       isDbConnected: false,
@@ -280,8 +285,76 @@ export const useProgrammeStore = create<ProgrammeState>()(
       lastSynced: null,
       syncError: null,
 
+      fetchSpeakerPhotos: async () => {
+        try {
+          const res = await fetch('/api/speaker-images');
+          if (res.ok) {
+            const data = await res.json();
+            if (data.images && typeof data.images === 'object') {
+              set((state) => ({
+                speakerPhotos: { ...state.speakerPhotos, ...data.images },
+              }));
+            }
+          }
+        } catch (err) {
+          console.warn('Failed to fetch speaker images:', err);
+        }
+      },
+
+      uploadSpeakerPhoto: async (speakerId: string, fileOrUrl: File | string) => {
+        try {
+          let imageUrl = '';
+          if (typeof fileOrUrl === 'string') {
+            const res = await fetch('/api/speaker-images', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ speakerId, imageUrl: fileOrUrl }),
+            });
+            if (!res.ok) throw new Error('Upload failed');
+            const data = await res.json();
+            imageUrl = data.imageUrl;
+          } else {
+            const formData = new FormData();
+            formData.append('speakerId', speakerId);
+            formData.append('file', fileOrUrl);
+            const res = await fetch('/api/speaker-images', {
+              method: 'POST',
+              body: formData,
+            });
+            if (!res.ok) throw new Error('Upload failed');
+            const data = await res.json();
+            imageUrl = data.imageUrl;
+          }
+
+          set((state) => ({
+            speakerPhotos: { ...state.speakerPhotos, [speakerId]: imageUrl },
+          }));
+          return imageUrl;
+        } catch (err: any) {
+          console.error('Photo upload error:', err);
+          return null;
+        }
+      },
+
+      deleteSpeakerPhoto: async (speakerId: string) => {
+        try {
+          await fetch(`/api/speaker-images?speakerId=${encodeURIComponent(speakerId)}`, {
+            method: 'DELETE',
+          });
+          set((state) => {
+            const next = { ...state.speakerPhotos };
+            delete next[speakerId];
+            return { speakerPhotos: next };
+          });
+          return true;
+        } catch {
+          return false;
+        }
+      },
+
       fetchProgrammeFromServer: async () => {
         set({ isSyncing: true, syncError: null });
+        get().fetchSpeakerPhotos().catch(() => {});
         try {
           // Clean up old obsolete localStorage caches if present
           try {
