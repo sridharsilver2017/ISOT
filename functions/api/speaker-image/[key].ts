@@ -3,14 +3,21 @@ function getR2Bucket(env: any) {
 }
 
 export async function onRequestGet(context: { params: { key: string }; env: any }): Promise<Response> {
-  const key = context.params.key;
+  const key = decodeURIComponent(context.params.key || '');
   const bucket = getR2Bucket(context.env);
 
   if (!bucket) {
     return new Response('R2 BUCKET (isot-2026) not bound', { status: 404 });
   }
 
-  const object = await bucket.get(key);
+  // Try direct key, then speaker-photos/ prefix
+  let object = await bucket.get(key);
+  if (!object && !key.startsWith('speaker-photos/')) {
+    object = await bucket.get(`speaker-photos/${key}`);
+  }
+  if (!object && !key.endsWith('.png')) {
+    object = await bucket.get(`speaker-photos/${key}.png`);
+  }
 
   if (!object) {
     return new Response('Image Not Found', { status: 404 });
@@ -18,7 +25,8 @@ export async function onRequestGet(context: { params: { key: string }; env: any 
 
   const headers = new Headers();
   object.writeHttpMetadata(headers);
-  headers.set('etag', object.httpEtag);
+  if (object.httpEtag) headers.set('etag', object.httpEtag);
+  headers.set('Content-Type', object.httpMetadata?.contentType || 'image/png');
   headers.set('Cache-Control', 'public, max-age=31536000, immutable');
   headers.set('Access-Control-Allow-Origin', '*');
 
