@@ -112,9 +112,7 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
                 <h3 className="text-lg font-black tracking-tight">
                   Export Programme PDF
                 </h3>
-                <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-amber-400 text-isot-deep-burgundy rounded-full shadow-sm">
-                  V23-1 Ready
-                </span>
+
               </div>
               <p className="text-xs text-white/80">
                 Generate high-resolution, beautifully formatted schedule documents

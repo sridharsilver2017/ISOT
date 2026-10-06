@@ -51,7 +51,7 @@ export const Brochure: React.FC = () => {
           </div>
           <div>
             <h2 className="text-lg sm:text-xl font-black text-gray-900 dark:text-white">
-              ISOT 2026 Official Programme Data (V23-1)
+              ISOT 2026 Official Programme Data
             </h2>
             <p className="text-xs text-gray-500 dark:text-gray-400">
               36th Annual Conference • Indian Society of Organ Transplantation • 19 Sessions • 276 Programme Items
