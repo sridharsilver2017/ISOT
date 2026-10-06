@@ -2,18 +2,54 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
+function apiDevPlugin() {
+  return {
+    name: 'api-dev-mock-fallback',
+    configureServer(server: any) {
+      server.middlewares.use((req: any, res: any, next: any) => {
+        if (req.url === '/api/speaker-images' || req.url === '/api/speakers') {
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ images: {}, success: true }));
+          return;
+        }
+        if (req.url === '/api/auth/login') {
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ token: 'dev-token', user: { id: 'admin', username: 'admin', name: 'Admin', role: 'admin' } }));
+          return;
+        }
+        if (req.url === '/api/auth/me') {
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ user: { id: 'admin', username: 'admin', name: 'Admin', role: 'admin' } }));
+          return;
+        }
+        if (req.url === '/api/programme' && req.method === 'GET') {
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ sessions: [] }));
+          return;
+        }
+        if (req.url === '/api/programme' && req.method === 'PUT') {
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ success: true, lastUpdated: new Date().toISOString() }));
+          return;
+        }
+        if (req.url === '/api/upload-speaker-image' && req.method === 'POST') {
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ success: true }));
+          return;
+        }
+        next();
+      });
+    },
+  };
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
     port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5001',
-        changeOrigin: true,
-      },
-    },
   },
   plugins: [
+    apiDevPlugin(),
     react(),
     VitePWA({
       registerType: 'autoUpdate',
