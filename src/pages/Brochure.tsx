@@ -34,12 +34,33 @@ export const Brochure: React.FC = () => {
           </div>
           <div>
             <h2 className="text-lg sm:text-xl font-black text-gray-900 dark:text-white">
-              ISOT 2026 Official Programme Index
+              ISOT 2026 Official Programme Brochure (V21)
             </h2>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              36th Annual Conference • Indian Society of Organ Transplantation
+              36th Annual Conference • Indian Society of Organ Transplantation • 32 Pages Complete Catalogue
             </p>
           </div>
+        </div>
+
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="/ISOT-2026-Brochure-V21.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white font-bold text-xs shadow-md shadow-isot-burgundy/25 transition-all"
+          >
+            <FileText size={16} />
+            <span>Open V21 Brochure PDF</span>
+            <ExternalLink size={14} />
+          </a>
+
+          <a
+            href="/ISOT-2026-Brochure-V21.pdf"
+            download="ISOT-2026-Brochure-V21.pdf"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-800 dark:text-gray-200 font-bold text-xs border border-gray-200 dark:border-zinc-700 transition-all"
+          >
+            <span>Download V21 PDF</span>
+          </a>
         </div>
 
         <div className="p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800/60 border border-gray-200/60 dark:border-zinc-700/60 text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">

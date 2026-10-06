@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Session, ProgrammeItem, Speaker, SpeakerRoleInfo, getSessionItems } from '../types/programme';
+import { DEFAULT_PROGRAMME_SESSIONS } from '../data/defaultProgramme';
 
 export function slugify(text: string): string {
   return text
@@ -271,16 +272,16 @@ async function pushToBackend(sessions: Session[]): Promise<boolean> {
 export const useProgrammeStore = create<ProgrammeState>()(
   persist(
     (set, get) => ({
-      sessions: [],
+      sessions: DEFAULT_PROGRAMME_SESSIONS,
       isSyncing: false,
-      isLoadingFromDb: true,
+      isLoadingFromDb: false,
       isDbConnected: false,
-      dbStorage: 'Cloudflare D1 SQL Database',
+      dbStorage: 'Local & Cloudflare D1 SQL Database',
       lastSynced: null,
       syncError: null,
 
       fetchProgrammeFromServer: async () => {
-        set({ isSyncing: true, isLoadingFromDb: true, syncError: null });
+        set({ isSyncing: true, syncError: null });
         try {
           const res = await fetch('/api/programme', {
             headers: { 'Cache-Control': 'no-cache' },
@@ -299,9 +300,14 @@ export const useProgrammeStore = create<ProgrammeState>()(
               return;
             }
           }
+          if (!get().sessions || get().sessions.length === 0) {
+            set({ sessions: DEFAULT_PROGRAMME_SESSIONS });
+          }
           set({ isSyncing: false, isLoadingFromDb: false });
         } catch (err) {
-          console.warn('Could not reach remote database endpoint, retaining cached copy:', err);
+          if (!get().sessions || get().sessions.length === 0) {
+            set({ sessions: DEFAULT_PROGRAMME_SESSIONS });
+          }
           set({ isSyncing: false, isLoadingFromDb: false });
         }
       },
@@ -473,7 +479,8 @@ export const useProgrammeStore = create<ProgrammeState>()(
             // ignore network err
           }
         }
-        await get().fetchProgrammeFromServer();
+        set({ sessions: DEFAULT_PROGRAMME_SESSIONS });
+        pushToBackend(DEFAULT_PROGRAMME_SESSIONS);
       },
 
       importProgrammeJson: (json) => {
@@ -515,7 +522,7 @@ export const useProgrammeStore = create<ProgrammeState>()(
       },
     }),
     {
-      name: 'isot2026-custom-programme',
+      name: 'isot2026-custom-programme-v21',
     }
   )
 );
