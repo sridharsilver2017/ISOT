@@ -80,12 +80,25 @@ export const Programme: React.FC = () => {
     }
   }, [activeDate, availableHalls, selectedHall]);
 
-  // Extract all tracks for active date
+  // Extract all tracks with active sessions for active date (filtered by selectedHall if specified)
   const dayTracks = useMemo(() => {
+    const relevant = selectedHall === "All Halls"
+      ? daySessions
+      : daySessions.filter((s) =>
+          s.venue.toLowerCase().includes(selectedHall.toLowerCase()) ||
+          selectedHall.toLowerCase().includes(s.venue.toLowerCase())
+        );
     return Array.from(
-      new Set(daySessions.map((s) => s.track).filter(Boolean))
+      new Set(relevant.map((s) => s.track).filter(Boolean))
     ) as string[];
-  }, [daySessions]);
+  }, [daySessions, selectedHall]);
+
+  // If selected track has 0 sessions on this newly selected day/hall, auto-reset to "All"
+  useEffect(() => {
+    if (selectedTrack !== "All" && !dayTracks.includes(selectedTrack)) {
+      setSelectedTrack("All");
+    }
+  }, [dayTracks, selectedTrack]);
 
   // Filter sessions based on criteria
   const filteredSessions = daySessions.filter((session) => {

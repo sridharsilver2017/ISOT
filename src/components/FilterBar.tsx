@@ -147,7 +147,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       )}
 
       {/* Track filters (if available) */}
-      {tracks.length > 0 && onSelectTrack && (
+      {tracks.length > 1 && onSelectTrack && (
         <div className="pt-1 border-t border-gray-100 dark:border-zinc-800/80">
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 text-xs">
             <span className="text-[11px] font-bold text-gray-400 shrink-0 uppercase tracking-wider">Tracks:</span>
