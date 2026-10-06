@@ -113,7 +113,7 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
                   Export Programme PDF
                 </h3>
                 <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-amber-400 text-isot-deep-burgundy rounded-full shadow-sm">
-                  V21 Ready
+                  V22 Ready
                 </span>
               </div>
               <p className="text-xs text-white/80">
@@ -334,7 +334,7 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
               <FileText className="text-amber-700 dark:text-amber-400 shrink-0" size={18} />
               <div>
                 <p className="text-xs font-bold text-amber-950 dark:text-amber-200">
-                  Official 32-Page Brochure (V21 PDF)
+                  Official 32-Page Brochure (V22 PDF)
                 </p>
                 <p className="text-[10px] text-amber-700 dark:text-amber-400">
                   Original high-res conference catalogue document
@@ -342,8 +342,8 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
               </div>
             </div>
             <a
-              href="/ISOT-2026-Brochure-V21.pdf"
-              download="ISOT-2026-Brochure-V21.pdf"
+              href="/ISOT-2026-Brochure-V22.pdf"
+              download="ISOT-2026-Brochure-V22.pdf"
               className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-[11px] font-bold shadow-sm whitespace-nowrap"
             >
               Brochure PDF

@@ -1,5 +1,7 @@
-// ISOT 2026 Official Scientific Programme Data (Extracted from V21 Brochure)
-// Authoritative source of truth: ISOT 2026 Brochure-V21.pdf
+// ISOT 2026 Scientific Programme Baseline Data (Official Brochure V22)
+// Source of truth: ISOT 2026 Brochure-V22.pdf (32 pages)
+// Generated on: 2026-10-06
+// Total Sessions: 19
 
 import { Session } from '../types/programme';
 
@@ -1137,7 +1139,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Vamsi Krishna Nagalla",
               "Dhanalakshmi",
               "Banambar Ray",
-              "Sujith"
+              "Sujith Chadala"
             ],
             "page": 9
           },
@@ -3620,16 +3622,15 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "dayName": "Saturday",
             "startTime": "11:55",
             "endTime": "12:15",
-            "title": "Donation after circulatory death ( DCD)",
+            "title": "NOTTO Director Address",
             "type": "talk",
             "venue": "Hall C",
             "speakers": [
-              "Amol Bhawane"
+              "Anil Kumar"
             ],
             "chairpersons": [
-              "Deepesh Kenwar",
-              "Santosh Hedau",
-              "Manish Shrigiriwa"
+              "Vivek Kute",
+              "Sumana Arora"
             ],
             "page": 19
           },
@@ -3703,7 +3704,11 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "speakers": [
               "Anil Kumar"
             ],
-            "page": 19
+            "page": 19,
+            "chairpersons": [
+              "Dhannanjay Agarwal",
+              "Manish Balwani"
+            ]
           },
           {
             "id": "sat-hc-10",
@@ -5324,7 +5329,8 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             ],
             "chairpersons": [
               "Arpita Ray Chaudhury",
-              "Priyanka Tolani"
+              "Priyanka Tolani",
+              "Prajit Majumdar"
             ],
             "page": 27
           },

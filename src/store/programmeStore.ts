@@ -286,6 +286,7 @@ export const useProgrammeStore = create<ProgrammeState>()(
           // Clean up old obsolete localStorage caches if present
           try {
             localStorage.removeItem('isot2026-custom-programme');
+            localStorage.removeItem('isot2026-custom-programme-v21');
             localStorage.removeItem('isot2026-custom-programme-v19');
             localStorage.removeItem('isot2026-custom-programme-v18');
           } catch {
@@ -297,13 +298,14 @@ export const useProgrammeStore = create<ProgrammeState>()(
           });
           if (res.ok) {
             const data = await res.json();
-            if (Array.isArray(data.sessions) && data.sessions.length > 0) {
-              const isV21Data = data.sessions.some(
+            const sessionList = Array.isArray(data.sessions) ? data.sessions : Array.isArray(data) ? data : null;
+            if (sessionList && sessionList.length > 0) {
+              const isV22Data = sessionList.some(
                 (s: Session) => s.id === 'fri-ha-kidney' || s.id === 'sun-hb3-pediatric'
               );
-              if (isV21Data) {
+              if (isV22Data) {
                 set({
-                  sessions: data.sessions,
+                  sessions: sessionList,
                   lastSynced: data.lastUpdated || new Date().toISOString(),
                   isDbConnected: true,
                   dbStorage: data.storage || 'Cloudflare D1 SQL Database',
@@ -314,7 +316,7 @@ export const useProgrammeStore = create<ProgrammeState>()(
               }
             }
           }
-          // Default fallback to V21 data
+          // Default fallback to V22 data
           set({
             sessions: DEFAULT_PROGRAMME_SESSIONS,
             isSyncing: false,
@@ -539,7 +541,7 @@ export const useProgrammeStore = create<ProgrammeState>()(
       },
     }),
     {
-      name: 'isot2026-custom-programme-v21',
+      name: 'isot2026-custom-programme-v22',
       onRehydrateStorage: () => (state) => {
         if (!state || !state.sessions || state.sessions.length === 0 || !state.sessions.some((s) => s.id === 'fri-ha-kidney')) {
           if (state) {
