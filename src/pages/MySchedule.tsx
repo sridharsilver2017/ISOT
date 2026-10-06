@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useScheduleStore, SavedItem } from '../store/scheduleStore';
 import { CONFERENCE_DAYS } from '../data/event';
-import { Bookmark, Calendar, Clock, Trash2, ChevronRight, Mic, ArrowRight, Download } from 'lucide-react';
+import { Bookmark, Calendar, Clock, Trash2, ChevronRight, Mic, ArrowRight, Download, FileDown } from 'lucide-react';
 import { timeToMinutes } from '../utils/timeUtils';
+import { PdfExportModal } from '../components/PdfExportModal';
 
 export const MySchedule: React.FC = () => {
   const { savedItems, removeSavedItem, clearSchedule } = useScheduleStore();
   const [selectedDayFilter, setSelectedDayFilter] = useState<string>('all');
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState<boolean>(false);
 
   // Filter items by day
   const filteredItems = savedItems.filter((item) => {
@@ -71,6 +73,16 @@ export const MySchedule: React.FC = () => {
 
         {savedItems.length > 0 && (
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsPdfModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white text-xs font-bold shadow-md shadow-isot-burgundy/25 transition-all"
+              title="Download Personalized PDF Itinerary"
+            >
+              <FileDown size={14} />
+              <span>Download PDF</span>
+            </button>
+
             <button
               type="button"
               onClick={handleExportICS}
@@ -239,6 +251,12 @@ export const MySchedule: React.FC = () => {
           </Link>
         </div>
       )}
+
+      {/* PDF Export Modal */}
+      <PdfExportModal
+        isOpen={isPdfModalOpen}
+        onClose={() => setIsPdfModalOpen(false)}
+      />
     </div>
   );
 };

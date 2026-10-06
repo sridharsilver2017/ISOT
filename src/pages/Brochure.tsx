@@ -1,29 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FileText, ExternalLink, ArrowRight, BookOpen } from 'lucide-react';
+import { FileText, ExternalLink, ArrowRight, BookOpen, FileDown, Sparkles } from 'lucide-react';
+import { PdfExportModal } from '../components/PdfExportModal';
 
 export const Brochure: React.FC = () => {
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState<boolean>(false);
+
   return (
     <div className="space-y-6 sm:space-y-8 pb-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight">
-            Conference Brochure
+            Conference Brochure & Downloads
           </h1>
           <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-            ISOT 2026 Announcement & Programme Document
+            Official ISOT 2026 Programme Documents & Beautiful PDF Exports
           </p>
         </div>
 
-        <Link
-          to="/programme"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white font-bold text-xs shadow-md shadow-isot-burgundy/25 transition-all self-start sm:self-auto"
-        >
-          <BookOpen size={16} />
-          <span>Interactive Programme App</span>
-          <ArrowRight size={14} />
-        </Link>
+        <div className="flex items-center gap-2 self-start sm:self-auto">
+          <button
+            type="button"
+            onClick={() => setIsPdfModalOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-md shadow-amber-500/25 transition-all"
+          >
+            <Sparkles size={16} />
+            <span>Generate Custom PDF</span>
+          </button>
+
+          <Link
+            to="/programme"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white font-bold text-xs shadow-md shadow-isot-burgundy/25 transition-all"
+          >
+            <BookOpen size={16} />
+            <span>Interactive App</span>
+            <ArrowRight size={14} />
+          </Link>
+        </div>
       </div>
 
       {/* Brochure Overview Card */}
@@ -43,11 +57,20 @@ export const Brochure: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={() => setIsPdfModalOpen(true)}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white font-bold text-xs shadow-md shadow-isot-burgundy/25 transition-all"
+          >
+            <FileDown size={16} />
+            <span>Download Formatted PDF Programme</span>
+          </button>
+
           <a
             href="/ISOT-2026-Brochure-V21.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white font-bold text-xs shadow-md shadow-isot-burgundy/25 transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-800 dark:text-gray-200 font-bold text-xs border border-gray-200 dark:border-zinc-700 transition-all"
           >
             <FileText size={16} />
             <span>Open V21 Brochure PDF</span>
@@ -59,7 +82,7 @@ export const Brochure: React.FC = () => {
             download="ISOT-2026-Brochure-V21.pdf"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-800 dark:text-gray-200 font-bold text-xs border border-gray-200 dark:border-zinc-700 transition-all"
           >
-            <span>Download V21 PDF</span>
+            <span>Direct Download Original PDF (V21)</span>
           </a>
         </div>
 
@@ -132,6 +155,12 @@ export const Brochure: React.FC = () => {
           </a>
         </div>
       </div>
+
+      {/* PDF Export Modal */}
+      <PdfExportModal
+        isOpen={isPdfModalOpen}
+        onClose={() => setIsPdfModalOpen(false)}
+      />
     </div>
   );
 };

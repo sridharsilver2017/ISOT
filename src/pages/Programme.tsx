@@ -9,13 +9,15 @@ import { TalkCard } from '../components/TalkCard';
 import { TimelineView } from '../components/TimelineView';
 import { useScheduleStore } from '../store/scheduleStore';
 import { getSessionItems } from '../types/programme';
-import { Filter } from 'lucide-react';
+import { Filter, FileDown } from 'lucide-react';
+import { PdfExportModal } from '../components/PdfExportModal';
 
 export const Programme: React.FC = () => {
   const { date } = useParams<{ date?: string }>();
   const navigate = useNavigate();
   const { isTalkSaved, isSessionSaved } = useScheduleStore();
   const { sessions } = useProgrammeStore();
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState<boolean>(false);
 
   // Active conference date (default to Friday 2026-10-09)
   const [activeDate, setActiveDate] = useState<string>(
@@ -136,30 +138,43 @@ export const Programme: React.FC = () => {
           </p>
         </div>
 
-        {/* Display mode pills: Sessions vs Talks */}
-        <div className="inline-flex bg-gray-200/80 dark:bg-zinc-800 p-1 rounded-2xl self-start sm:self-auto border border-gray-200 dark:border-zinc-700">
+        {/* Action controls: Mode switcher & PDF Export */}
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             type="button"
-            onClick={() => setDisplayMode('sessions')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              displayMode === 'sessions'
-                ? 'bg-white dark:bg-zinc-900 text-isot-burgundy dark:text-rose-400 shadow-sm'
-                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900'
-            }`}
+            onClick={() => setIsPdfModalOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white font-bold text-xs shadow-md shadow-isot-burgundy/25 transition-all"
+            title="Download Beautiful PDF Programme"
           >
-            Sessions ({filteredSessions.length})
+            <FileDown size={15} />
+            <span>Download PDF</span>
           </button>
-          <button
-            type="button"
-            onClick={() => setDisplayMode('talks')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              displayMode === 'talks'
-                ? 'bg-white dark:bg-zinc-900 text-isot-burgundy dark:text-rose-400 shadow-sm'
-                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900'
-            }`}
-          >
-            Individual Talks ({allFilteredItems.length})
-          </button>
+
+          {/* Display mode pills: Sessions vs Talks */}
+          <div className="inline-flex bg-gray-200/80 dark:bg-zinc-800 p-1 rounded-2xl border border-gray-200 dark:border-zinc-700">
+            <button
+              type="button"
+              onClick={() => setDisplayMode('sessions')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                displayMode === 'sessions'
+                  ? 'bg-white dark:bg-zinc-900 text-isot-burgundy dark:text-rose-400 shadow-sm'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900'
+              }`}
+            >
+              Sessions ({filteredSessions.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setDisplayMode('talks')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                displayMode === 'talks'
+                  ? 'bg-white dark:bg-zinc-900 text-isot-burgundy dark:text-rose-400 shadow-sm'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900'
+              }`}
+            >
+              Talks ({allFilteredItems.length})
+            </button>
+          </div>
         </div>
       </div>
 
@@ -248,6 +263,13 @@ export const Programme: React.FC = () => {
           </div>
         )
       )}
+
+      {/* PDF Export Modal */}
+      <PdfExportModal
+        isOpen={isPdfModalOpen}
+        onClose={() => setIsPdfModalOpen(false)}
+        defaultDate={activeDate}
+      />
     </div>
   );
 };

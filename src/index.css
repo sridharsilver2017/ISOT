@@ -94,3 +94,37 @@
 .safe-top {
   padding-top: max(0.5rem, env(safe-area-inset-top));
 }
+
+/* Professional Print / PDF Styles */
+@media print {
+  header,
+  nav,
+  .glass-header,
+  .glass-nav,
+  .no-print,
+  button,
+  .safe-bottom {
+    display: none !important;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+  }
+
+  .card,
+  article,
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #E5E7EB !important;
+    box-shadow: none !important;
+  }
+
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+}
+
