@@ -1,6 +1,6 @@
-import { Session } from '../types/programme';
+import { Session } from '../types';
 
-export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
+export const defaultProgrammeSessions: Session[] = [
   {
     "id": "fri-ha-kidney",
     "index": 1,
@@ -1295,7 +1295,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
       },
       {
         "id": "fri-hb3-sec-1",
-        "title": "Case Discussion (Experts: Narayan Prasad, Subho Banerjee)",
+        "title": "Case Discussion",
         "items": [
           {
             "id": "fri-hb3-06",
@@ -1406,7 +1406,13 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Naveen Kumar Mattewada"
             ],
             "page": 10
-          },
+          }
+        ]
+      },
+      {
+        "id": "fri-hb3-sec-2",
+        "title": "Immunological Assessment & Post-Transplant Monitoring",
+        "items": [
           {
             "id": "fri-hb3-12",
             "sessionId": "fri-hb3-bts",
@@ -1690,7 +1696,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "sections": [
       {
         "id": "fri-hd-sec-0",
-        "title": "Welcome & Introduction",
+        "title": "AI Masterclass Sessions",
         "items": [
           {
             "id": "fri-hd-01",
@@ -1717,18 +1723,12 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "type": "talk",
             "venue": "Hall D",
             "description": [
-              "\u00bb Faculty introductions",
-              "\u00bb Participant introductions and expectations",
-              "\u00bb How to get maximum benefit from the workshop"
+              "Faculty introductions",
+              "Participant introductions and expectations",
+              "How to get maximum benefit from the workshop"
             ],
             "page": 11
-          }
-        ]
-      },
-      {
-        "id": "fri-hd-sec-1",
-        "title": "Session 1: Deep Dive into ChatGPT (Hands-on)",
-        "items": [
+          },
           {
             "id": "fri-hd-03",
             "sessionId": "fri-hd-ai",
@@ -1744,26 +1744,11 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Om J Lakhani"
             ],
             "description": [
-              "Part A (09:15\u201310:00): Introduction to ChatGPT",
-              "  \u00bb What is ChatGPT and how do Large Language Models work?",
-              "  \u00bb The craft of effective prompting \u2014 advanced techniques for transplant medicine",
-              "  \u00bb Understanding context windows and conversation management",
-              "  \u00bb Privacy and ethical considerations when using AI with patient data",
-              "  \u00bb Introduction to ChatGPT interface and Custom GPTs",
-              "Part B (10:00\u201310:45): Using ChatGPT for Transplant Scenarios (\u2018Do it with me, step-by-step\u2019)",
-              "  \u00bb Sign-up, account setup, and first transplant prompt",
-              "  \u00bb Exercise 1: Summarizing a research article on \u2018Novel Immunosuppression Protocols in Kidney Transplantation\u2019",
-              "  \u00bb Exercise 2: Using a Custom GPT to write a protocol on \u2018Management of BK Virus Nephropathy in Renal Transplant Recipients\u2019",
-              "  \u00bb Exercise 3: Creating immunosuppression adjustment guidelines for drug interactions (tacrolimus and antifungals)"
+              "Part A (09:15\u201310:00): Introduction to ChatGPT - What is ChatGPT and how do LLMs work; Prompting techniques for transplant medicine; Context windows; Privacy & ethics; Custom GPTs",
+              "Part B (10:00\u201310:45): Using ChatGPT for Transplant Scenarios - Step-by-step exercises on immunosuppression protocols, BK virus nephropathy protocols, drug interactions"
             ],
             "page": 11
-          }
-        ]
-      },
-      {
-        "id": "fri-hd-sec-2",
-        "title": "Inauguration & Tea Break",
-        "items": [
+          },
           {
             "id": "fri-hd-04",
             "sessionId": "fri-hd-ai",
@@ -1789,13 +1774,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "type": "ceremony",
             "venue": "Hall D",
             "page": 11
-          }
-        ]
-      },
-      {
-        "id": "fri-hd-sec-3",
-        "title": "Session 2: Deep Dive into Perplexity AI & Comet Browser (Hands-on)",
-        "items": [
+          },
           {
             "id": "fri-hd-06",
             "sessionId": "fri-hd-ai",
@@ -1811,27 +1790,11 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Avneesh Khare"
             ],
             "description": [
-              "Part A (13:00\u201313:45): Introduction to Perplexity and AI Agents",
-              "  \u00bb What is Perplexity AI and how is it different from ChatGPT?",
-              "  \u00bb Understanding real-time web search integration and source verification",
-              "  \u00bb What is an AI agent? Perplexity Pro features and focus modes",
-              "  \u00bb Introduction to Comet Browser and agentic AI workflows",
-              "  \u00bb Citation tracking for transplant research",
-              "Part B (13:45\u201314:30): Using Perplexity for Transplant Research (\u2018Do it with me, step-by-step\u2019)",
-              "  \u00bb Sign-up and first transplant research query",
-              "  \u00bb Exercise 1: Deep research on \u2018Non-traditional Immunosuppression: Belatacept in Kidney Transplantation - Current Evidence and Guidelines\u2019",
-              "  \u00bb Exercise 2: Using Perplexity Labs to create a dashboard on Comparison of Outcomes: Different Immunosuppression Protocols in Kidney Transplantation",
-              "  \u00bb Exercise 3: Staying updated on recent AST/ESOT conference proceedings",
-              "  \u00bb Demonstration: Comet Browser \u2014 drafting a LinkedIn article on \u2018World Organ Donation Day: Brain Death and Organ Allocation in India\u2019"
+              "Part A (13:00\u201313:45): Introduction to Perplexity and AI Agents - Web search integration, source verification, AI agents, Comet Browser workflows",
+              "Part B (13:45\u201314:30): Using Perplexity for Transplant Research - Belatacept evidence, Perplexity Labs comparison dashboards, AST/ESOT proceedings, Comet Browser organ donation drafting"
             ],
             "page": 11
-          }
-        ]
-      },
-      {
-        "id": "fri-hd-sec-4",
-        "title": "Session 3: Deep Dive into Google Gemini & NotebookLM (Hands-on)",
-        "items": [
+          },
           {
             "id": "fri-hd-07",
             "sessionId": "fri-hd-ai",
@@ -1847,26 +1810,11 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Om J Lakhani"
             ],
             "description": [
-              "Part A (14:30\u201315:15): Introduction to Google Gemini Ecosystem",
-              "  \u00bb What is Google Gemini and the Gemini ecosystem?",
-              "  \u00bb Key differences between Gemini, ChatGPT, and Perplexity",
-              "  \u00bb Understanding Retrieval Augmented Generation (RAG)",
-              "  \u00bb Gemini Deep Research feature and Google Workspace integration",
-              "  \u00bb What is Google NotebookLM? Source grounding and audio overview",
-              "Part B (15:15\u201316:00): Using Gemini/NotebookLM for Transplant Medicine (\u2018Do it with me, step-by-step\u2019)",
-              "  \u00bb Sign-up and first Gemini prompt",
-              "  \u00bb Exercise 1: Gemini Deep Research on \u2018Antibody-Mediated Rejection: Current Diagnosis and Treatment Strategies\u2019",
-              "  \u00bb Exercise 2: Uploading transplant protocols to NotebookLM and creating study guides",
-              "  \u00bb Exercise 3: NotebookLM audio overview on \u2018Donor-Specific Antibodies: From Laboratory Detection to Clinical Management\u2019"
+              "Part A (14:30\u201315:15): Introduction to Google Gemini Ecosystem - Gemini vs ChatGPT vs Perplexity, RAG, Gemini Deep Research, NotebookLM source grounding",
+              "Part B (15:15\u201316:00): Using Gemini/NotebookLM for Transplant Medicine - Deep research on ABMR, protocol study guides, audio overviews on DSA"
             ],
             "page": 12
-          }
-        ]
-      },
-      {
-        "id": "fri-hd-sec-5",
-        "title": "Clinical AI & Organ Prediction",
-        "items": [
+          },
           {
             "id": "fri-hd-08",
             "sessionId": "fri-hd-ai",
@@ -1882,13 +1830,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Sunil Shroff"
             ],
             "page": 12
-          }
-        ]
-      },
-      {
-        "id": "fri-hd-sec-6",
-        "title": "Session 4: Computer Vision AI for Transplant Pathology (Hands-on)",
-        "items": [
+          },
           {
             "id": "fri-hd-09",
             "sessionId": "fri-hd-ai",
@@ -1904,26 +1846,11 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Atul Tiwari"
             ],
             "description": [
-              "Part A (16:15\u201317:00): Introduction to Computer Vision in Transplant Pathology",
-              "  \u00bb What is computer vision and image recognition? Applications in transplant pathology",
-              "  \u00bb Understanding the Banff classification and AI\u2019s role in standardization",
-              "  \u00bb Current state of AI in transplant pathology globally",
-              "  \u00bb Limitations and ethical considerations in AI-assisted pathology",
-              "  \u00bb Introduction to Google Teachable Machine \u2014 training image classifiers without coding",
-              "Part B (17:00\u201317:45): Hands-on Computer Vision Exercise (\u2018Do it with me, step-by-step\u2019)",
-              "  \u00bb Exercise: Building an AI model to classify Banff rejection grades from kidney biopsy images using Google Teachable Machine",
-              "  \u00bb Training the model with sample pathology images",
-              "  \u00bb Testing accuracy and interpreting confidence scores",
-              "  \u00bb Discussion: Future applications and limitations in transplant pathology"
+              "Part A (16:15\u201317:00): Introduction to Computer Vision in Transplant Pathology - Image recognition, Banff classification AI role, Google Teachable Machine",
+              "Part B (17:00\u201317:45): Hands-on Computer Vision Exercise - Building an AI model to classify Banff rejection grades from kidney biopsy images"
             ],
             "page": 12
-          }
-        ]
-      },
-      {
-        "id": "fri-hd-sec-7",
-        "title": "Session 5: AI Tools for Documentation, Presentations & Decision Support",
-        "items": [
+          },
           {
             "id": "fri-hd-10",
             "sessionId": "fri-hd-ai",
@@ -1939,23 +1866,11 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Jaideep Rayapudi"
             ],
             "description": [
-              "Part A (17:45\u201318:30): Documentation & Clinical Decision Support Tools",
-              "  \u00bb Demonstration: WhisperFlow - AI voice-to-text for writing a referral letter for pre-transplant cardiac evaluation",
-              "  \u00bb Demonstration: GlassHealth \u2014 AI for solving a complex posttransplant complication case (fever, elevated creatinine, multiple drug interactions)",
-              "  \u00bb Hands-on practice by participants",
-              "Part B (18:30\u201319:15): Presentation, Visual & Data Tools (Demonstrations)",
-              "  \u00bb Demonstration: DoctorPPT/Gamma \u2014 Creating a presentation on \u2018Management of Acute Rejection in Kidney Transplantation\u2019",
-              "  \u00bb Demonstration: Napkin AI \u2014 Visual flowchart on \u2018Algorithm for Diagnosis and Management of Antibody-Mediated Rejection\u2019",
-              "  \u00bb Demonstration: Canva AI \u2014 Educational infographic on \u2018Understanding Brain Death and Organ Donation\u2019"
+              "Part A (17:45\u201318:30): Documentation & Decision Support - WhisperFlow voice-to-text referral letters, GlassHealth post-transplant complication solving",
+              "Part B (18:30\u201319:15): Presentation, Visual & Data Tools - DoctorPPT/Gamma presentations, Napkin AI AMR algorithm, Canva AI infographics"
             ],
             "page": 13
-          }
-        ]
-      },
-      {
-        "id": "fri-hd-sec-8",
-        "title": "Closing Session & Dinner",
-        "items": [
+          },
           {
             "id": "fri-hd-11",
             "sessionId": "fri-hd-ai",
@@ -1971,9 +1886,9 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Archit Mehta"
             ],
             "description": [
-              "\u00bb Resources for continued learning on Technocrinology.com",
-              "\u00bb Certificate distribution and feedback",
-              "\u00bb Announcement: Sunday Keynote \u2014 \u2018The Role of AI in Solid Organ Transplantation: The Current & The Future\u2019"
+              "Resources for continued learning on Technocrinology.com",
+              "Certificate distribution and feedback",
+              "Announcement: Sunday Keynote \u2014 The Role of AI in Solid Organ Transplantation"
             ],
             "page": 13
           },
@@ -3988,7 +3903,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "sections": [
       {
         "id": "sat-hd-sec-0",
-        "title": "Welcome & Introduction",
+        "title": "AI Masterclass Sessions",
         "items": [
           {
             "id": "sat-hd-01",
@@ -4028,18 +3943,12 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "type": "talk",
             "venue": "Hall D",
             "description": [
-              "\u00bb Faculty introductions",
-              "\u00bb Participant introductions and expectations",
-              "\u00bb How to get maximum benefit from the workshop"
+              "Faculty introductions",
+              "Participant introductions and expectations",
+              "How to get maximum benefit from the workshop"
             ],
             "page": 20
-          }
-        ]
-      },
-      {
-        "id": "sat-hd-sec-1",
-        "title": "Session 1: Deep Dive into ChatGPT (Hands-on)",
-        "items": [
+          },
           {
             "id": "sat-hd-04",
             "sessionId": "sat-hd-ai",
@@ -4055,17 +3964,8 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Om J Lakhani"
             ],
             "description": [
-              "Part A (09:15\u201310:00): Introduction to ChatGPT",
-              "  \u00bb What is ChatGPT and how do Large Language Models work?",
-              "  \u00bb The craft of effective prompting \u2014 advanced techniques for transplant medicine",
-              "  \u00bb Understanding context windows and conversation management",
-              "  \u00bb Privacy and ethical considerations when using AI with patient data",
-              "  \u00bb Introduction to ChatGPT interface and Custom GPTs",
-              "Part B (10:00\u201310:45): Using ChatGPT for Transplant Scenarios (\u2018Do it with me, step-by-step\u2019)",
-              "  \u00bb Sign-up, account setup, and first transplant prompt",
-              "  \u00bb Exercise 1: Summarizing a research article on \u2018Novel Immunosuppression Protocols in Kidney Transplantation\u2019",
-              "  \u00bb Exercise 2: Using a Custom GPT to write a protocol on \u2018Management of BK Virus Nephropathy in Renal Transplant Recipients\u2019",
-              "  \u00bb Exercise 3: Creating immunosuppression adjustment guidelines for drug interactions (tacrolimus and antifungals)"
+              "Part A (09:15\u201310:00): Introduction to ChatGPT - What is ChatGPT and how do LLMs work; Prompting techniques; Context windows; Privacy & ethics; Custom GPTs",
+              "Part B (10:00\u201310:45): Using ChatGPT for Transplant Scenarios - Step-by-step exercises on immunosuppression protocols, BK virus nephropathy, drug interactions"
             ],
             "page": 20
           },
@@ -4081,13 +3981,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "type": "break",
             "venue": "Hall D",
             "page": 20
-          }
-        ]
-      },
-      {
-        "id": "sat-hd-sec-2",
-        "title": "Session 2: Deep Dive into Perplexity AI & Comet Browser (Hands-on)",
-        "items": [
+          },
           {
             "id": "sat-hd-06",
             "sessionId": "sat-hd-ai",
@@ -4103,27 +3997,11 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Avneesh Khare"
             ],
             "description": [
-              "Part A (11:00\u201311:45): Introduction to Perplexity and AI Agents",
-              "  \u00bb What is Perplexity AI and how is it different from ChatGPT?",
-              "  \u00bb Understanding real-time web search integration and source verification",
-              "  \u00bb What is an AI agent? Perplexity Pro features and focus modes",
-              "  \u00bb Introduction to Comet Browser and agentic AI workflows",
-              "  \u00bb Citation tracking for transplant research",
-              "Part B (11:45\u201312:30): Using Perplexity for Transplant Research (\u2018Do it with me, step-by-step\u2019)",
-              "  \u00bb Sign-up and first transplant research query",
-              "  \u00bb Exercise 1: Deep research on \u2018Non-traditional Immunosuppression: Belatacept in Kidney Transplantation - Current Evidence and Guidelines\u2019",
-              "  \u00bb Exercise 2: Using Perplexity Labs to create a dashboard on Comparison of Outcomes: Different Immunosuppression Protocols in Kidney Transplantation",
-              "  \u00bb Exercise 3: Staying updated on recent AST/ESOT conference proceedings",
-              "  \u00bb Demonstration: Comet Browser \u2014 drafting a LinkedIn article on \u2018World Organ Donation Day: Brain Death and Organ Allocation in India\u2019"
+              "Part A (11:00\u201311:45): Introduction to Perplexity and AI Agents - Web search integration, source verification, AI agents, Comet Browser workflows",
+              "Part B (11:45\u201312:30): Using Perplexity for Transplant Research - Belatacept evidence, Perplexity Labs comparison dashboards, AST/ESOT proceedings, Comet Browser organ donation drafting"
             ],
             "page": 21
-          }
-        ]
-      },
-      {
-        "id": "sat-hd-sec-3",
-        "title": "Session 3: Deep Dive into Google Gemini & NotebookLM (Hands-on)",
-        "items": [
+          },
           {
             "id": "sat-hd-07",
             "sessionId": "sat-hd-ai",
@@ -4139,26 +4017,12 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Om J Lakhani"
             ],
             "description": [
-              "Part A (12:30\u201313:15): Introduction to Google Gemini Ecosystem",
-              "  \u00bb What is Google Gemini and the Gemini ecosystem?",
-              "  \u00bb Key differences between Gemini, ChatGPT, and Perplexity",
-              "  \u00bb Understanding Retrieval Augmented Generation (RAG)",
-              "  \u00bb Gemini Deep Research feature and Google Workspace integration",
-              "  \u00bb What is Google NotebookLM? Source grounding and audio overview",
-              "Part B (14:00\u201314:45): Using Gemini/NotebookLM for Transplant Medicine (\u2018Do it with me, step-by-step\u2019)",
-              "  \u00bb Sign-up and first Gemini prompt",
-              "  \u00bb Exercise 1: Gemini Deep Research on \u2018Antibody-Mediated Rejection: Current Diagnosis and Treatment Strategies\u2019",
-              "  \u00bb Exercise 2: Uploading transplant protocols to NotebookLM and creating study guides",
-              "  \u00bb Exercise 3: NotebookLM audio overview on \u2018Donor-Specific Antibodies: From Laboratory Detection to Clinical Management\u2019"
+              "Part A (12:30\u201313:15): Introduction to Google Gemini Ecosystem - Gemini vs ChatGPT vs Perplexity, RAG, Gemini Deep Research, NotebookLM",
+              "Lunch Break (13:00\u201314:00)",
+              "Part B (14:00\u201314:45): Using Gemini/NotebookLM for Transplant Medicine - Deep research on ABMR, protocol study guides, audio overviews on DSA"
             ],
             "page": 21
-          }
-        ]
-      },
-      {
-        "id": "sat-hd-sec-4",
-        "title": "Session 4: Computer Vision AI for Transplant Pathology (Hands-on)",
-        "items": [
+          },
           {
             "id": "sat-hd-08",
             "sessionId": "sat-hd-ai",
@@ -4174,26 +4038,11 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Atul Tiwari"
             ],
             "description": [
-              "Part A (14:45\u201315:30): Introduction to Computer Vision in Transplant Pathology",
-              "  \u00bb What is computer vision and image recognition? Applications in transplant pathology",
-              "  \u00bb Understanding the Banff classification and AI\u2019s role in standardization",
-              "  \u00bb Current state of AI in transplant pathology globally",
-              "  \u00bb Limitations and ethical considerations in AI-assisted pathology",
-              "  \u00bb Introduction to Google Teachable Machine \u2014 training image classifiers without coding",
-              "Part B (15:30\u201316:15): Hands-on Computer Vision Exercise (\u2018Do it with me, step-by-step\u2019)",
-              "  \u00bb Exercise: Building an AI model to classify Banff rejection grades from kidney biopsy images using Google Teachable Machine",
-              "  \u00bb Training the model with sample pathology images",
-              "  \u00bb Testing accuracy and interpreting confidence scores",
-              "  \u00bb Discussion: Future applications and limitations in transplant pathology"
+              "Part A (14:45\u201315:30): Introduction to Computer Vision in Transplant Pathology - Image recognition, Banff classification AI role, Google Teachable Machine",
+              "Part B (15:30\u201316:15): Hands-on Computer Vision Exercise - Building an AI model to classify Banff rejection grades from kidney biopsy images"
             ],
             "page": 21
-          }
-        ]
-      },
-      {
-        "id": "sat-hd-sec-5",
-        "title": "Session 5: AI Tools for Documentation, Presentations & Decision Support",
-        "items": [
+          },
           {
             "id": "sat-hd-09",
             "sessionId": "sat-hd-ai",
@@ -4222,23 +4071,11 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Jaideep Rayapudi"
             ],
             "description": [
-              "Part A (16:30\u201317:15): Documentation & Clinical Decision Support Tools",
-              "  \u00bb Demonstration: WhisperFlow - AI voice-to-text for writing a referral letter for pre-transplant cardiac evaluation",
-              "  \u00bb Demonstration: GlassHealth \u2014 AI for solving a complex posttransplant complication case (fever, elevated creatinine, multiple drug interactions)",
-              "  \u00bb Hands-on practice by participants",
-              "Part B (17:15\u201318:00): Presentation, Visual & Data Tools (Demonstrations)",
-              "  \u00bb Demonstration: DoctorPPT/Gamma \u2014 Creating a presentation on \u2018Management of Acute Rejection in Kidney Transplantation\u2019",
-              "  \u00bb Demonstration: Napkin AI \u2014 Visual flowchart on \u2018Algorithm for Diagnosis and Management of Antibody-Mediated Rejection\u2019",
-              "  \u00bb Demonstration: Canva AI \u2014 Educational infographic on \u2018Understanding Brain Death and Organ Donation\u2019"
+              "Part A (16:30\u201317:15 / 18:00): Documentation & Decision Support - WhisperFlow voice-to-text referral letters, GlassHealth post-transplant complication solving",
+              "Part B (17:15\u201318:00): Presentation, Visual & Data Tools - DoctorPPT/Gamma presentations, Napkin AI AMR algorithm, Canva AI infographics"
             ],
             "page": 22
-          }
-        ]
-      },
-      {
-        "id": "sat-hd-sec-6",
-        "title": "Closing Session & Dinner",
-        "items": [
+          },
           {
             "id": "sat-hd-11",
             "sessionId": "sat-hd-ai",
@@ -4254,9 +4091,9 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
               "Archit Mehta"
             ],
             "description": [
-              "\u00bb Resources for continued learning on Technocrinology.com",
-              "\u00bb Certificate distribution and feedback",
-              "\u00bb Announcement: Sunday Keynote \u2014 \u2018The Role of AI in Solid Organ Transplantation: The Current & The Future\u2019"
+              "Resources for continued learning on Technocrinology.com",
+              "Certificate distribution and feedback",
+              "Announcement: Sunday Keynote \u2014 The Role of AI in Solid Organ Transplantation"
             ],
             "page": 22
           },
@@ -4488,7 +4325,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:00",
             "title": "Panel Discussion: Combined Liver Kidney transplantation",
             "type": "panel",
-            "venue": "Hall B – Screen 2",
+            "venue": "Hall B \u2013 Screen 2",
             "moderator": "Mettu Srinivas",
             "moderators": [
               "Mettu Srinivas"
@@ -4644,7 +4481,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "title": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
     "startTime": "09:00",
     "endTime": "17:00",
-    "venue": "As per programme",
+    "venue": "Hall F",
     "sessionInCharge": [
       "Suneetha Narreddy"
     ],
@@ -4665,7 +4502,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:15",
             "title": "Welcome and Introduction",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "page": 24
           },
           {
@@ -4678,7 +4515,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:45",
             "title": "Vaccination in SOT: What\u2019s New and What\u2019s Necessary?",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Santosh Gattu"
             ],
@@ -4694,7 +4531,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:15",
             "title": "Antimicrobial Prophylaxis & Stewardship in Abdominal Transplantation",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "K Bhanu Prasad"
             ],
@@ -4710,7 +4547,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "10:45",
             "title": "Difficult to treat MDRO infection in SOT",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Subramanian Swaminathan"
             ],
@@ -4726,7 +4563,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:00",
             "title": "Tea Break",
             "type": "break",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "page": 24
           },
           {
@@ -4739,7 +4576,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:30",
             "title": "CMV in SOT: Immune Monitoring, Newer Therapeutics and Vaccines",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Vishnu Rao P"
             ],
@@ -4755,7 +4592,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "12:00",
             "title": "EBV and Adenovirus in SOT: Emerging Concepts and Changing Paradigms",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Parikshit Prayag"
             ],
@@ -4771,7 +4608,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "12:45",
             "title": "Debate: TB Prophylaxis Before Transplant: Test and Treat in India?",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "proSpeakers": [
               "Yogiraj Ray"
             ],
@@ -4794,7 +4631,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "13:15",
             "title": "Metagenomic Sequencing in SOT: From the Laboratory to Clinical Practice",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Madhumita Ram"
             ],
@@ -4810,7 +4647,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "page": 24
           },
           {
@@ -4823,7 +4660,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:30",
             "title": "Top 10 Papers in Transplant ID: Practice-Changing Evidence of the Year",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Sujata Rege"
             ],
@@ -4839,7 +4676,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:00",
             "title": "Transplant ID in India: Building a Unique Subspecialty",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Priscilla Rupali"
             ],
@@ -4855,7 +4692,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:30",
             "title": "Transplant Tourism: The Provider and Destination Perspectives",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Ankit Mittal"
             ],
@@ -4871,7 +4708,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:00",
             "title": "Panel Discussion: Transplant ID\u2014Ask the Experts",
             "type": "panel",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "page": 24
           }
         ]

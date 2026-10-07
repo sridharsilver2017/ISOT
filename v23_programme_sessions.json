@@ -4486,7 +4486,7 @@
             "endTime": "15:00",
             "title": "Panel Discussion: Combined Liver Kidney transplantation",
             "type": "panel",
-            "venue": "Hall B – Screen 2",
+            "venue": "Hall B \u2013 Screen 2",
             "moderator": "Mettu Srinivas",
             "moderators": [
               "Mettu Srinivas"
@@ -4642,7 +4642,7 @@
     "title": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
     "startTime": "09:00",
     "endTime": "17:00",
-    "venue": "As per programme",
+    "venue": "Hall F",
     "sessionInCharge": [
       "Suneetha Narreddy"
     ],
@@ -4663,7 +4663,7 @@
             "endTime": "09:15",
             "title": "Welcome and Introduction",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "page": 24
           },
           {
@@ -4676,7 +4676,7 @@
             "endTime": "09:45",
             "title": "Vaccination in SOT: What\u2019s New and What\u2019s Necessary?",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Santosh Gattu"
             ],
@@ -4692,7 +4692,7 @@
             "endTime": "10:15",
             "title": "Antimicrobial Prophylaxis & Stewardship in Abdominal Transplantation",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "K Bhanu Prasad"
             ],
@@ -4708,7 +4708,7 @@
             "endTime": "10:45",
             "title": "Difficult to treat MDRO infection in SOT",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Subramanian Swaminathan"
             ],
@@ -4724,7 +4724,7 @@
             "endTime": "11:00",
             "title": "Tea Break",
             "type": "break",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "page": 24
           },
           {
@@ -4737,7 +4737,7 @@
             "endTime": "11:30",
             "title": "CMV in SOT: Immune Monitoring, Newer Therapeutics and Vaccines",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Vishnu Rao P"
             ],
@@ -4753,7 +4753,7 @@
             "endTime": "12:00",
             "title": "EBV and Adenovirus in SOT: Emerging Concepts and Changing Paradigms",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Parikshit Prayag"
             ],
@@ -4769,7 +4769,7 @@
             "endTime": "12:45",
             "title": "Debate: TB Prophylaxis Before Transplant: Test and Treat in India?",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "proSpeakers": [
               "Yogiraj Ray"
             ],
@@ -4792,7 +4792,7 @@
             "endTime": "13:15",
             "title": "Metagenomic Sequencing in SOT: From the Laboratory to Clinical Practice",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Madhumita Ram"
             ],
@@ -4808,7 +4808,7 @@
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "page": 24
           },
           {
@@ -4821,7 +4821,7 @@
             "endTime": "14:30",
             "title": "Top 10 Papers in Transplant ID: Practice-Changing Evidence of the Year",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Sujata Rege"
             ],
@@ -4837,7 +4837,7 @@
             "endTime": "15:00",
             "title": "Transplant ID in India: Building a Unique Subspecialty",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Priscilla Rupali"
             ],
@@ -4853,7 +4853,7 @@
             "endTime": "15:30",
             "title": "Transplant Tourism: The Provider and Destination Perspectives",
             "type": "talk",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "speakers": [
               "Ankit Mittal"
             ],
@@ -4869,7 +4869,7 @@
             "endTime": "17:00",
             "title": "Panel Discussion: Transplant ID\u2014Ask the Experts",
             "type": "panel",
-            "venue": "As per programme",
+            "venue": "Hall F",
             "page": 24
           }
         ]
