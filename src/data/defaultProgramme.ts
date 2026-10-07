@@ -4488,10 +4488,10 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:00",
             "title": "Panel Discussion: Combined Liver Kidney transplantation",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
-            "moderator": "Gomathy N",
+            "venue": "Hall B – Screen 2",
+            "moderator": "Mettu Srinivas",
             "moderators": [
-              "Gomathy N"
+              "Mettu Srinivas"
             ],
             "panelists": [
               "Sharat Putta",
