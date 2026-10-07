@@ -64,4 +64,14 @@ export const HALLS: Hall[] = [
     description: "Venue for Liver in Transplantation, Preservation Technologies, MVT, and Transplant Oncology.",
     color: "#06B6D4",
   },
+  {
+    id: "hall-h",
+    name: "Hall H",
+    shortName: "Hall H",
+    capacity: "300 seats",
+    floor: "Ground Floor, Wing H",
+    description: "Dedicated hall for Transplant Infectious Diseases (TID) Symposia and SOT Sessions.",
+    color: "#0D9488",
+  },
 ];
+

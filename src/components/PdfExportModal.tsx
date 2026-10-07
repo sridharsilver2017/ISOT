@@ -26,6 +26,7 @@ const CONFERENCE_HALLS: string[] = [
   'Hall C',
   'Hall D',
   'Hall F',
+  'Hall H',
 ];
 
 interface PdfExportModalProps {

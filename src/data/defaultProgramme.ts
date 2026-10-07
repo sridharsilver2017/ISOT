@@ -1,6 +1,6 @@
-import { Session } from '../types';
+import { Session } from '../types/programme';
 
-export const defaultProgrammeSessions: Session[] = [
+export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
   {
     "id": "fri-ha-kidney",
     "index": 1,
@@ -4481,7 +4481,7 @@ export const defaultProgrammeSessions: Session[] = [
     "title": "TID 2026 \u2013 Solid Organ Transplant (SOT)",
     "startTime": "09:00",
     "endTime": "17:00",
-    "venue": "Hall F",
+    "venue": "Hall H",
     "sessionInCharge": [
       "Suneetha Narreddy"
     ],
@@ -4502,7 +4502,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "09:15",
             "title": "Welcome and Introduction",
             "type": "talk",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "page": 24
           },
           {
@@ -4515,7 +4515,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "09:45",
             "title": "Vaccination in SOT: What\u2019s New and What\u2019s Necessary?",
             "type": "talk",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "speakers": [
               "Santosh Gattu"
             ],
@@ -4531,7 +4531,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "10:15",
             "title": "Antimicrobial Prophylaxis & Stewardship in Abdominal Transplantation",
             "type": "talk",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "speakers": [
               "K Bhanu Prasad"
             ],
@@ -4547,7 +4547,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "10:45",
             "title": "Difficult to treat MDRO infection in SOT",
             "type": "talk",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "speakers": [
               "Subramanian Swaminathan"
             ],
@@ -4563,7 +4563,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "11:00",
             "title": "Tea Break",
             "type": "break",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "page": 24
           },
           {
@@ -4576,7 +4576,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "11:30",
             "title": "CMV in SOT: Immune Monitoring, Newer Therapeutics and Vaccines",
             "type": "talk",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "speakers": [
               "Vishnu Rao P"
             ],
@@ -4592,7 +4592,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "12:00",
             "title": "EBV and Adenovirus in SOT: Emerging Concepts and Changing Paradigms",
             "type": "talk",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "speakers": [
               "Parikshit Prayag"
             ],
@@ -4608,7 +4608,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "12:45",
             "title": "Debate: TB Prophylaxis Before Transplant: Test and Treat in India?",
             "type": "talk",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "proSpeakers": [
               "Yogiraj Ray"
             ],
@@ -4631,7 +4631,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "13:15",
             "title": "Metagenomic Sequencing in SOT: From the Laboratory to Clinical Practice",
             "type": "talk",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "speakers": [
               "Madhumita Ram"
             ],
@@ -4647,7 +4647,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "page": 24
           },
           {
@@ -4660,7 +4660,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "14:30",
             "title": "Top 10 Papers in Transplant ID: Practice-Changing Evidence of the Year",
             "type": "talk",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "speakers": [
               "Sujata Rege"
             ],
@@ -4676,7 +4676,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "15:00",
             "title": "Transplant ID in India: Building a Unique Subspecialty",
             "type": "talk",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "speakers": [
               "Priscilla Rupali"
             ],
@@ -4692,7 +4692,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "15:30",
             "title": "Transplant Tourism: The Provider and Destination Perspectives",
             "type": "talk",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "speakers": [
               "Ankit Mittal"
             ],
@@ -4708,7 +4708,7 @@ export const defaultProgrammeSessions: Session[] = [
             "endTime": "17:00",
             "title": "Panel Discussion: Transplant ID\u2014Ask the Experts",
             "type": "panel",
-            "venue": "Hall F",
+            "venue": "Hall H",
             "page": 24
           }
         ]
@@ -5732,3 +5732,5 @@ export const defaultProgrammeSessions: Session[] = [
     ]
   }
 ];
+
+export const defaultProgrammeSessions = DEFAULT_PROGRAMME_SESSIONS;

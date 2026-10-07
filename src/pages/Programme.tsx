@@ -53,17 +53,38 @@ export const Programme: React.FC = () => {
   const availableHalls = useMemo(() => {
     const hallNamesWithSessions = new Set<string>();
     daySessions.forEach((s) => {
-      if (s.venue) {
+      if (s.venue && s.venue.trim() && s.venue.trim() !== 'As per programme') {
         hallNamesWithSessions.add(s.venue.trim());
       }
     });
 
-    return HALLS.filter((h) =>
+    const matchedHalls = HALLS.filter((h) =>
       hallNamesWithSessions.has(h.name) ||
       Array.from(hallNamesWithSessions).some(
         (v) => v.toLowerCase().includes(h.name.toLowerCase()) || h.name.toLowerCase().includes(v.toLowerCase())
       )
     );
+
+    // Also include any dynamic venue from database not explicitly in static HALLS
+    const knownNames = new Set(matchedHalls.map((h) => h.name.toLowerCase()));
+    hallNamesWithSessions.forEach((vName) => {
+      const alreadyCovered = Array.from(knownNames).some(
+        (kn) => kn === vName.toLowerCase() || kn.includes(vName.toLowerCase()) || vName.toLowerCase().includes(kn)
+      );
+      if (!alreadyCovered) {
+        matchedHalls.push({
+          id: vName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          name: vName,
+          shortName: vName,
+          capacity: '',
+          floor: '',
+          description: `Venue for ${vName}`,
+          color: '#0D9488',
+        });
+      }
+    });
+
+    return matchedHalls;
   }, [daySessions]);
 
   // If selected hall has 0 sessions on this newly selected day, auto-reset to 'All Halls'
