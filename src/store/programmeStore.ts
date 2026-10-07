@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Session, ProgrammeItem, Speaker, SpeakerRoleInfo, getSessionItems } from '../types/programme';
+import { Session, ProgrammeItem, ProgrammeSection, Speaker, SpeakerRoleInfo, getSessionItems } from '../types/programme';
 import { DEFAULT_PROGRAMME_SESSIONS } from '../data/defaultProgramme';
 
 export function slugify(text: string): string {
@@ -247,7 +247,7 @@ interface ProgrammeState {
   
   // Queries
   getSessionById: (id: string) => Session | undefined;
-  getTalkById: (id: string) => { item: ProgrammeItem; session: Session } | undefined;
+  getTalkById: (id: string) => { item: ProgrammeItem; session: Session; section?: ProgrammeSection } | undefined;
   getSpeakers: () => Speaker[];
   getSpeakerById: (id: string) => Speaker | undefined;
 }
@@ -602,6 +602,14 @@ export const useProgrammeStore = create<ProgrammeState>()(
 
       getTalkById: (id) => {
         for (const session of get().sessions) {
+          if (Array.isArray(session.sections) && session.sections.length > 0) {
+            for (const section of session.sections) {
+              const found = section.items?.find((item) => item.id === id);
+              if (found) {
+                return { item: found, session, section };
+              }
+            }
+          }
           const items = getSessionItems(session);
           const found = items.find((item) => item.id === id);
           if (found) {

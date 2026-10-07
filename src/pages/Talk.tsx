@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useProgrammeStore, slugify } from '../store/programmeStore';
-import { Clock, MapPin, User, Users, Mic, Award, ChevronLeft, Bookmark, Share2, Calendar, ArrowLeft } from 'lucide-react';
+import { MapPin, User, Users, Mic, Award, ChevronLeft, Bookmark, Share2, Calendar, ArrowLeft } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
-import { getTypeBadgeColor } from '../utils/timeUtils';
+import { getTypeBadgeColor, parsePartHeader } from '../utils/timeUtils';
 import { SpeakerAvatar } from '../components/SpeakerAvatar';
 
 export const Talk: React.FC = () => {
@@ -85,43 +85,48 @@ export const Talk: React.FC = () => {
       <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-zinc-800 shadow-sm relative space-y-6">
         {/* Top Badges */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-isot-light-pink dark:bg-rose-950/40 text-isot-burgundy dark:text-rose-300 font-bold text-xs">
-            <Clock size={14} className="stroke-[2.5]" />
-            {item.startTime} {item.endTime ? `– ${item.endTime}` : ''}
+          <span className="inline-flex items-center px-3 py-1.5 rounded-xl bg-red-50 dark:bg-red-950/90 text-red-700 dark:text-red-300 border border-red-200/90 dark:border-red-900/70 font-black text-xs shadow-2xs">
+            <span>{item.startTime} {item.endTime ? `– ${item.endTime}` : ''}</span>
           </span>
 
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 font-semibold text-xs">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-200 font-bold text-xs border border-gray-200/80 dark:border-zinc-700">
             <Calendar size={13} className="text-isot-burgundy dark:text-rose-400" />
-            {item.dayName}, {session.dayDisplay} 2026
+            <span>{item.dayName}, {session.dayDisplay} 2026</span>
           </span>
 
-          <span
-            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ${badge.bg} ${badge.text} ${badge.border}`}
-          >
-            {badge.label}
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-200 font-bold text-xs border border-gray-200/80 dark:border-zinc-700">
+            <MapPin size={13} className="text-isot-burgundy dark:text-rose-400" />
+            <span>{item.venue}</span>
           </span>
 
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 font-semibold text-xs">
-            <MapPin size={13} className="text-amber-600" />
-            {item.venue}
-          </span>
+          {item.type && item.type !== 'talk' && (
+            <span
+              className={`inline-flex items-center px-2.5 py-1 rounded-xl text-xs font-extrabold border ${badge.bg} ${badge.text} ${badge.border}`}
+            >
+              {badge.label}
+            </span>
+          )}
         </div>
 
         {/* Parent Session Reference */}
-        <div className="p-3.5 rounded-2xl bg-gray-50 dark:bg-zinc-800/60 border border-gray-200/60 dark:border-zinc-700/60">
-          <span className="text-[10px] uppercase font-bold tracking-wider text-gray-400 dark:text-gray-500 block mb-0.5">
-            Part of Session
-          </span>
-          <Link
-            to={`/session/${session.id}`}
-            className="text-sm font-bold text-isot-burgundy dark:text-rose-400 hover:underline flex items-center justify-between"
-          >
-            <span>{session.title}</span>
-            <ChevronLeft size={16} className="rotate-180 text-gray-400" />
+        <div className="p-3.5 rounded-2xl bg-gray-50 dark:bg-zinc-800/60 border border-gray-200/60 dark:border-zinc-700/60 flex items-center justify-between">
+          <div className="min-w-0 pr-2">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-gray-400 dark:text-gray-500 block mb-0.5">
+              Part of Session
+            </span>
+            <Link
+              to={`/session/${session.id}`}
+              className="text-xs sm:text-sm font-bold text-isot-burgundy dark:text-rose-400 hover:underline line-clamp-1"
+            >
+              {session.title}
+            </Link>
+          </div>
+          <Link to={`/session/${session.id}`} className="text-gray-400 hover:text-isot-burgundy shrink-0">
+            <ChevronLeft size={16} className="rotate-180" />
           </Link>
         </div>
 
-        {/* Topic Title */}
+        {/* Talk Title */}
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight leading-snug">
             {item.title}
@@ -248,15 +253,43 @@ export const Talk: React.FC = () => {
 
           {/* Descriptions / Workshop Outlines */}
           {item.description && item.description.length > 0 && (
-            <div className="p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800/60 border border-gray-200/60 dark:border-zinc-700/60 space-y-2">
-              <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                Session Outline & Topics
+            <div className="p-5 rounded-2xl bg-gradient-to-br from-rose-50/70 to-amber-50/30 dark:from-zinc-800/80 dark:to-zinc-800/40 border border-rose-100/90 dark:border-zinc-700/60 text-xs text-gray-700 dark:text-gray-300 space-y-3">
+              <div className="text-[11px] font-black uppercase tracking-wider text-isot-burgundy dark:text-rose-400">
+                Workshop Topics & Hands-on Outline:
               </div>
-              {item.description.map((desc, idx) => (
-                <p key={idx} className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                  {desc}
-                </p>
-              ))}
+              <div className="space-y-2">
+                {item.description.map((desc, idx) => {
+                  const parsed = parsePartHeader(desc);
+                  if (parsed.isPart) {
+                    return (
+                      <div
+                        key={idx}
+                        className="pt-3 first:pt-0 pb-1.5 flex flex-wrap items-center gap-2 border-b border-gray-100 dark:border-zinc-700/60 last:border-0"
+                      >
+                        {parsed.time && (
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-xl bg-red-50 dark:bg-red-950/90 text-red-700 dark:text-red-300 border border-red-200/90 dark:border-red-900/70 font-black text-xs shadow-2xs">
+                            <span>{parsed.time}</span>
+                          </span>
+                        )}
+                        {parsed.partName && (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-isot-burgundy/10 dark:bg-rose-950/60 text-isot-burgundy dark:text-rose-300 font-black text-xs border border-isot-burgundy/20 dark:border-rose-800/40">
+                            {parsed.partName}
+                          </span>
+                        )}
+                        <span className="font-black text-sm sm:text-base text-gray-900 dark:text-white">
+                          {parsed.title}
+                        </span>
+                      </div>
+                    );
+                  }
+                  return (
+                    <div key={idx} className="flex items-start gap-2 pl-4 leading-relaxed text-xs sm:text-sm text-gray-700 dark:text-gray-300">
+                      <span className="text-isot-burgundy dark:text-rose-400 font-bold">›</span>
+                      <span>{desc.replace(/^[\s»•]+/, '')}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>

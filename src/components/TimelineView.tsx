@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ProgrammeItem } from '../types/programme';
 import { getTypeBadgeColor } from '../utils/timeUtils';
-import { Clock, Star, Mic } from 'lucide-react';
+import { Star, Mic } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
 
 interface TimelineViewProps {
@@ -34,8 +34,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ items }) => {
           return (
             <div key={time} className="relative pl-0 sm:pl-24 space-y-2.5 sm:space-y-0">
               {/* Time header badge: inline on mobile, pinned left on desktop */}
-              <div className="sm:absolute sm:left-0 sm:top-1 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-isot-burgundy text-white font-black text-xs shadow-sm">
-                <Clock size={12} />
+              <div className="sm:absolute sm:left-0 sm:top-1 inline-flex items-center px-2.5 py-1 rounded-xl bg-red-600 text-white font-black text-xs shadow-sm">
                 <span>{time}</span>
               </div>
 
@@ -58,11 +57,13 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ items }) => {
                           <span className="text-[11px] font-bold text-isot-burgundy dark:text-rose-400 bg-isot-light-pink dark:bg-rose-950/60 px-2 py-0.5 rounded-md truncate max-w-[70%]">
                             {item.venue}
                           </span>
-                          <span
-                            className={`text-[10px] font-bold px-2 py-0.5 rounded shrink-0 ${badge.bg} ${badge.text}`}
-                          >
-                            {badge.label}
-                          </span>
+                          {item.type && item.type !== 'talk' && (
+                            <span
+                              className={`text-[10px] font-bold px-2 py-0.5 rounded shrink-0 ${badge.bg} ${badge.text}`}
+                            >
+                              {badge.label}
+                            </span>
+                          )}
                         </div>
 
                         <Link

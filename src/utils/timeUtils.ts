@@ -132,3 +132,62 @@ export function getTypeBadgeColor(type: string): { bg: string; text: string; bor
       return { bg: 'bg-sky-50 dark:bg-sky-950/40', text: 'text-sky-700 dark:text-sky-400', border: 'border-sky-200 dark:border-sky-800', label: 'Talk' };
   }
 }
+
+export interface ParsedPartHeader {
+  isPart: boolean;
+  partName?: string;
+  time?: string;
+  title?: string;
+}
+
+export function parsePartHeader(text: string): ParsedPartHeader {
+  if (!text) return { isPart: false };
+  const match = text.match(/^(Part\s+[A-Z0-9]+)\s*\(([\d]{1,2}:[\d]{2}\s*[\u2013\u2014–-]\s*[\d]{1,2}:[\d]{2})\)\s*:\s*(.*)$/i);
+  if (match) {
+    return {
+      isPart: true,
+      partName: match[1].trim(),
+      time: match[2].replace(/[\u2013\u2014-]/g, '–').trim(),
+      title: match[3].trim(),
+    };
+  }
+
+  const altMatch = text.match(/^(Part\s+[A-Z0-9]+)\s*:\s*(.*)$/i);
+  if (altMatch) {
+    return {
+      isPart: true,
+      partName: altMatch[1].trim(),
+      title: altMatch[2].trim(),
+    };
+  }
+
+  return { isPart: false };
+}
+
+export function isSpecialEvent(title: string = '', type: string = ''): boolean {
+  const t = (title || '').toLowerCase().trim();
+  const typ = (type || '').toLowerCase().trim();
+
+  if (['registration', 'ceremony', 'lunch', 'dinner', 'break', 'social'].includes(typ)) {
+    return true;
+  }
+
+  if (
+    t.includes('registration') ||
+    t.includes('ceremony') ||
+    t.includes('inaugural') ||
+    t.includes('valedictory') ||
+    t.includes('lunch') ||
+    t.includes('gala dinner') ||
+    t.includes('dinner') ||
+    t.includes('tea break') ||
+    t.includes('coffee break') ||
+    t.includes('high tea') ||
+    t.includes('welcome reception') ||
+    t.includes('inauguration')
+  ) {
+    return true;
+  }
+
+  return false;
+}

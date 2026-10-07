@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useScheduleStore, SavedItem } from '../store/scheduleStore';
 import { CONFERENCE_DAYS } from '../data/event';
-import { Bookmark, Calendar, Clock, Trash2, ChevronRight, Mic, ArrowRight, Download, FileDown, FileSpreadsheet, Table } from 'lucide-react';
+import { Bookmark, Calendar, Trash2, ChevronRight, Mic, ArrowRight, Download, FileDown, FileSpreadsheet, Table } from 'lucide-react';
 import { timeToMinutes } from '../utils/timeUtils';
 import { PdfExportModal } from '../components/PdfExportModal';
 import { useProgrammeStore } from '../store/programmeStore';
@@ -208,9 +208,8 @@ export const MySchedule: React.FC = () => {
                       >
                         <div>
                           <div className="flex items-center justify-between gap-2 mb-2">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-isot-light-pink dark:bg-rose-950/40 text-isot-burgundy dark:text-rose-300 font-bold text-xs">
-                              <Clock size={12} className="stroke-[2.5]" />
-                              {item.startTime} {item.endTime ? `– ${item.endTime}` : ''}
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-xl bg-red-50 dark:bg-red-950/80 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 font-black text-xs">
+                              <span>{item.startTime} {item.endTime ? `– ${item.endTime}` : ''}</span>
                             </span>
 
                             <span className="text-xs font-semibold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-zinc-800 px-2.5 py-0.5 rounded-full">

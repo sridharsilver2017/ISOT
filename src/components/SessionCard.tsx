@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Session } from '../types/programme';
-import { Clock, MapPin, User, ChevronRight, Bookmark, Layers } from 'lucide-react';
+import { MapPin, User, ChevronRight, Bookmark, Layers } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
 
 interface SessionCardProps {
@@ -31,8 +31,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
       <div>
         {/* Top Meta: Time & Hall Badge */}
         <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-isot-light-pink dark:bg-rose-950/40 text-isot-burgundy dark:text-rose-300 font-bold text-xs sm:text-sm">
-            <Clock size={14} className="stroke-[2.5]" />
+          <div className="inline-flex items-center px-3 py-1 rounded-xl bg-red-50 dark:bg-red-950/80 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 font-black text-xs sm:text-sm">
             <span>{session.startTime} – {session.endTime}</span>
           </div>
 
