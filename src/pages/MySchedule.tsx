@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useScheduleStore, SavedItem } from '../store/scheduleStore';
 import { CONFERENCE_DAYS } from '../data/event';
-import { Bookmark, Calendar, Trash2, ChevronRight, Mic, ArrowRight, Download, FileDown, FileSpreadsheet, Table } from 'lucide-react';
+import { Bookmark, Calendar, Trash2, ChevronRight, Mic, ArrowRight, FileDown, FileSpreadsheet, Table, CalendarPlus } from 'lucide-react';
 import { timeToMinutes } from '../utils/timeUtils';
 import { PdfExportModal } from '../components/PdfExportModal';
+import { CalendarSyncModal } from '../components/CalendarSyncModal';
 import { useProgrammeStore } from '../store/programmeStore';
 import { downloadProgrammeExcel, downloadProgrammeCsv } from '../utils/excelGenerator';
+import { addToDeviceCalendar, createICSFile } from '../utils/calendarGenerator';
 
 export const MySchedule: React.FC = () => {
   const { savedItems, removeSavedItem, clearSchedule } = useScheduleStore();
   const { sessions } = useProgrammeStore();
   const [selectedDayFilter, setSelectedDayFilter] = useState<string>('all');
   const [isPdfModalOpen, setIsPdfModalOpen] = useState<boolean>(false);
+  const [isCalendarModalOpen, setIsCalendarModalOpen] = useState<boolean>(false);
 
   // Filter items by day
   const filteredItems = savedItems.filter((item) => {
@@ -35,25 +38,22 @@ export const MySchedule: React.FC = () => {
     groupedByDate[item.date].push(item);
   });
 
-  const handleExportICS = () => {
+  const handleAddToCalendar = async () => {
     if (savedItems.length === 0) return;
-    let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//ISOT 2026//Conference Schedule//EN\n";
-    savedItems.forEach((item) => {
-      const dtStart = item.date.replace(/-/g, '') + 'T' + item.startTime.replace(':', '') + '00';
-      const endTime = item.endTime || item.startTime;
-      const dtEnd = item.date.replace(/-/g, '') + 'T' + endTime.replace(':', '') + '00';
-      icsContent += `BEGIN:VEVENT\nSUMMARY:${item.title.replace(/\n/g, ' ')}\nLOCATION:${item.venue}, HITEX Hyderabad\nDTSTART:${dtStart}\nDTEND:${dtEnd}\nDESCRIPTION:ISOT 2026 Annual Conference\nSTATUS:CONFIRMED\nEND:VEVENT\n`;
-    });
-    icsContent += "END:VCALENDAR";
+    
+    // Check if Web Share API with files is supported (mobile iOS/Android)
+    try {
+      const sampleFile = createICSFile(savedItems.slice(0, 1));
+      if (navigator?.canShare && navigator.canShare({ files: [sampleFile] })) {
+        await addToDeviceCalendar(savedItems);
+        return;
+      }
+    } catch {
+      // Fallback to modal if canShare check fails
+    }
 
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'ISOT2026_MySchedule.ics');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Open rich Calendar Sync modal for desktop & browser calendar choices
+    setIsCalendarModalOpen(true);
   };
 
   const handleExportExcel = () => {
@@ -122,12 +122,12 @@ export const MySchedule: React.FC = () => {
 
             <button
               type="button"
-              onClick={handleExportICS}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 text-xs font-bold transition-all"
-              title="Export to Calendar (.ics)"
+              onClick={handleAddToCalendar}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow-md shadow-amber-500/20 transition-all active:scale-95"
+              title="Add to Device Calendar (Apple, Google, Outlook)"
             >
-              <Download size={14} />
-              <span>Calendar</span>
+              <CalendarPlus size={14} />
+              <span>Add to Calendar</span>
             </button>
 
             <button
@@ -292,6 +292,13 @@ export const MySchedule: React.FC = () => {
       <PdfExportModal
         isOpen={isPdfModalOpen}
         onClose={() => setIsPdfModalOpen(false)}
+      />
+
+      {/* Calendar Sync Modal */}
+      <CalendarSyncModal
+        isOpen={isCalendarModalOpen}
+        onClose={() => setIsCalendarModalOpen(false)}
+        savedItems={savedItems}
       />
     </div>
   );
