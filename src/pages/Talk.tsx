@@ -186,24 +186,37 @@ export const Talk: React.FC = () => {
             </div>
           )}
 
-          {/* Moderator */}
-          {item.moderator && (
-            <div className="bg-amber-50/50 dark:bg-amber-950/20 rounded-2xl p-4 border border-amber-100 dark:border-amber-900/40">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 mb-2">
-                <Award size={16} />
-                <span>Moderator</span>
+          {/* Moderator(s) */}
+          {(() => {
+            const moderators = item.moderators && item.moderators.length > 0
+              ? item.moderators
+              : item.moderator
+              ? [item.moderator]
+              : [];
+            if (moderators.length === 0) return null;
+            return (
+              <div className="bg-amber-50/50 dark:bg-amber-950/20 rounded-2xl p-4 border border-amber-100 dark:border-amber-900/40">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 mb-2">
+                  <Award size={16} />
+                  <span>Moderator{moderators.length > 1 ? 's' : ''}</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {moderators.map((mod) => (
+                    <Link
+                      key={mod}
+                      to={`/speaker/${slugify(mod)}`}
+                      className="inline-flex items-center gap-2.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-amber-100 dark:border-zinc-800 hover:border-amber-500 transition-colors"
+                    >
+                      <SpeakerAvatar name={mod} size="sm" />
+                      <span className="font-extrabold text-sm text-gray-900 dark:text-white">
+                        {mod}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
               </div>
-              <Link
-                to={`/speaker/${slugify(item.moderator)}`}
-                className="inline-flex items-center gap-2.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-amber-100 dark:border-zinc-800 hover:border-amber-500 transition-colors"
-              >
-                <SpeakerAvatar name={item.moderator} size="sm" />
-                <span className="font-extrabold text-sm text-gray-900 dark:text-white">
-                  {item.moderator}
-                </span>
-              </Link>
-            </div>
-          )}
+            );
+          })()}
 
           {/* Chairpersons */}
           {item.chairpersons && item.chairpersons.length > 0 && (

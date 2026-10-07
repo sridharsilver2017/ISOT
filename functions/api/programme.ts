@@ -5895,3 +5895,152 @@ export const SEED_SESSIONS: Session[] = [
     ]
   }
 ];
+
+export async function onRequestGet(context: { env: { DB?: any } }): Promise<Response> {
+  const corsHeaders = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+  };
+
+  try {
+    const db = context.env?.DB;
+    if (!db) {
+      return new Response(JSON.stringify({ sessions: SEED_SESSIONS, source: 'fallback_seed' }), {
+        headers: corsHeaders,
+      });
+    }
+
+    await db.prepare(`
+      CREATE TABLE IF NOT EXISTS programme_sessions (
+        id TEXT PRIMARY KEY,
+        day_name TEXT,
+        day_display TEXT,
+        date TEXT,
+        start_time TEXT,
+        end_time TEXT,
+        title TEXT,
+        venue TEXT,
+        track TEXT,
+        session_in_charge TEXT,
+        order_num INTEGER,
+        data_json TEXT,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+    `).run();
+
+    const { results } = await db
+      .prepare('SELECT data_json FROM programme_sessions ORDER BY order_num ASC, start_time ASC')
+      .all();
+
+    if (!results || results.length === 0) {
+      const statements = SEED_SESSIONS.map((s: any, idx: number) => {
+        return db.prepare(`
+          INSERT OR REPLACE INTO programme_sessions (
+            id, day_name, day_display, date, start_time, end_time, title, venue, track, session_in_charge, order_num, data_json
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `).bind(
+          s.id,
+          s.dayName,
+          s.dayDisplay,
+          s.date,
+          s.startTime,
+          s.endTime,
+          s.title,
+          s.venue,
+          s.track || null,
+          JSON.stringify(s.sessionInCharge || []),
+          idx + 1,
+          JSON.stringify(s)
+        );
+      });
+
+      await db.batch(statements);
+
+      return new Response(JSON.stringify({ sessions: SEED_SESSIONS, source: 'd1_auto_seeded' }), {
+        headers: corsHeaders,
+      });
+    }
+
+    const sessions = results.map((r: any) => JSON.parse(r.data_json));
+    return new Response(JSON.stringify({ sessions, source: 'd1' }), { headers: corsHeaders });
+  } catch (err: any) {
+    return new Response(
+      JSON.stringify({ sessions: SEED_SESSIONS, source: 'error_fallback', error: err?.message }),
+      { headers: corsHeaders }
+    );
+  }
+}
+
+export async function onRequestPut(context: { request: Request; env: { DB?: any } }): Promise<Response> {
+  const corsHeaders = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  };
+
+  try {
+    const db = context.env?.DB;
+    if (!db) {
+      return new Response(JSON.stringify({ error: 'D1 database binding not available' }), {
+        status: 500,
+        headers: corsHeaders,
+      });
+    }
+
+    const body: any = await context.request.json();
+    const sessions = body.sessions || body;
+
+    if (!Array.isArray(sessions)) {
+      return new Response(JSON.stringify({ error: 'Invalid payload, expected array of sessions' }), {
+        status: 400,
+        headers: corsHeaders,
+      });
+    }
+
+    await db.prepare('DELETE FROM programme_sessions;').run();
+
+    const statements = sessions.map((s: any, idx: number) => {
+      return db.prepare(`
+        INSERT INTO programme_sessions (
+          id, day_name, day_display, date, start_time, end_time, title, venue, track, session_in_charge, order_num, data_json
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).bind(
+        s.id,
+        s.dayName,
+        s.dayDisplay,
+        s.date,
+        s.startTime,
+        s.endTime,
+        s.title,
+        s.venue,
+        s.track || null,
+        JSON.stringify(s.sessionInCharge || []),
+        idx + 1,
+        JSON.stringify(s)
+      );
+    });
+
+    await db.batch(statements);
+
+    return new Response(
+      JSON.stringify({ success: true, count: sessions.length, updated_at: new Date().toISOString() }),
+      { headers: corsHeaders }
+    );
+  } catch (err: any) {
+    return new Response(JSON.stringify({ error: err?.message || 'Failed to update sessions' }), {
+      status: 500,
+      headers: corsHeaders,
+    });
+  }
+}
+
+export async function onRequestOptions(): Promise<Response> {
+  return new Response(null, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, PUT, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+  });
+}
+

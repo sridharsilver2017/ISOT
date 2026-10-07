@@ -123,8 +123,15 @@ export function extractSpeakersFromSessions(sessions: Session[]): Speaker[] {
         });
       }
 
-      if (item.moderator && item.moderator.trim()) {
-        const sp = getOrCreate(item.moderator);
+      const moderators = item.moderators && item.moderators.length > 0
+        ? item.moderators
+        : item.moderator
+        ? [item.moderator]
+        : [];
+
+      moderators.forEach((name) => {
+        if (!name.trim()) return;
+        const sp = getOrCreate(name);
         if (!sp.talkIds.includes(item.id)) sp.talkIds.push(item.id);
         if (!sp.sessionIds.includes(session.id)) sp.sessionIds.push(session.id);
         sp.roles.push({
@@ -137,26 +144,7 @@ export function extractSpeakersFromSessions(sessions: Session[]): Speaker[] {
           date: item.date,
           venue: item.venue,
         });
-      }
-
-      if (item.moderators) {
-        item.moderators.forEach((name) => {
-          if (!name.trim()) return;
-          const sp = getOrCreate(name);
-          if (!sp.talkIds.includes(item.id)) sp.talkIds.push(item.id);
-          if (!sp.sessionIds.includes(session.id)) sp.sessionIds.push(session.id);
-          sp.roles.push({
-            role: 'moderator',
-            talkId: item.id,
-            talkTitle: item.title,
-            sessionId: session.id,
-            sessionTitle: session.title,
-            time: `${item.startTime}–${item.endTime || ''}`,
-            date: item.date,
-            venue: item.venue,
-          });
-        });
-      }
+      });
 
       if (item.casePresenters) {
         item.casePresenters.forEach((name) => {
@@ -375,25 +363,15 @@ export const useProgrammeStore = create<ProgrammeState>()(
             const data = await res.json();
             const sessionList = Array.isArray(data.sessions) ? data.sessions : Array.isArray(data) ? data : null;
             if (sessionList && sessionList.length > 0) {
-              const isV23_1Data = sessionList.some(
-                (s: Session) =>
-                  s.sections?.some((sec) =>
-                    sec.items?.some(
-                      (it) => it.id === 'sat-ha-07' && it.title?.includes('Genesis of an ecosystem')
-                    )
-                  )
-              );
-              if (isV23_1Data) {
-                set({
-                  sessions: sessionList,
-                  lastSynced: data.lastUpdated || new Date().toISOString(),
-                  isDbConnected: true,
-                  dbStorage: data.storage || 'Cloudflare D1 SQL Database',
-                  isSyncing: false,
-                  isLoadingFromDb: false,
-                });
-                return;
-              }
+              set({
+                sessions: sessionList,
+                lastSynced: data.lastUpdated || new Date().toISOString(),
+                isDbConnected: true,
+                dbStorage: data.storage || 'Cloudflare D1 SQL Database',
+                isSyncing: false,
+                isLoadingFromDb: false,
+              });
+              return;
             }
           }
           // Default fallback to V23-1 data

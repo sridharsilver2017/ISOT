@@ -1,16 +1,58 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import fs from 'node:fs';
+import path from 'node:path';
 
 function apiDevPlugin() {
+  const dataDir = path.resolve(__dirname, 'server/data');
+  const programmeFile = path.join(dataDir, 'programme.json');
+  const speakerImagesFile = path.join(dataDir, 'speaker-images.json');
+
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
+
   return {
     name: 'api-dev-mock-fallback',
     configureServer(server: any) {
       server.middlewares.use((req: any, res: any, next: any) => {
         if (req.url === '/api/speaker-images' || req.url === '/api/speakers') {
-          res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({ images: {}, success: true }));
-          return;
+          if (req.method === 'GET') {
+            let images = {};
+            if (fs.existsSync(speakerImagesFile)) {
+              try {
+                images = JSON.parse(fs.readFileSync(speakerImagesFile, 'utf-8'));
+              } catch {}
+            }
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ images, success: true }));
+            return;
+          }
+          if (req.method === 'POST') {
+            let body = '';
+            req.on('data', (chunk: any) => { body += chunk; });
+            req.on('end', () => {
+              try {
+                const data = JSON.parse(body || '{}');
+                let images: Record<string, string> = {};
+                if (fs.existsSync(speakerImagesFile)) {
+                  try { images = JSON.parse(fs.readFileSync(speakerImagesFile, 'utf-8')); } catch {}
+                }
+                if (data.speakerId && data.imageUrl) {
+                  images[data.speakerId] = data.imageUrl;
+                  fs.writeFileSync(speakerImagesFile, JSON.stringify(images, null, 2), 'utf-8');
+                }
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ success: true, imageUrl: data.imageUrl }));
+              } catch {
+                res.statusCode = 400;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ error: 'Failed to save photo' }));
+              }
+            });
+            return;
+          }
         }
         if (req.url === '/api/auth/login' && req.method === 'POST') {
           let body = '';
@@ -45,13 +87,47 @@ function apiDevPlugin() {
           return;
         }
         if (req.url === '/api/programme' && req.method === 'GET') {
+          let sessions: any[] = [];
+          if (fs.existsSync(programmeFile)) {
+            try {
+              const raw = JSON.parse(fs.readFileSync(programmeFile, 'utf-8'));
+              sessions = Array.isArray(raw.sessions) ? raw.sessions : Array.isArray(raw) ? raw : [];
+            } catch {}
+          }
           res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({ sessions: [] }));
+          res.end(JSON.stringify({
+            sessions,
+            storage: 'Local Dev Server (server/data/programme.json)',
+            lastUpdated: new Date().toISOString()
+          }));
           return;
         }
         if (req.url === '/api/programme' && req.method === 'PUT') {
+          let body = '';
+          req.on('data', (chunk: any) => { body += chunk; });
+          req.on('end', () => {
+            try {
+              const data = JSON.parse(body || '{}');
+              const sessions = data.sessions || (Array.isArray(data) ? data : []);
+              if (Array.isArray(sessions) && sessions.length > 0) {
+                fs.writeFileSync(programmeFile, JSON.stringify(sessions, null, 2), 'utf-8');
+              }
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ success: true, count: sessions.length, lastUpdated: new Date().toISOString() }));
+            } catch (err: any) {
+              res.statusCode = 500;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ error: err?.message || 'Failed to save programme' }));
+            }
+          });
+          return;
+        }
+        if (req.url === '/api/programme/reset' && (req.method === 'POST' || req.method === 'GET')) {
+          if (fs.existsSync(programmeFile)) {
+            try { fs.unlinkSync(programmeFile); } catch {}
+          }
           res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({ success: true, lastUpdated: new Date().toISOString() }));
+          res.end(JSON.stringify({ success: true, message: 'Reset to default programme' }));
           return;
         }
         if (req.url === '/api/upload-speaker-image' && req.method === 'POST') {

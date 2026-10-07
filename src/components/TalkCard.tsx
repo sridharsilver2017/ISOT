@@ -131,22 +131,37 @@ export const TalkCard: React.FC<TalkCardProps> = ({ item, showSessionContext = f
           </div>
         )}
 
-        {/* Moderator */}
-        {item.moderator && (
-          <div className="mb-2 flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
-            <Award size={14} className="text-amber-500 shrink-0" />
-            <span>
-              <strong className="font-medium text-gray-400 dark:text-gray-500">Moderator:</strong>{' '}
-              <Link
-                to={`/speaker/${slugify(item.moderator)}`}
-                onClick={(e) => e.stopPropagation()}
-                className="font-semibold text-gray-800 dark:text-gray-200 hover:underline"
-              >
-                {item.moderator}
-              </Link>
-            </span>
-          </div>
-        )}
+        {/* Moderator(s) */}
+        {(() => {
+          const moderators = item.moderators && item.moderators.length > 0
+            ? item.moderators
+            : item.moderator
+            ? [item.moderator]
+            : [];
+          if (moderators.length === 0) return null;
+          return (
+            <div className="mb-2 flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
+              <Award size={14} className="text-amber-500 shrink-0" />
+              <span>
+                <strong className="font-medium text-gray-400 dark:text-gray-500">
+                  Moderator{moderators.length > 1 ? 's' : ''}:
+                </strong>{' '}
+                {moderators.map((mod, idx) => (
+                  <span key={mod}>
+                    <Link
+                      to={`/speaker/${slugify(mod)}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="font-semibold text-gray-800 dark:text-gray-200 hover:underline"
+                    >
+                      {mod}
+                    </Link>
+                    {idx < moderators.length - 1 ? ', ' : ''}
+                  </span>
+                ))}
+              </span>
+            </div>
+          );
+        })()}
 
         {/* Chairpersons */}
         {item.chairpersons && item.chairpersons.length > 0 && (

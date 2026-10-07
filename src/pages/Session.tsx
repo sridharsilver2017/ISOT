@@ -230,7 +230,8 @@ export const Session: React.FC = () => {
       if (item.speakers?.some((s) => s.toLowerCase().includes(q))) return true;
       if (item.chairpersons?.some((c) => c.toLowerCase().includes(q))) return true;
       if (item.panelists?.some((p) => p.toLowerCase().includes(q))) return true;
-      if (item.moderator?.toLowerCase().includes(q)) return true;
+      const mods = item.moderators && item.moderators.length > 0 ? item.moderators : item.moderator ? [item.moderator] : [];
+      if (mods.some((m) => m.toLowerCase().includes(q))) return true;
       if (item.casePresenters?.some((cp) => cp.toLowerCase().includes(q))) return true;
       return false;
     };
@@ -904,13 +905,21 @@ export const Session: React.FC = () => {
                                       </div>
                                     )}
 
-                                    {/* Moderator */}
-                                    {item.moderator && (
-                                      <div className="inline-flex items-center gap-1 text-amber-700 dark:text-amber-400">
-                                        <Award size={12} className="shrink-0" />
-                                        <span className="font-semibold">Mod: {item.moderator}</span>
-                                      </div>
-                                    )}
+                                    {/* Moderator(s) */}
+                                    {(() => {
+                                      const mods = item.moderators && item.moderators.length > 0
+                                        ? item.moderators
+                                        : item.moderator
+                                        ? [item.moderator]
+                                        : [];
+                                      if (mods.length === 0) return null;
+                                      return (
+                                        <div className="inline-flex items-center gap-1 text-amber-700 dark:text-amber-400">
+                                          <Award size={12} className="shrink-0" />
+                                          <span className="font-semibold">Mod: {mods.join(', ')}</span>
+                                        </div>
+                                      );
+                                    })()}
                                   </div>
 
                                   {/* Description / Outline Bullets if present */}
