@@ -4123,7 +4123,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
     "title": "Liver in Transplantation",
     "startTime": "11:20",
     "endTime": "18:00",
-    "venue": "Hall B \u2013 Screen 2",
+    "venue": "Hall F",
     "sessionInCharge": [
       "Abhideep Choudhary",
       "Ravi Mohanka"
@@ -4149,7 +4149,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "09:00",
             "title": "Registration",
             "type": "registration",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "page": 23
           },
           {
@@ -4181,7 +4181,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "11:40",
             "title": "Case report of first DCD-Liver transplantation using NRP in India (each speaker 5 minutes for case presentation, followed by 5 minutes discussion)",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "speakers": [
               "Avnish Seth",
               "Viniyendra Pamecha",
@@ -4206,7 +4206,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "12:10",
             "title": "Panel Discussion: Machine perfusion technology in India-Current status, challenges and strategies",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "moderator": "Yashavanth Kumar",
             "moderators": [
               "Yashavanth Kumar"
@@ -4236,7 +4236,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "12:40",
             "title": "Panel Discussion: Downstaging with systemic therapy in HCC in LDLT and DDLT",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "moderator": "Dharmesh Kapoor",
             "moderators": [
               "Dharmesh Kapoor"
@@ -4259,7 +4259,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "13:10",
             "title": "Panel Discussion: Liver transplantation for Cholangiocarcinoma and colorectal liver tumors- Indian experience",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "moderator": "Neerav Goyal",
             "moderators": [
               "Neerav Goyal"
@@ -4282,7 +4282,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:00",
             "title": "Lunch",
             "type": "lunch",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "page": 23
           }
         ]
@@ -4301,7 +4301,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "14:30",
             "title": "Panel Discussion: MVT and IT in India - Indications, outcomes, challenges",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "moderator": "Sumana Ramachandra",
             "moderators": [
               "Sumana Ramachandra"
@@ -4325,7 +4325,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:00",
             "title": "Panel Discussion: Combined Liver Kidney transplantation",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "moderator": "Mettu Srinivas",
             "moderators": [
               "Mettu Srinivas"
@@ -4348,7 +4348,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "15:30",
             "title": "Panel Discussion: Overcoming barriers to Basic organ transplantation research in India",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "moderator": "Sonal Asthana",
             "moderators": [
               "Sonal Asthana"
@@ -4370,7 +4370,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:00",
             "title": "Panel Discussion: How can we incorporate AI in our liver transplant practice?",
             "type": "panel",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "moderator": "Akash Shukla",
             "moderators": [
               "Akash Shukla"
@@ -4392,7 +4392,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:20",
             "title": "Tea Break",
             "type": "break",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "page": 24
           }
         ]
@@ -4411,7 +4411,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "16:40",
             "title": "The Future of Robotic surgery in Liver Transplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "speakers": [
               "Mohamed Rela"
             ],
@@ -4435,7 +4435,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:00",
             "title": "Absorbable bile duct stents for prophylaxis / treatment of bile leaks / strictures",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "speakers": [
               "Sonal Asthana"
             ],
@@ -4455,7 +4455,7 @@ export const DEFAULT_PROGRAMME_SESSIONS: Session[] = [
             "endTime": "17:20",
             "title": "Future of liver transplantation: IFLT, long-term perfusion, Xenotransplantation",
             "type": "talk",
-            "venue": "Hall B \u2013 Screen 2",
+            "venue": "Hall F",
             "speakers": [
               "Ravi Mohanka"
             ],
