@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { Session, ProgrammeItem, ProgrammeSection, Speaker, SpeakerRoleInfo, getSessionItems } from '../types/programme';
 import { DEFAULT_PROGRAMME_SESSIONS } from '../data/defaultProgramme';
 
@@ -261,17 +260,15 @@ async function pushToBackend(sessions: Session[]): Promise<boolean> {
   }
 }
 
-export const useProgrammeStore = create<ProgrammeState>()(
-  persist(
-    (set, get) => ({
-      sessions: DEFAULT_PROGRAMME_SESSIONS,
-      speakerPhotos: {},
-      isSyncing: false,
-      isLoadingFromDb: false,
-      isDbConnected: false,
-      dbStorage: 'Local & Cloudflare D1 SQL Database',
-      lastSynced: null,
-      syncError: null,
+export const useProgrammeStore = create<ProgrammeState>()((set, get) => ({
+  sessions: DEFAULT_PROGRAMME_SESSIONS,
+  speakerPhotos: {},
+  isSyncing: false,
+  isLoadingFromDb: false,
+  isDbConnected: false,
+  dbStorage: 'Cloudflare D1 SQL Database',
+  lastSynced: null,
+  syncError: null,
 
       fetchSpeakerPhotos: async () => {
         try {
@@ -341,23 +338,26 @@ export const useProgrammeStore = create<ProgrammeState>()(
       },
 
       fetchProgrammeFromServer: async () => {
-        set({ isSyncing: true, syncError: null });
+        set({ isSyncing: true, isLoadingFromDb: true, syncError: null });
         get().fetchSpeakerPhotos().catch(() => {});
         try {
-          // Clean up old obsolete localStorage caches if present
+          // Clean up any stale legacy localStorage caches
           try {
             localStorage.removeItem('isot2026-custom-programme');
+            localStorage.removeItem('isot2026-custom-programme-v23-1');
             localStorage.removeItem('isot2026-custom-programme-v23');
             localStorage.removeItem('isot2026-custom-programme-v22');
             localStorage.removeItem('isot2026-custom-programme-v21');
             localStorage.removeItem('isot2026-custom-programme-v19');
             localStorage.removeItem('isot2026-custom-programme-v18');
+            localStorage.removeItem('isot2026-programme-storage');
           } catch {
             // ignore
           }
 
-          const res = await fetch('/api/programme', {
-            headers: { 'Cache-Control': 'no-cache, no-store' },
+          const res = await fetch(`/api/programme?_t=${Date.now()}`, {
+            headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate' },
+            cache: 'no-store',
           });
           if (res.ok) {
             const data = await res.json();
@@ -597,35 +597,12 @@ export const useProgrammeStore = create<ProgrammeState>()(
         return undefined;
       },
 
-      getSpeakers: () => {
-        return extractSpeakersFromSessions(get().sessions);
-      },
+  getSpeakers: () => {
+    return extractSpeakersFromSessions(get().sessions);
+  },
 
-      getSpeakerById: (id) => {
-        const all = get().getSpeakers();
-        return all.find((s) => s.id === id);
-      },
-    }),
-    {
-      name: 'isot2026-custom-programme-v23-1',
-      onRehydrateStorage: () => (state) => {
-        if (
-          !state ||
-          !state.sessions ||
-          state.sessions.length === 0 ||
-          !state.sessions.some((s) =>
-            s.sections?.some((sec) =>
-              sec.items?.some(
-                (it) => it.id === 'sat-ha-07' && it.title?.includes('Genesis of an ecosystem')
-              )
-            )
-          )
-        ) {
-          if (state) {
-            state.sessions = DEFAULT_PROGRAMME_SESSIONS;
-          }
-        }
-      },
-    }
-  )
-);
+  getSpeakerById: (id) => {
+    const all = get().getSpeakers();
+    return all.find((s) => s.id === id);
+  },
+}));
