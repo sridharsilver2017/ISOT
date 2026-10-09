@@ -9,6 +9,8 @@ interface FilterBarProps {
   selectedTrack?: string;
   onSelectTrack?: (track: string) => void;
   tracks?: string[];
+  selectedStatus?: string;
+  onSelectStatus?: (status: string) => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
   showSavedOnly: boolean;
@@ -25,6 +27,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   selectedTrack,
   onSelectTrack,
   tracks = [],
+  selectedStatus,
+  onSelectStatus,
   searchQuery,
   onSearchChange,
   showSavedOnly,
@@ -40,6 +44,21 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     ...activeHalls.map((h) => ({ name: h.name, short: h.shortName })),
   ];
 
+  const hasActiveFilters =
+    (selectedHall && selectedHall !== 'All Halls') ||
+    (selectedTrack && selectedTrack !== 'All') ||
+    (selectedStatus && selectedStatus !== 'all') ||
+    searchQuery.trim().length > 0 ||
+    showSavedOnly;
+
+  const handleClearAll = () => {
+    onSelectHall('All Halls');
+    if (onSelectTrack) onSelectTrack('All');
+    if (onSelectStatus) onSelectStatus('all');
+    onSearchChange('');
+    if (showSavedOnly) onToggleSavedOnly();
+  };
+
   return (
     <div className="w-full max-w-full space-y-3 bg-white dark:bg-zinc-900/90 p-3.5 sm:p-4 rounded-3xl border border-gray-200/80 dark:border-zinc-800/80 shadow-sm overflow-hidden">
       {/* Search Input and View Switcher Row */}
@@ -53,8 +72,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search topic, speaker, hall, keyword (e.g. ABMR, TAC)..."
-            className="w-full pl-10 pr-9 py-2.5 bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 rounded-xl text-sm border border-transparent focus:border-isot-burgundy focus:bg-white dark:focus:bg-zinc-900 outline-none transition-all"
+            placeholder="Search topic, speaker, hall..."
+            className="w-full pl-10 pr-9 py-2.5 bg-gray-50 dark:bg-zinc-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 rounded-xl text-xs sm:text-sm border border-transparent focus:border-isot-burgundy focus:bg-white dark:focus:bg-zinc-900 outline-none transition-all"
           />
           {searchQuery && (
             <button
@@ -71,7 +90,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         <button
           type="button"
           onClick={onToggleSavedOnly}
-          className={`flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all border ${
+          className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all border shrink-0 active:scale-95 ${
             showSavedOnly
               ? 'bg-amber-500 text-white border-amber-600 shadow-sm'
               : 'bg-gray-50 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-zinc-700 hover:bg-gray-100 dark:hover:bg-zinc-700'
@@ -124,7 +143,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               </span>
             )}
           </div>
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 w-full max-w-full">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 w-full max-w-full touch-pan-x overscroll-x-contain">
             {hallOptions.map((h) => {
               const isSelected = selectedHall === h.name;
               return (
@@ -149,7 +168,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       {/* Track filters (if available) */}
       {tracks.length > 1 && onSelectTrack && (
         <div className="pt-1 border-t border-gray-100 dark:border-zinc-800/80">
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 text-xs">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 text-xs touch-pan-x overscroll-x-contain">
             <span className="text-[11px] font-bold text-gray-400 shrink-0 uppercase tracking-wider">Tracks:</span>
             <button
               type="button"
@@ -177,6 +196,67 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               </button>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Status filters */}
+      {onSelectStatus && (
+        <div className="pt-1 border-t border-gray-100 dark:border-zinc-800/80">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 text-xs touch-pan-x overscroll-x-contain">
+            <span className="text-[11px] font-bold text-gray-400 shrink-0 uppercase tracking-wider">Status:</span>
+            {[
+              { id: 'all', label: 'All Statuses' },
+              { id: 'ongoing', label: 'Live' },
+              { id: 'upcoming', label: 'Upcoming' },
+              { id: 'completed', label: 'Completed' },
+            ].map((st) => {
+              const isSelected = (!selectedStatus && st.id === 'all') || selectedStatus === st.id;
+              return (
+                <button
+                  key={st.id}
+                  type="button"
+                  onClick={() => onSelectStatus(st.id)}
+                  className={`px-2.5 py-1 rounded-xl text-xs font-semibold shrink-0 transition-all flex items-center gap-1.5 cursor-pointer ${
+                    isSelected
+                      ? st.id === 'ongoing'
+                        ? 'bg-emerald-600 text-white shadow-xs'
+                        : st.id === 'completed'
+                        ? 'bg-gray-600 dark:bg-zinc-600 text-white shadow-xs'
+                        : st.id === 'upcoming'
+                        ? 'bg-sky-600 text-white shadow-xs'
+                        : 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-900 shadow-xs'
+                      : 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-zinc-700'
+                  }`}
+                >
+                  {st.id === 'ongoing' && (
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                  )}
+                  {st.id === 'completed' && <span className="text-[11px] font-bold">✓</span>}
+                  <span>{st.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Active Filter Clear Bar on mobile */}
+      {hasActiveFilters && (
+        <div className="flex items-center justify-between gap-2 pt-2 border-t border-gray-100 dark:border-zinc-800/80 text-xs">
+          <span className="text-gray-500 dark:text-gray-400 font-medium truncate">
+            Filters active {totalResultsCount !== undefined ? `• ${totalResultsCount} items` : ''}
+          </span>
+          <button
+            type="button"
+            onClick={handleClearAll}
+            className="text-isot-burgundy dark:text-rose-400 font-bold hover:underline inline-flex items-center gap-1 shrink-0 active:scale-95"
+          >
+            <X size={13} />
+            <span>Clear all</span>
+          </button>
         </div>
       )}
     </div>

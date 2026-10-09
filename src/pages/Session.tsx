@@ -28,7 +28,8 @@ import {
 import { useScheduleStore } from '../store/scheduleStore';
 import { TalkCard } from '../components/TalkCard';
 import { getSessionItems, ProgrammeItem } from '../types/programme';
-import { getTypeBadgeColor, parsePartHeader, isSpecialEvent } from '../utils/timeUtils';
+import { getTypeBadgeColor, parsePartHeader, isSpecialEvent, getEffectiveSessionStatus, getEffectiveItemStatus } from '../utils/timeUtils';
+import { ProgramStatusBadge } from '../components/ProgramStatusBadge';
 
 const parseSectionTitle = (title: string) => {
   if (!title) return { mainTitle: '', experts: [] };
@@ -265,6 +266,62 @@ export const Session: React.FC = () => {
 
   const sectionsList = session.sections || [];
 
+  // Find currently ongoing talk inside this session if any
+  const liveTalk = useMemo(() => {
+    return allItems.find((i) => getEffectiveItemStatus(i) === 'ongoing') || null;
+  }, [allItems]);
+
+  const hasAutoJumpedRef = useRef(false);
+
+  const handleJumpToLiveTalk = (smooth = true) => {
+    if (!liveTalk) return;
+    const secIndex = sectionsList.findIndex((sec) =>
+      sec.items?.some((i) => i.id === liveTalk.id)
+    );
+    if (secIndex !== -1) {
+      setCollapsedSections((prev) => ({
+        ...prev,
+        [`section-${secIndex}`]: false,
+      }));
+    }
+
+    setTimeout(() => {
+      const el = document.getElementById(`talk-${liveTalk.id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+        el.classList.add('ring-4', 'ring-inset', 'ring-emerald-500', 'shadow-2xl');
+        setTimeout(() => el.classList.remove('ring-4', 'ring-inset', 'ring-emerald-500', 'shadow-2xl'), 2500);
+      }
+    }, 150);
+  };
+
+  // Jump to live talk when session opens
+  useEffect(() => {
+    if (hasAutoJumpedRef.current || !liveTalk) return;
+
+    const secIndex = sectionsList.findIndex((sec) =>
+      sec.items?.some((i) => i.id === liveTalk.id)
+    );
+    if (secIndex !== -1) {
+      setCollapsedSections((prev) => ({
+        ...prev,
+        [`section-${secIndex}`]: false,
+      }));
+    }
+
+    const timer = setTimeout(() => {
+      const el = document.getElementById(`talk-${liveTalk.id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('ring-4', 'ring-inset', 'ring-emerald-500', 'shadow-2xl');
+        setTimeout(() => el.classList.remove('ring-4', 'ring-inset', 'ring-emerald-500', 'shadow-2xl'), 2500);
+        hasAutoJumpedRef.current = true;
+      }
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [liveTalk, sectionsList]);
+
   return (
     <div className="space-y-6 pb-16 max-w-7xl mx-auto">
       {/* Top Breadcrumb & Navigation */}
@@ -330,6 +387,8 @@ export const Session: React.FC = () => {
                 {session.track}
               </span>
             )}
+
+            <ProgramStatusBadge status={getEffectiveSessionStatus(session)} size="lg" />
           </div>
 
           {/* Session Title */}
@@ -488,6 +547,45 @@ export const Session: React.FC = () => {
         </div>
       </div>
 
+      {/* Live Talk Alert Banner inside Session */}
+      {liveTalk && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-lg shadow-emerald-600/25 border border-emerald-500/40">
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="relative flex h-3 w-3 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+            </span>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full">
+                  Talk Live Now ({liveTalk.startTime} – {liveTalk.endTime})
+                </span>
+                {liveTalk.venue && (
+                  <span className="text-[10px] font-semibold text-emerald-100">
+                    • {liveTalk.venue}
+                  </span>
+                )}
+              </div>
+              <p className="font-extrabold text-sm sm:text-base truncate mt-0.5 text-white">
+                {liveTalk.title}
+              </p>
+              {liveTalk.speakers && liveTalk.speakers.length > 0 && (
+                <p className="text-xs text-emerald-100 truncate">
+                  Speaker: {liveTalk.speakers.join(', ')}
+                </p>
+              )}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => handleJumpToLiveTalk(true)}
+            className="self-start sm:self-center shrink-0 px-4 py-2 rounded-xl bg-white text-emerald-800 hover:bg-emerald-50 font-black text-xs shadow-md transition-all active:scale-95"
+          >
+            Jump to Live Talk ↓
+          </button>
+        </div>
+      )}
+
       {/* Slim Sticky Fixed Header on Scroll: Date, Time, Hall on scroll & Topic Quick Jump */}
       {(isScrolled || sectionsList.length > 1) && (
         <div className="sticky top-14 sm:top-16 z-30 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md rounded-2xl p-2 sm:p-2.5 border border-gray-200/90 dark:border-zinc-800 shadow-md transition-all">
@@ -520,6 +618,17 @@ export const Session: React.FC = () => {
 
               {/* Quick Bookmark Toggle */}
               <div className="flex items-center gap-1.5 shrink-0">
+                {liveTalk && (
+                  <button
+                    type="button"
+                    onClick={() => handleJumpToLiveTalk(true)}
+                    className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xs transition-all active:scale-95"
+                    title="Jump to talk live right now"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                    <span>Live Talk ↓</span>
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() =>
@@ -807,18 +916,27 @@ export const Session: React.FC = () => {
                             const isSaved = isTalkSaved(item.id);
                             const badge = getTypeBadgeColor(item.type);
                             const isSpecial = isSpecialEvent(item.title, item.type);
+                            const itemStatus = getEffectiveItemStatus(item);
+                            const isItemLive = itemStatus === 'ongoing';
+                            const isItemUpcoming = itemStatus === 'upcoming';
 
                             return (
                               <div
                                 key={item.id}
-                                className={`group/row p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl transition-all border ${
-                                  isSpecial
+                                id={`talk-${item.id}`}
+                                data-talk-id={item.id}
+                                data-live={isItemLive ? 'true' : undefined}
+                                data-upcoming={isItemUpcoming ? 'true' : undefined}
+                                className={`group/row p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl transition-all border scroll-mt-28 ${
+                                  isItemLive
+                                    ? 'border-2 border-emerald-500 dark:border-emerald-400 shadow-xl shadow-emerald-500/20 bg-emerald-50/40 dark:bg-emerald-950/20'
+                                    : isSpecial
                                     ? 'bg-sky-50/80 dark:bg-sky-950/30 border-sky-200/90 dark:border-sky-900/60 shadow-xs hover:bg-sky-100/70 dark:hover:bg-sky-950/50'
                                     : 'bg-white dark:bg-zinc-900/80 hover:bg-rose-50/40 dark:hover:bg-zinc-800/50 border-gray-100 dark:border-zinc-800 hover:border-isot-burgundy/20 dark:hover:border-rose-900/30 shadow-2xs'
                                 }`}
                               >
-                                {/* Left Highlighted Time Badge (Clean standalone time in bold red) */}
-                                <div className="shrink-0 min-w-[125px]">
+                                {/* Left Highlighted Time Badge */}
+                                <div className="shrink-0 flex items-center gap-2 min-w-[110px]">
                                   <span className="inline-flex items-center text-xs sm:text-sm font-black text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/90 px-3 py-1.5 rounded-xl border border-red-200/90 dark:border-red-900/70 shadow-2xs">
                                     <span>{item.startTime} {item.endTime ? `– ${item.endTime}` : ''}</span>
                                   </span>
@@ -963,48 +1081,53 @@ export const Session: React.FC = () => {
                                       </div>
                                     </div>
                                   )}
-                                </div>
 
-                                {/* Right: Action buttons with Highlighted Arrow */}
-                                <div className="flex items-center gap-2 self-end sm:self-center shrink-0 pt-2 sm:pt-0">
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      toggleSaveTalk({
-                                        id: item.id,
-                                        title: item.title,
-                                        date: item.date,
-                                        dayName: item.dayName,
-                                        startTime: item.startTime,
-                                        endTime: item.endTime,
-                                        venue: item.venue,
-                                        speakers: item.speakers,
-                                        sessionId: item.sessionId,
-                                        sessionTitle: item.sessionTitle,
-                                      })
-                                    }
-                                    className={`p-2 rounded-xl transition-all active:scale-95 ${
-                                      isSaved
-                                        ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700'
-                                        : 'bg-gray-100 dark:bg-zinc-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-zinc-700'
-                                    }`}
-                                    title={isSaved ? 'Saved in My Day' : 'Add to My Day'}
-                                  >
-                                    <Star size={15} className={isSaved ? 'fill-amber-500 text-amber-500' : ''} />
-                                  </button>
+                                  </div>
 
-                                  {/* Highlighted Right Arrow Link - Hidden for special breaks/ceremonies/lunch/dinner/registration */}
-                                  {!isSpecial && (
-                                    <Link
-                                      to={`/talk/${item.id}`}
-                                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-isot-burgundy/10 hover:bg-isot-burgundy text-isot-burgundy hover:text-white dark:bg-rose-950/60 dark:hover:bg-isot-burgundy dark:text-rose-300 dark:hover:text-white font-bold text-xs transition-all shadow-2xs group-hover/row:bg-isot-burgundy group-hover/row:text-white active:scale-95"
-                                      title="View Talk Details"
-                                    >
-                                      <span className="hidden sm:inline">Details</span>
-                                      <ChevronRight size={15} className="group-hover/row:translate-x-0.5 transition-transform stroke-[2.5]" />
-                                    </Link>
-                                  )}
-                                </div>
+                                  {/* Bottom Row on Mobile / Right Actions on Desktop */}
+                                  <div className="flex items-center justify-between sm:justify-end gap-2.5 w-full sm:w-auto shrink-0 pt-2.5 sm:pt-0 border-t sm:border-t-0 border-gray-100 dark:border-zinc-800/80">
+                                    <ProgramStatusBadge status={itemStatus} size="sm" />
+
+                                    <div className="flex items-center gap-2">
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          toggleSaveTalk({
+                                            id: item.id,
+                                            title: item.title,
+                                            date: item.date,
+                                            dayName: item.dayName,
+                                            startTime: item.startTime,
+                                            endTime: item.endTime,
+                                            venue: item.venue,
+                                            speakers: item.speakers,
+                                            sessionId: item.sessionId,
+                                            sessionTitle: item.sessionTitle,
+                                          })
+                                        }
+                                        className={`p-2 rounded-xl transition-all active:scale-95 ${
+                                          isSaved
+                                            ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700'
+                                            : 'bg-gray-100 dark:bg-zinc-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-zinc-700'
+                                        }`}
+                                        title={isSaved ? 'Saved in My Day' : 'Add to My Day'}
+                                      >
+                                        <Star size={15} className={isSaved ? 'fill-amber-500 text-amber-500' : ''} />
+                                      </button>
+
+                                      {/* Highlighted Right Arrow Link - Hidden for special breaks/ceremonies/lunch/dinner/registration */}
+                                      {!isSpecial && (
+                                        <Link
+                                          to={`/talk/${item.id}`}
+                                          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-isot-burgundy/10 hover:bg-isot-burgundy text-isot-burgundy hover:text-white dark:bg-rose-950/60 dark:hover:bg-isot-burgundy dark:text-rose-300 dark:hover:text-white font-bold text-xs transition-all shadow-2xs group-hover/row:bg-isot-burgundy group-hover/row:text-white active:scale-95"
+                                          title="View Talk Details"
+                                        >
+                                          <span className="hidden sm:inline">Details</span>
+                                          <ChevronRight size={15} className="group-hover/row:translate-x-0.5 transition-transform stroke-[2.5]" />
+                                        </Link>
+                                      )}
+                                    </div>
+                                  </div>
                               </div>
                             );
                           })}
@@ -1087,6 +1210,21 @@ export const Session: React.FC = () => {
             ) : <div />}
           </div>
         </div>
+      )}
+      {/* Floating Jump-to-Live Talk Button inside Session */}
+      {liveTalk && (
+        <button
+          type="button"
+          onClick={() => handleJumpToLiveTalk(true)}
+          className="fixed bottom-20 md:bottom-8 right-4 sm:right-8 z-30 inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-xl shadow-emerald-600/35 hover:scale-105 active:scale-95 transition-all border border-white/20 animate-pulse"
+          title="Jump to live talk in progress"
+        >
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+          </span>
+          <span>Jump to Live Talk</span>
+        </button>
       )}
     </div>
   );

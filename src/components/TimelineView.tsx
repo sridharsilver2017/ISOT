@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ProgrammeItem } from '../types/programme';
-import { getTypeBadgeColor } from '../utils/timeUtils';
+import { getTypeBadgeColor, getEffectiveItemStatus } from '../utils/timeUtils';
 import { Star, Mic } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
+import { ProgramStatusBadge } from './ProgramStatusBadge';
 
 interface TimelineViewProps {
   items: ProgrammeItem[];
@@ -42,19 +43,28 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ items }) => {
               <div className="hidden sm:block absolute left-[88px] top-7 bottom-0 w-0.5 bg-gray-200 dark:bg-zinc-800" />
 
               {/* Cards in this slot */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full max-w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
                 {slotItems.map((item) => {
                   const saved = isTalkSaved(item.id);
                   const badge = getTypeBadgeColor(item.type);
+                  const status = getEffectiveItemStatus(item);
 
                   return (
                     <div
                       key={item.id}
-                      className="w-full max-w-full bg-gray-50 dark:bg-zinc-800/80 border border-gray-200/70 dark:border-zinc-700/60 rounded-2xl p-3.5 hover:border-isot-burgundy/40 dark:hover:border-rose-700/50 transition-all flex flex-col justify-between overflow-hidden break-words"
+                      id={`talk-${item.id}`}
+                      data-talk-id={item.id}
+                      data-live={status === 'ongoing' ? 'true' : undefined}
+                      data-upcoming={status === 'upcoming' ? 'true' : undefined}
+                      className={`w-full max-w-full bg-gray-50 dark:bg-zinc-800/80 rounded-2xl p-3.5 transition-all flex flex-col justify-between break-words scroll-mt-24 ${
+                        status === 'ongoing'
+                          ? 'border-2 border-emerald-500 dark:border-emerald-400 shadow-xl shadow-emerald-500/20'
+                          : 'border border-gray-200/70 dark:border-zinc-700/60 hover:border-isot-burgundy/40 dark:hover:border-rose-700/50'
+                      } ${status === 'completed' ? 'opacity-85 hover:opacity-100' : ''}`}
                     >
                       <div>
-                        <div className="flex items-center justify-between gap-1.5 mb-1.5">
-                          <span className="text-[11px] font-bold text-isot-burgundy dark:text-rose-400 bg-isot-light-pink dark:bg-rose-950/60 px-2 py-0.5 rounded-md truncate max-w-[70%]">
+                        <div className="flex items-center justify-between gap-1.5 mb-1.5 flex-wrap">
+                          <span className="text-[11px] font-bold text-isot-burgundy dark:text-rose-400 bg-isot-light-pink dark:bg-rose-950/60 px-2 py-0.5 rounded-md truncate max-w-[60%]">
                             {item.venue}
                           </span>
                           {item.type && item.type !== 'talk' && (
@@ -82,9 +92,13 @@ export const TimelineView: React.FC<TimelineViewProps> = ({ items }) => {
                       </div>
 
                       <div className="flex items-center justify-between pt-2.5 mt-2 border-t border-gray-200/60 dark:border-zinc-700/50">
-                        <span className="text-[10px] text-gray-400">
-                          {item.startTime} – {item.endTime || ''}
-                        </span>
+                        {/* Bottom Left status tag */}
+                        <div className="flex items-center gap-2">
+                          <ProgramStatusBadge status={status} size="sm" />
+                          <span className="text-[10px] text-gray-400">
+                            {item.startTime} – {item.endTime || ''}
+                          </span>
+                        </div>
                         <button
                           type="button"
                           onClick={(e) => {

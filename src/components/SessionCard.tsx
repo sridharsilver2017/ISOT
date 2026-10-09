@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Session } from '../types/programme';
+import { Session, getSessionItems } from '../types/programme';
 import { MapPin, User, ChevronRight, Bookmark, Layers } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
+import { ProgramStatusBadge } from './ProgramStatusBadge';
+import { getEffectiveSessionStatus, getEffectiveItemStatus } from '../utils/timeUtils';
 
 interface SessionCardProps {
   session: Session;
@@ -11,6 +13,11 @@ interface SessionCardProps {
 export const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
   const { isSessionSaved, toggleSaveSession } = useScheduleStore();
   const saved = isSessionSaved(session.id);
+  const status = getEffectiveSessionStatus(session);
+  const items = getSessionItems(session);
+  const hasLiveTalk = items.some((i) => getEffectiveItemStatus(i) === 'ongoing');
+  const isLive = status === 'ongoing' || hasLiveTalk;
+  const isUpcoming = status === 'upcoming';
 
   const handleToggleSave = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -27,12 +34,25 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
   };
 
   return (
-    <div className="group bg-white dark:bg-zinc-900 rounded-3xl p-4 sm:p-6 border border-gray-200/90 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-isot-burgundy/30 dark:hover:border-rose-900/40 transition-all duration-200 relative flex flex-col justify-between w-full max-w-full overflow-hidden break-words">
+    <div
+      id={`session-${session.id}`}
+      data-session-id={session.id}
+      data-live={isLive ? 'true' : undefined}
+      data-upcoming={isUpcoming ? 'true' : undefined}
+      className={`group bg-white dark:bg-zinc-900 rounded-3xl p-4 sm:p-6 transition-all duration-200 relative flex flex-col justify-between w-full max-w-full break-words scroll-mt-24 ${
+        isLive
+          ? 'border-2 border-emerald-500 dark:border-emerald-400 shadow-xl shadow-emerald-500/20'
+          : 'border border-gray-200/90 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-isot-burgundy/30 dark:hover:border-rose-900/40'
+      } ${status === 'completed' && !isLive ? 'opacity-90 hover:opacity-100' : ''}`}
+    >
       <div>
-        {/* Top Meta: Time & Hall Badge */}
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="inline-flex items-center px-3 py-1 rounded-xl bg-red-50 dark:bg-red-950/80 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 font-black text-xs sm:text-sm">
-            <span>{session.startTime} – {session.endTime}</span>
+        {/* Top Meta: Time, Status & Hall Badge */}
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="inline-flex items-center px-3 py-1 rounded-xl bg-red-50 dark:bg-red-950/80 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 font-black text-xs sm:text-sm">
+              <span>{session.startTime} – {session.endTime}</span>
+            </div>
+            <ProgramStatusBadge status={status} />
           </div>
 
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 font-semibold text-xs">
@@ -75,7 +95,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
         )}
 
         {/* Programme count preview */}
-        <div className="text-xs text-gray-500 dark:text-gray-400 mb-5 flex items-center gap-2">
+        <div className="text-xs text-gray-500 dark:text-gray-400 mb-5 flex items-center gap-2 flex-wrap">
           <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
           <span>{session.sections && session.sections.length > 0 ? session.sections.reduce((acc, sec) => acc + (sec.items?.length || 0), 0) : (session.items?.length || 0)} programme items</span>
           {session.sections && session.sections.length > 1 && (

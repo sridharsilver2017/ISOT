@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { ProgrammeItem } from '../types/programme';
 import { MapPin, User, Users, Mic, Award, ChevronRight, Star } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
-import { getTypeBadgeColor, parsePartHeader, isSpecialEvent } from '../utils/timeUtils';
+import { getTypeBadgeColor, parsePartHeader, isSpecialEvent, getEffectiveItemStatus } from '../utils/timeUtils';
+import { ProgramStatusBadge } from './ProgramStatusBadge';
 import { slugify } from '../store/programmeStore';
 
 interface TalkCardProps {
@@ -16,6 +17,7 @@ export const TalkCard: React.FC<TalkCardProps> = ({ item, showSessionContext = f
   const saved = isTalkSaved(item.id);
   const badge = getTypeBadgeColor(item.type);
   const isSpecial = isSpecialEvent(item.title, item.type);
+  const status = getEffectiveItemStatus(item);
 
   const handleToggleSave = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -36,11 +38,17 @@ export const TalkCard: React.FC<TalkCardProps> = ({ item, showSessionContext = f
 
   return (
     <div
-      className={`group rounded-3xl p-4 sm:p-5 border transition-all duration-200 relative flex flex-col justify-between w-full max-w-full overflow-hidden break-words ${
-        isSpecial
-          ? 'bg-sky-50/70 dark:bg-sky-950/30 border-sky-200/80 dark:border-sky-900/50 shadow-2xs hover:border-sky-300 dark:hover:border-sky-800'
-          : 'bg-white dark:bg-zinc-900 border-gray-200/80 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-isot-burgundy/30 dark:hover:border-rose-900/40'
-      }`}
+      id={`talk-${item.id}`}
+      data-talk-id={item.id}
+      data-live={status === 'ongoing' ? 'true' : undefined}
+      data-upcoming={status === 'upcoming' ? 'true' : undefined}
+      className={`group rounded-3xl p-4 sm:p-5 transition-all duration-200 relative flex flex-col justify-between w-full max-w-full break-words scroll-mt-24 ${
+        status === 'ongoing'
+          ? 'border-2 border-emerald-500 dark:border-emerald-400 shadow-xl shadow-emerald-500/20 bg-white dark:bg-zinc-900'
+          : isSpecial
+          ? 'bg-sky-50/70 dark:bg-sky-950/30 border border-sky-200/80 dark:border-sky-900/50 shadow-2xs hover:border-sky-300 dark:hover:border-sky-800'
+          : 'bg-white dark:bg-zinc-900 border border-gray-200/80 dark:border-zinc-800 shadow-sm hover:shadow-md hover:border-isot-burgundy/30 dark:hover:border-rose-900/40'
+      } ${status === 'completed' ? 'opacity-90 hover:opacity-100 ' : ''}`}
     >
       <div>
         {/* Top Badges */}
@@ -239,20 +247,20 @@ export const TalkCard: React.FC<TalkCardProps> = ({ item, showSessionContext = f
       </div>
 
       {/* Action footer */}
-      <div className="flex items-center justify-between gap-3 pt-3 mt-2 border-t border-gray-100 dark:border-zinc-800/80">
-        {!isSpecial ? (
-          <Link
-            to={`/talk/${item.id}`}
-            className="text-xs font-bold text-isot-burgundy dark:text-rose-400 hover:text-isot-deep-burgundy flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
-          >
-            <span>View Details</span>
-            <ChevronRight size={14} />
-          </Link>
-        ) : (
-          <span className="text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-            ISOT 2026
-          </span>
-        )}
+      <div className="flex items-center justify-between gap-2 pt-3 mt-2 border-t border-gray-100 dark:border-zinc-800/80">
+        {/* Bottom Left Status Tag & View Details */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <ProgramStatusBadge status={status} size="sm" />
+          {!isSpecial && (
+            <Link
+              to={`/talk/${item.id}`}
+              className="text-xs font-bold text-isot-burgundy dark:text-rose-400 hover:text-isot-deep-burgundy flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
+            >
+              <span>View Details</span>
+              <ChevronRight size={14} />
+            </Link>
+          )}
+        </div>
 
         <button
           type="button"

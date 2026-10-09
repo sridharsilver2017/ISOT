@@ -1,4 +1,4 @@
-import { ProgrammeItem, Session, getSessionItems } from '../types/programme';
+import { ProgrammeItem, Session, ProgrammeStatus, getSessionItems } from '../types/programme';
 
 export const CONFERENCE_DATES = ['2026-10-09', '2026-10-10', '2026-10-11'];
 
@@ -190,4 +190,113 @@ export function isSpecialEvent(title: string = '', type: string = ''): boolean {
   }
 
   return false;
+}
+
+export interface StatusBadgeInfo {
+  status: ProgrammeStatus;
+  label: string;
+  bg: string;
+  text: string;
+  border: string;
+  dotColor: string;
+  isLive: boolean;
+}
+
+export function getEffectiveStatus(
+  date: string,
+  startTime: string,
+  endTime?: string,
+  explicitStatus?: ProgrammeStatus | string
+): ProgrammeStatus {
+  if (
+    explicitStatus &&
+    ['upcoming', 'ongoing', 'completed', 'cancelled'].includes(explicitStatus)
+  ) {
+    return explicitStatus as ProgrammeStatus;
+  }
+
+  const today = getTodayDateIso();
+  const nowMinutes = timeToMinutes(getCurrentTimeHHMM());
+  const startMinutes = timeToMinutes(startTime);
+  const endMinutes = endTime ? timeToMinutes(endTime) : startMinutes + 30;
+
+  if (date < today) {
+    return 'completed';
+  }
+  if (date > today) {
+    return 'upcoming';
+  }
+
+  // Same date (today)
+  if (nowMinutes < startMinutes) {
+    return 'upcoming';
+  }
+  if (nowMinutes >= endMinutes) {
+    return 'completed';
+  }
+  return 'ongoing';
+}
+
+export function getEffectiveSessionStatus(session: Session): ProgrammeStatus {
+  return getEffectiveStatus(
+    session.date,
+    session.startTime,
+    session.endTime,
+    session.status
+  );
+}
+
+export function getEffectiveItemStatus(item: ProgrammeItem): ProgrammeStatus {
+  return getEffectiveStatus(
+    item.date,
+    item.startTime,
+    item.endTime,
+    item.status
+  );
+}
+
+export function getStatusBadgeInfo(status: ProgrammeStatus): StatusBadgeInfo {
+  switch (status) {
+    case 'completed':
+      return {
+        status: 'completed',
+        label: 'Completed',
+        bg: 'bg-gray-100 dark:bg-zinc-800',
+        text: 'text-gray-600 dark:text-gray-300',
+        border: 'border-gray-300 dark:border-zinc-700',
+        dotColor: 'bg-gray-400',
+        isLive: false,
+      };
+    case 'ongoing':
+      return {
+        status: 'ongoing',
+        label: 'LIVE',
+        bg: 'bg-emerald-50 dark:bg-emerald-950/70',
+        text: 'text-emerald-700 dark:text-emerald-300',
+        border: 'border-emerald-300 dark:border-emerald-700',
+        dotColor: 'bg-emerald-500',
+        isLive: true,
+      };
+    case 'cancelled':
+      return {
+        status: 'cancelled',
+        label: 'Cancelled',
+        bg: 'bg-red-50 dark:bg-red-950/60',
+        text: 'text-red-700 dark:text-red-400',
+        border: 'border-red-200 dark:border-red-900',
+        dotColor: 'bg-red-500',
+        isLive: false,
+      };
+    case 'upcoming':
+    default:
+      return {
+        status: 'upcoming',
+        label: 'Upcoming',
+        bg: 'bg-sky-50 dark:bg-sky-950/50',
+        text: 'text-sky-700 dark:text-sky-300',
+        border: 'border-sky-200/80 dark:border-sky-800/70',
+        dotColor: 'bg-sky-500',
+        isLive: false,
+      };
+  }
 }

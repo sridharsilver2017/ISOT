@@ -3,8 +3,9 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useProgrammeStore, slugify } from '../store/programmeStore';
 import { MapPin, User, Users, Mic, Award, ChevronLeft, Bookmark, Share2, Calendar, ArrowLeft } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
-import { getTypeBadgeColor, parsePartHeader } from '../utils/timeUtils';
+import { getTypeBadgeColor, parsePartHeader, getEffectiveItemStatus } from '../utils/timeUtils';
 import { SpeakerAvatar } from '../components/SpeakerAvatar';
+import { ProgramStatusBadge } from '../components/ProgramStatusBadge';
 
 export const Talk: React.FC = () => {
   const { talkId } = useParams<{ talkId: string }>();
@@ -88,6 +89,8 @@ export const Talk: React.FC = () => {
           <span className="inline-flex items-center px-3 py-1.5 rounded-xl bg-red-50 dark:bg-red-950/90 text-red-700 dark:text-red-300 border border-red-200/90 dark:border-red-900/70 font-black text-xs shadow-2xs">
             <span>{item.startTime} {item.endTime ? `– ${item.endTime}` : ''}</span>
           </span>
+
+          <ProgramStatusBadge status={getEffectiveItemStatus(item)} size="md" />
 
           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-200 font-bold text-xs border border-gray-200/80 dark:border-zinc-700">
             <Calendar size={13} className="text-isot-burgundy dark:text-rose-400" />

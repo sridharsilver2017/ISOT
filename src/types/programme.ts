@@ -11,6 +11,8 @@ export type ProgrammeItemType =
   | "gbm"
   | "other";
 
+export type ProgrammeStatus = 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
+
 export interface ProgrammeItem {
   id: string;
   sessionId: string;
@@ -33,6 +35,7 @@ export interface ProgrammeItem {
   description?: string[];
   page?: number;
   tags?: string[];
+  status?: ProgrammeStatus;
 }
 
 export interface ProgrammeSection {
@@ -58,6 +61,7 @@ export interface Session {
   track?: string;
   sections: ProgrammeSection[];
   items?: ProgrammeItem[]; // Optional backwards compatibility helper
+  status?: ProgrammeStatus;
 }
 
 // Utility helper to safely get all items from a session

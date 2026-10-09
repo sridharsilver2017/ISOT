@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { HALLS } from '../data/halls';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { CONFERENCE_DAYS } from '../data/event';
 import { useProgrammeStore } from '../store/programmeStore';
 import { DaySelector } from '../components/DaySelector';
@@ -10,19 +10,22 @@ import { TalkCard } from '../components/TalkCard';
 import { TimelineView } from '../components/TimelineView';
 import { useScheduleStore } from '../store/scheduleStore';
 import { getSessionItems } from '../types/programme';
-import { Filter, FileDown } from 'lucide-react';
+import { Filter, FileDown, Radio } from 'lucide-react';
 import { PdfExportModal } from '../components/PdfExportModal';
+import { getEffectiveSessionStatus, getEffectiveItemStatus, isTodayConferenceDay, getTodayDateIso } from '../utils/timeUtils';
 
 export const Programme: React.FC = () => {
   const { date } = useParams<{ date?: string }>();
+  const [searchParams] = useSearchParams();
+  const targetTalkId = searchParams.get('talk');
   const navigate = useNavigate();
   const { isTalkSaved, isSessionSaved } = useScheduleStore();
   const { sessions } = useProgrammeStore();
   const [isPdfModalOpen, setIsPdfModalOpen] = useState<boolean>(false);
 
-  // Active conference date (default to Friday 2026-10-09)
+  // Active conference date (default to today if conference is active, else Friday 2026-10-09)
   const [activeDate, setActiveDate] = useState<string>(
-    date || '2026-10-09'
+    date || (isTodayConferenceDay() ? getTodayDateIso() : '2026-10-09')
   );
 
   useEffect(() => {
@@ -39,6 +42,7 @@ export const Programme: React.FC = () => {
   // Filter states
   const [selectedHall, setSelectedHall] = useState<string>('All Halls');
   const [selectedTrack, setSelectedTrack] = useState<string>('All');
+  const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showSavedOnly, setShowSavedOnly] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<'cards' | 'timeline'>('cards');
@@ -137,6 +141,13 @@ export const Programme: React.FC = () => {
       return false;
     }
 
+    // Status filter
+    if (selectedStatus !== 'all') {
+      const sessionStatus = getEffectiveSessionStatus(session);
+      const hasMatchingTalks = items.some((i) => getEffectiveItemStatus(i) === selectedStatus);
+      if (sessionStatus !== selectedStatus && !hasMatchingTalks) return false;
+    }
+
     // Saved filter
     if (showSavedOnly) {
       const isSaved = isSessionSaved(session.id);
@@ -171,9 +182,12 @@ export const Programme: React.FC = () => {
   // Flattened items for talk view
   const allFilteredItems = filteredSessions.flatMap((s) => {
     const items = getSessionItems(s);
-    if (!searchQuery.trim() && !showSavedOnly) return items;
 
     return items.filter((item) => {
+      if (selectedStatus !== 'all' && getEffectiveItemStatus(item) !== selectedStatus) {
+        return false;
+      }
+
       if (showSavedOnly && !isTalkSaved(item.id)) return false;
 
       if (searchQuery.trim()) {
@@ -192,13 +206,76 @@ export const Programme: React.FC = () => {
     });
   });
 
+  const liveItemsOnActiveDay = useMemo(() => {
+    return daySessions
+      .flatMap((s) => getSessionItems(s))
+      .filter((i) => getEffectiveItemStatus(i) === 'ongoing');
+  }, [daySessions]);
+  const hasLiveItems = liveItemsOnActiveDay.length > 0;
+
+  const autoJumpedDateRef = useRef<Record<string, boolean>>({});
+
+  const scrollToLiveOrTarget = (smooth = true): boolean => {
+    if (targetTalkId) {
+      const targetEl = document.getElementById(`talk-${targetTalkId}`);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+        targetEl.classList.add('ring-4', 'ring-inset', 'ring-red-500', 'shadow-2xl');
+        setTimeout(() => targetEl.classList.remove('ring-4', 'ring-inset', 'ring-red-500', 'shadow-2xl'), 2500);
+        return true;
+      }
+    }
+
+    const liveEl = document.querySelector('[data-live="true"]') as HTMLElement | null;
+    if (liveEl) {
+      liveEl.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+      liveEl.classList.add('ring-4', 'ring-inset', 'ring-emerald-500', 'shadow-2xl');
+      setTimeout(() => liveEl.classList.remove('ring-4', 'ring-inset', 'ring-emerald-500', 'shadow-2xl'), 2500);
+      return true;
+    }
+
+    return false;
+  };
+
+  const scrollToUpcoming = (smooth = true): boolean => {
+    const upcomingEl = document.querySelector('[data-upcoming="true"]') as HTMLElement | null;
+    if (upcomingEl) {
+      upcomingEl.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+      return true;
+    }
+    return false;
+  };
+
+  // Automatically jump to live talks when opened
+  useEffect(() => {
+    if (autoJumpedDateRef.current[activeDate]) return;
+
+    const hasItems =
+      displayMode === 'sessions' ? filteredSessions.length > 0 : allFilteredItems.length > 0;
+    if (!hasItems) return;
+
+    const timer = setTimeout(() => {
+      const jumped = scrollToLiveOrTarget(true);
+      if (jumped) {
+        autoJumpedDateRef.current[activeDate] = true;
+      } else if (activeDate === getTodayDateIso()) {
+        const upJumped = scrollToUpcoming(true);
+        if (upJumped) {
+          autoJumpedDateRef.current[activeDate] = true;
+        }
+      }
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [activeDate, displayMode, viewMode, filteredSessions.length, allFilteredItems.length, targetTalkId]);
+
   const activeDayInfo =
     CONFERENCE_DAYS.find((d) => d.date === activeDate) || CONFERENCE_DAYS[0];
 
   return (
-    <div className="space-y-4 sm:space-y-6 pb-12 w-full max-w-full overflow-x-hidden">
+    <div className="space-y-4 sm:space-y-6 pb-12 w-full max-w-full">
       {/* Header Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight">
             Scientific Programme
@@ -208,24 +285,39 @@ export const Programme: React.FC = () => {
           </p>
         </div>
 
-        {/* Action controls: Mode switcher & PDF Export */}
-        <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto w-full sm:w-auto">
-          <button
-            type="button"
-            onClick={() => setIsPdfModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white font-bold text-xs shadow-md shadow-isot-burgundy/25 transition-all"
-            title="Download Beautiful PDF Programme"
-          >
-            <FileDown size={15} />
-            <span>Download PDF</span>
-          </button>
+        {/* Action controls: Live Jump, Mode switcher & PDF Export */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+          {/* Quick Actions (Live Jump + PDF) */}
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            {hasLiveItems && (
+              <button
+                type="button"
+                onClick={() => scrollToLiveOrTarget(true)}
+                className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 sm:py-1.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md shadow-emerald-600/30 transition-all active:scale-95 animate-pulse"
+                title="Jump to live talks happening right now"
+              >
+                <Radio size={13} className="animate-pulse" />
+                <span>Jump to Live ({liveItemsOnActiveDay.length})</span>
+              </button>
+            )}
 
-          {/* Display mode pills: Sessions vs Talks */}
-          <div className="inline-flex bg-gray-200/80 dark:bg-zinc-800 p-1 rounded-2xl border border-gray-200 dark:border-zinc-700">
+            <button
+              type="button"
+              onClick={() => setIsPdfModalOpen(true)}
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 sm:py-1.5 rounded-2xl bg-isot-burgundy hover:bg-isot-deep-burgundy text-white font-bold text-xs shadow-md shadow-isot-burgundy/25 transition-all active:scale-95"
+              title="Download Beautiful PDF Programme"
+            >
+              <FileDown size={15} />
+              <span>Download PDF</span>
+            </button>
+          </div>
+
+          {/* Display mode pills: Sessions vs Talks - Full-width native segmented control on mobile */}
+          <div className="grid grid-cols-2 sm:flex bg-gray-200/80 dark:bg-zinc-800 p-1 rounded-2xl border border-gray-200 dark:border-zinc-700 w-full sm:w-auto">
             <button
               type="button"
               onClick={() => setDisplayMode('sessions')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              className={`py-2 sm:py-1.5 px-3 rounded-xl text-xs font-bold text-center transition-all ${
                 displayMode === 'sessions'
                   ? 'bg-white dark:bg-zinc-900 text-isot-burgundy dark:text-rose-400 shadow-sm'
                   : 'text-gray-600 dark:text-gray-300 hover:text-gray-900'
@@ -236,7 +328,7 @@ export const Programme: React.FC = () => {
             <button
               type="button"
               onClick={() => setDisplayMode('talks')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              className={`py-2 sm:py-1.5 px-3 rounded-xl text-xs font-bold text-center transition-all ${
                 displayMode === 'talks'
                   ? 'bg-white dark:bg-zinc-900 text-isot-burgundy dark:text-rose-400 shadow-sm'
                   : 'text-gray-600 dark:text-gray-300 hover:text-gray-900'
@@ -259,6 +351,8 @@ export const Programme: React.FC = () => {
         selectedTrack={selectedTrack}
         onSelectTrack={setSelectedTrack}
         tracks={dayTracks}
+        selectedStatus={selectedStatus}
+        onSelectStatus={setSelectedStatus}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         showSavedOnly={showSavedOnly}
@@ -274,7 +368,7 @@ export const Programme: React.FC = () => {
       ) : displayMode === 'sessions' ? (
         /* Sessions Card Grid */
         filteredSessions.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-full overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
             {filteredSessions.map((session) => (
               <SessionCard key={session.id} session={session} />
             ))}
@@ -305,7 +399,7 @@ export const Programme: React.FC = () => {
       ) : (
         /* Individual Talks View */
         allFilteredItems.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-full overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
             {allFilteredItems.map((item) => (
               <TalkCard key={item.id} item={item} showSessionContext />
             ))}
@@ -341,6 +435,22 @@ export const Programme: React.FC = () => {
         onClose={() => setIsPdfModalOpen(false)}
         defaultDate={activeDate}
       />
+
+      {/* Floating Jump-to-Live Pill for instant re-centering */}
+      {hasLiveItems && (
+        <button
+          type="button"
+          onClick={() => scrollToLiveOrTarget(true)}
+          className="fixed bottom-20 md:bottom-8 right-4 sm:right-8 z-30 inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-xl shadow-emerald-600/35 hover:scale-105 active:scale-95 transition-all border border-white/20 animate-pulse"
+          title="Jump to live talks happening now"
+        >
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+          </span>
+          <span>Jump to Live ({liveItemsOnActiveDay.length})</span>
+        </button>
+      )}
     </div>
   );
 };
