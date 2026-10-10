@@ -215,10 +215,11 @@ interface ProgrammeState {
   isDbConnected: boolean;
   dbStorage: string;
   lastSynced: string | null;
+  lastRefreshedAt: number;
   syncError: string | null;
   
   // Actions
-  fetchProgrammeFromServer: () => Promise<void>;
+  fetchProgrammeFromServer: (silent?: boolean) => Promise<void>;
   fetchSpeakerPhotos: () => Promise<void>;
   uploadSpeakerPhoto: (speakerId: string, fileOrUrl: File | string) => Promise<string | null>;
   deleteSpeakerPhoto: (speakerId: string) => Promise<boolean>;
@@ -268,6 +269,7 @@ export const useProgrammeStore = create<ProgrammeState>()((set, get) => ({
   isDbConnected: false,
   dbStorage: 'Cloudflare D1 SQL Database',
   lastSynced: null,
+  lastRefreshedAt: Date.now(),
   syncError: null,
 
       fetchSpeakerPhotos: async () => {
@@ -337,8 +339,10 @@ export const useProgrammeStore = create<ProgrammeState>()((set, get) => ({
         }
       },
 
-      fetchProgrammeFromServer: async () => {
-        set({ isSyncing: true, isLoadingFromDb: true, syncError: null });
+      fetchProgrammeFromServer: async (silent = false) => {
+        if (!silent) {
+          set({ isSyncing: true, isLoadingFromDb: true, syncError: null });
+        }
         get().fetchSpeakerPhotos().catch(() => {});
         try {
           // Clean up any stale legacy localStorage caches
@@ -370,22 +374,40 @@ export const useProgrammeStore = create<ProgrammeState>()((set, get) => ({
                 dbStorage: data.storage || 'Cloudflare D1 SQL Database',
                 isSyncing: false,
                 isLoadingFromDb: false,
+                lastRefreshedAt: Date.now(),
               });
               return;
             }
           }
-          // Default fallback to V23-1 data
-          set({
-            sessions: DEFAULT_PROGRAMME_SESSIONS,
-            isSyncing: false,
-            isLoadingFromDb: false,
-          });
+          if (!silent) {
+            set({
+              sessions: DEFAULT_PROGRAMME_SESSIONS,
+              isSyncing: false,
+              isLoadingFromDb: false,
+              lastRefreshedAt: Date.now(),
+            });
+          } else {
+            set({
+              isSyncing: false,
+              isLoadingFromDb: false,
+              lastRefreshedAt: Date.now(),
+            });
+          }
         } catch {
-          set({
-            sessions: DEFAULT_PROGRAMME_SESSIONS,
-            isSyncing: false,
-            isLoadingFromDb: false,
-          });
+          if (!silent) {
+            set({
+              sessions: DEFAULT_PROGRAMME_SESSIONS,
+              isSyncing: false,
+              isLoadingFromDb: false,
+              lastRefreshedAt: Date.now(),
+            });
+          } else {
+            set({
+              isSyncing: false,
+              isLoadingFromDb: false,
+              lastRefreshedAt: Date.now(),
+            });
+          }
         }
       },
 

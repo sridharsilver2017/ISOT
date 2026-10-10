@@ -22,16 +22,15 @@ export const Home: React.FC = () => {
     isLiveToday ? todayDateIso : '2026-10-09'
   );
 
-  // Live time tracker that updates every 30 seconds when conference is active
+  // Live time tracker that updates every 30 seconds
   const [liveCurrentTime, setLiveCurrentTime] = useState<string>(getCurrentTimeHHMM());
 
   useEffect(() => {
-    if (!isLiveToday) return;
     const interval = setInterval(() => {
       setLiveCurrentTime(getCurrentTimeHHMM());
     }, 30000);
     return () => clearInterval(interval);
-  }, [isLiveToday]);
+  }, []);
 
   // Get current sessions for selected date
   const activeDaySessions = sessions.filter((s) => s.date === selectedDay);

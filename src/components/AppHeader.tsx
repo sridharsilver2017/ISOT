@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Moon, Sun, Search, Calendar, Users, MapPin, Bookmark, FileText, Info, WifiOff } from 'lucide-react';
+import { Moon, Sun, Search, Calendar, Users, MapPin, Bookmark, FileText, Info, WifiOff, RefreshCw } from 'lucide-react';
 import { useScheduleStore } from '../store/scheduleStore';
+import { useProgrammeStore } from '../store/programmeStore';
 
 export const AppHeader: React.FC = () => {
   const location = useLocation();
   const { darkMode, toggleDarkMode, savedItems } = useScheduleStore();
+  const { fetchProgrammeFromServer, isSyncing } = useProgrammeStore();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
@@ -97,6 +99,21 @@ export const AppHeader: React.FC = () => {
                 <span className="hidden sm:inline">Offline</span>
               </div>
             )}
+
+            {/* Live Auto-Refresh Indicator / Trigger */}
+            <button
+              type="button"
+              onClick={() => fetchProgrammeFromServer()}
+              title="Auto-refreshing every 30s. Click to refresh now."
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/80 transition-all cursor-pointer"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span className="hidden xs:inline sm:inline">Live 30s</span>
+              <RefreshCw size={12} className={`text-emerald-600 dark:text-emerald-400 ${isSyncing ? 'animate-spin' : ''}`} />
+            </button>
 
             <Link
               to="/search"

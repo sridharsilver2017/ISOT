@@ -20,7 +20,7 @@ export const Programme: React.FC = () => {
   const targetTalkId = searchParams.get('talk');
   const navigate = useNavigate();
   const { isTalkSaved, isSessionSaved } = useScheduleStore();
-  const { sessions } = useProgrammeStore();
+  const { sessions, lastRefreshedAt } = useProgrammeStore();
   const [isPdfModalOpen, setIsPdfModalOpen] = useState<boolean>(false);
 
   // Active conference date (default to today if conference is active, else Friday 2026-10-09)
@@ -125,59 +125,61 @@ export const Programme: React.FC = () => {
     }
   }, [dayTracks, selectedTrack]);
 
-  // Filter sessions based on criteria
-  const filteredSessions = daySessions.filter((session) => {
-    const items = getSessionItems(session);
-    // Hall filter
-    if (selectedHall !== 'All Halls') {
-      const matchHall =
-        session.venue.toLowerCase().includes(selectedHall.toLowerCase()) ||
-        selectedHall.toLowerCase().includes(session.venue.toLowerCase());
-      if (!matchHall) return false;
-    }
+  // Filter sessions based on criteria (recomputed whenever date, filters or 30s auto-refresh ticks)
+  const filteredSessions = useMemo(() => {
+    return daySessions.filter((session) => {
+      const items = getSessionItems(session);
+      // Hall filter
+      if (selectedHall !== 'All Halls') {
+        const matchHall =
+          session.venue.toLowerCase().includes(selectedHall.toLowerCase()) ||
+          selectedHall.toLowerCase().includes(session.venue.toLowerCase());
+        if (!matchHall) return false;
+      }
 
-    // Track filter
-    if (selectedTrack !== 'All' && session.track !== selectedTrack) {
-      return false;
-    }
+      // Track filter
+      if (selectedTrack !== 'All' && session.track !== selectedTrack) {
+        return false;
+      }
 
-    // Status filter
-    if (selectedStatus !== 'all') {
-      const sessionStatus = getEffectiveSessionStatus(session);
-      const hasMatchingTalks = items.some((i) => getEffectiveItemStatus(i) === selectedStatus);
-      if (sessionStatus !== selectedStatus && !hasMatchingTalks) return false;
-    }
+      // Status filter
+      if (selectedStatus !== 'all') {
+        const sessionStatus = getEffectiveSessionStatus(session);
+        const hasMatchingTalks = items.some((i) => getEffectiveItemStatus(i) === selectedStatus);
+        if (sessionStatus !== selectedStatus && !hasMatchingTalks) return false;
+      }
 
-    // Saved filter
-    if (showSavedOnly) {
-      const isSaved = isSessionSaved(session.id);
-      const hasSavedTalks = items.some((i) => isTalkSaved(i.id));
-      if (!isSaved && !hasSavedTalks) return false;
-    }
+      // Saved filter
+      if (showSavedOnly) {
+        const isSaved = isSessionSaved(session.id);
+        const hasSavedTalks = items.some((i) => isTalkSaved(i.id));
+        if (!isSaved && !hasSavedTalks) return false;
+      }
 
-    // Search query
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      const inTitle = session.title.toLowerCase().includes(query);
-      const inVenue = session.venue.toLowerCase().includes(query);
-      const inInCharge = session.sessionInCharge?.some((c) =>
-        c.toLowerCase().includes(query)
-      );
-      const inItems = items.some(
-        (i) =>
-          i.title.toLowerCase().includes(query) ||
-          i.speakers?.some((s) => s.toLowerCase().includes(query)) ||
-          i.chairpersons?.some((c) => c.toLowerCase().includes(query)) ||
-          i.panelists?.some((p) => p.toLowerCase().includes(query)) ||
-          i.moderator?.toLowerCase().includes(query) ||
-          i.moderators?.some((m) => m.toLowerCase().includes(query))
-      );
+      // Search query
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        const inTitle = session.title.toLowerCase().includes(query);
+        const inVenue = session.venue.toLowerCase().includes(query);
+        const inInCharge = session.sessionInCharge?.some((c) =>
+          c.toLowerCase().includes(query)
+        );
+        const inItems = items.some(
+          (i) =>
+            i.title.toLowerCase().includes(query) ||
+            i.speakers?.some((s) => s.toLowerCase().includes(query)) ||
+            i.chairpersons?.some((c) => c.toLowerCase().includes(query)) ||
+            i.panelists?.some((p) => p.toLowerCase().includes(query)) ||
+            i.moderator?.toLowerCase().includes(query) ||
+            i.moderators?.some((m) => m.toLowerCase().includes(query))
+        );
 
-      if (!inTitle && !inVenue && !inInCharge && !inItems) return false;
-    }
+        if (!inTitle && !inVenue && !inInCharge && !inItems) return false;
+      }
 
-    return true;
-  });
+      return true;
+    });
+  }, [daySessions, selectedHall, selectedTrack, selectedStatus, showSavedOnly, searchQuery, isSessionSaved, isTalkSaved, lastRefreshedAt]);
 
   // Flattened items for talk view
   const allFilteredItems = filteredSessions.flatMap((s) => {

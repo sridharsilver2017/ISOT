@@ -37,6 +37,13 @@ export const App: React.FC = () => {
   useEffect(() => {
     checkAuth();
     fetchProgrammeFromServer();
+
+    // Auto-refresh data and live session status silently every 30 seconds
+    const intervalId = window.setInterval(() => {
+      fetchProgrammeFromServer(true);
+    }, 30000);
+
+    return () => window.clearInterval(intervalId);
   }, [checkAuth, fetchProgrammeFromServer]);
 
   useEffect(() => {
