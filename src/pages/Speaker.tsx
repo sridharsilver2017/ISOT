@@ -154,7 +154,7 @@ export const Speaker: React.FC = () => {
         <div className="absolute top-0 right-0 w-64 h-64 bg-radial from-rose-500/10 to-transparent rounded-full blur-2xl pointer-events-none -mr-16 -mt-16" />
 
         <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6">
-          <SpeakerAvatar name={speaker.name} size="xl" className="shadow-lg shadow-isot-burgundy/25 shrink-0" />
+          <SpeakerAvatar name={speaker.name} size="2xl" className="shadow-lg shadow-isot-burgundy/25 shrink-0" />
 
           <div className="text-center sm:text-left flex-1 min-w-0">
             <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 font-bold text-xs mb-2">
