@@ -143,17 +143,17 @@ export const Talk: React.FC = () => {
             <div className="bg-rose-50/50 dark:bg-rose-950/20 rounded-2xl p-4 border border-rose-100 dark:border-rose-900/40">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-isot-burgundy dark:text-rose-400 mb-2">
                 <Mic size={16} />
-                <span>Faculty Speaker{item.speakers.length > 1 ? 's' : ''}</span>
+                <span>Speaker{item.speakers.length > 1 ? 's' : ''}</span>
               </div>
               <div className="space-y-2">
                 {item.speakers.map((sp) => (
                   <Link
                     key={sp}
                     to={`/speaker/${slugify(sp)}`}
-                    className="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-zinc-900 border border-rose-100 dark:border-zinc-800 hover:border-isot-burgundy transition-colors group"
+                    className="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-rose-100 dark:border-zinc-800 hover:border-isot-burgundy transition-colors group"
                   >
                     <div className="flex items-center gap-3">
-                      <SpeakerAvatar name={sp} size="sm" />
+                      <SpeakerAvatar name={sp} size="md" />
                       <span className="font-extrabold text-sm text-gray-900 dark:text-white group-hover:text-isot-burgundy">
                         {sp}
                       </span>
@@ -179,7 +179,7 @@ export const Talk: React.FC = () => {
                     to={`/speaker/${slugify(p)}`}
                     className="flex items-center gap-2.5 p-2 rounded-xl bg-white dark:bg-zinc-900 border border-indigo-100 dark:border-zinc-800 hover:border-indigo-500 transition-colors"
                   >
-                    <SpeakerAvatar name={p} size="sm" />
+                    <SpeakerAvatar name={p} size="md" />
                     <span className="font-bold text-xs sm:text-sm text-gray-900 dark:text-white">
                       {p}
                     </span>
@@ -210,7 +210,7 @@ export const Talk: React.FC = () => {
                       to={`/speaker/${slugify(mod)}`}
                       className="inline-flex items-center gap-2.5 p-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-amber-100 dark:border-zinc-800 hover:border-amber-500 transition-colors"
                     >
-                      <SpeakerAvatar name={mod} size="sm" />
+                      <SpeakerAvatar name={mod} size="md" />
                       <span className="font-extrabold text-sm text-gray-900 dark:text-white">
                         {mod}
                       </span>
@@ -235,7 +235,7 @@ export const Talk: React.FC = () => {
                     to={`/speaker/${slugify(c)}`}
                     className="flex items-center gap-2.5 p-2 rounded-xl bg-white dark:bg-zinc-900 border border-sky-100 dark:border-zinc-800 hover:border-sky-500 transition-colors"
                   >
-                    <SpeakerAvatar name={c} size="sm" />
+                    <SpeakerAvatar name={c} size="md" />
                     <span className="font-bold text-xs sm:text-sm text-gray-900 dark:text-white">
                       {c}
                     </span>
